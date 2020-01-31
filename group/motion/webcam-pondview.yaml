@@ -1,0 +1,62 @@
+###
+# group/webcam-pondview.yaml
+###
+
+motion_pondview:
+  name: Status pondview
+  view: true
+  icon: mdi:waves
+  control: hidden
+  entities:
+    - camera.motion_live_pondview
+    - camera.motion_event_annotated_pondview
+    - camera.motion_event_end_pondview
+    - camera.motion_event_animated_pondview
+    - camera.motion_event_animated_mask_pondview
+    - camera.motion_event_composite_pondview
+    - group.motion_pondview_brief
+    - group.motion_pondview_summary
+
+
+motion_pondview_brief:
+  name: motion_pondview_brief
+  control: hidden
+  entities:
+    - camera.motion_detected_entity_picture_pondview
+    - camera.motion_detected_picture_pondview
+    - camera.motion_annotated_picture_pondview
+    - camera.motion_end_picture_pondview
+    - sensor.motion_detected_entity_status_pondview
+    - sensor.motion_detected_status_pondview
+    - sensor.motion_annotated_status_pondview
+    - sensor.motion_end_status_pondview
+    - sensor.motion_annotated_delay_pondview_mean
+    - sensor.motion_status_camera_found_when_pondview
+    - sensor.motion_status_camera_lost_when_pondview
+
+motion_pondview_summary:
+  name: motion_pondview_summary
+  control: hidden
+  entities:
+    - binary_sensor.motion_detected_entity_pondview
+    - sensor.motion_detected_entity_count_pondview
+    - sensor.motion_detected_entity_counter_pondview
+    - binary_sensor.motion_detected_pondview
+    - sensor.motion_detected_count_pondview
+    - sensor.motion_detected_counter_pondview
+    - binary_sensor.motion_annotated_pondview
+    - sensor.motion_annotated_count_pondview
+    - sensor.motion_annotated_entity_count_pondview
+    - sensor.motion_annotated_counter_pondview
+    - binary_sensor.motion_end_pondview
+    - sensor.motion_end_counter_pondview
+    - sensor.motion_annotated_delay_pondview
+    - sensor.motion_annotated_ago_pondview
+    - sensor.motion_end_ago_pondview
+    - sensor.motion_annotated_percent_pondview
+    - sensor.motion_annotated_count_pondview
+    - sensor.motion_annotated_entity_count_pondview
+    - sensor.motion_annotated_list_pondview
+    - counter.motion_complete_counter_pondview
+    - sensor.motion_complete_pondview
+    - binary_sensor.motion_complete_pondview

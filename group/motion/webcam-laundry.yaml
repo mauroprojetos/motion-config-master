@@ -1,0 +1,62 @@
+###
+# group/webcam-laundry.yaml
+###
+
+motion_laundry:
+  name: Status laundry
+  view: true
+  icon: mdi:washing-machine
+  control: hidden
+  entities:
+    - camera.motion_live_laundry
+    - camera.motion_event_annotated_laundry
+    - camera.motion_event_end_laundry
+    - camera.motion_event_animated_laundry
+    - camera.motion_event_animated_mask_laundry
+    - camera.motion_event_composite_laundry
+    - group.motion_laundry_brief
+    - group.motion_laundry_summary
+
+
+motion_laundry_brief:
+  name: motion_laundry_brief
+  control: hidden
+  entities:
+    - camera.motion_detected_entity_picture_laundry
+    - camera.motion_detected_picture_laundry
+    - camera.motion_annotated_picture_laundry
+    - camera.motion_end_picture_laundry
+    - sensor.motion_detected_entity_status_laundry
+    - sensor.motion_detected_status_laundry
+    - sensor.motion_annotated_status_laundry
+    - sensor.motion_end_status_laundry
+    - sensor.motion_annotated_delay_laundry_mean
+    - sensor.motion_status_camera_found_when_laundry
+    - sensor.motion_status_camera_lost_when_laundry
+
+motion_laundry_summary:
+  name: motion_laundry_summary
+  control: hidden
+  entities:
+    - binary_sensor.motion_detected_entity_laundry
+    - sensor.motion_detected_entity_count_laundry
+    - sensor.motion_detected_entity_counter_laundry
+    - binary_sensor.motion_detected_laundry
+    - sensor.motion_detected_count_laundry
+    - sensor.motion_detected_counter_laundry
+    - binary_sensor.motion_annotated_laundry
+    - sensor.motion_annotated_count_laundry
+    - sensor.motion_annotated_entity_count_laundry
+    - sensor.motion_annotated_counter_laundry
+    - binary_sensor.motion_end_laundry
+    - sensor.motion_end_counter_laundry
+    - sensor.motion_annotated_delay_laundry
+    - sensor.motion_annotated_ago_laundry
+    - sensor.motion_end_ago_laundry
+    - sensor.motion_annotated_percent_laundry
+    - sensor.motion_annotated_count_laundry
+    - sensor.motion_annotated_entity_count_laundry
+    - sensor.motion_annotated_list_laundry
+    - counter.motion_complete_counter_laundry
+    - sensor.motion_complete_laundry
+    - binary_sensor.motion_complete_laundry

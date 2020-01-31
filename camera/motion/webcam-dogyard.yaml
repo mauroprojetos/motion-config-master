@@ -1,0 +1,147 @@
+###
+### dogyard cameras
+###
+
+- platform: mjpeg
+  name: motion_live_dogyard
+  mjpeg_url: http://192.168.1.169/img/video.mjpeg
+  verify_ssl: false
+  authentication: basic
+  username: !secret netcam-username
+  password: !secret netcam-password
+
+#- platform: mqtt
+#  name: motion_current_dogyard
+#  topic: 'motion/+/dogyard/image'
+#
+#- platform: mqtt
+#  name: motion_event_average_dogyard
+#  topic: 'motion/+/dogyard/image-average'
+#
+#- platform: mqtt
+#  name: motion_event_blend_dogyard
+#  topic: 'motion/+/dogyard/image-blend'
+#
+#- platform: mqtt
+#  name: motion_event_animated_mask_dogyard
+#  topic: 'motion/+/dogyard/image-animated-mask'
+#
+#- platform: mqtt
+#  name: motion_event_composite_dogyard
+#  topic: 'motion/+/dogyard/image-composite'
+#
+#- platform: mqtt
+#  name: motion_event_cropped_dogyard
+#  topic: 'motion/+/dogyard/image-cropped'
+
+- platform: mqtt
+  name: motion_event_animated_dogyard
+  topic: 'motion/+/dogyard/image-animated'
+
+- platform: mqtt
+  name: motion_event_end_dogyard
+  topic: 'motion/+/dogyard/image/end'
+
+- platform: mqtt
+  name: motion_event_annotated_dogyard
+  topic: 'motion/+/dogyard/image/end/+'
+
+###
+# picture
+###
+
+- platform: generic
+  name: motion_end_picture_dogyard
+  verify_ssl: false
+  limit_refetch_to_url_change: true
+  still_image_url: >-
+    {% if states('input_boolean.motion_snapshot') == 'on' %}
+      {% set p = states('sensor.motion_end_snapshot_dogyard') %}
+    {% else %}
+      {% set p = states('sensor.motion_end_picture_dogyard') %}
+    {% endif %}
+    {% if p != 'unknown' and p != 'null' and p|length > 0 %}
+      {{ p }}
+    {% else %}{{ states('sensor.motion_nosignal_picture') }}{% endif %}
+
+- platform: generic
+  name: motion_annotated_picture_dogyard
+  verify_ssl: false
+  limit_refetch_to_url_change: true
+  still_image_url: >-
+    {% if states('input_boolean.motion_snapshot') == 'on' %}
+      {% set p = states('sensor.motion_annotated_snapshot_dogyard') %}
+    {% else %}
+      {% set p = states('sensor.motion_annotated_picture_dogyard') %}
+    {% endif %}
+    {% if p != 'unknown' and p != 'null' and p|length > 0 %}
+      {{ p }}
+    {% else %}{{ states('sensor.motion_nosignal_picture') }}{% endif %}
+
+- platform: generic
+  name: motion_detected_picture_dogyard
+  verify_ssl: false
+  limit_refetch_to_url_change: true
+  still_image_url: >-
+    {% if states('input_boolean.motion_snapshot') == 'on' %}
+      {% set p = states('sensor.motion_detected_snapshot_dogyard') %}
+    {% else %}
+      {% set p = states('sensor.motion_detected_picture_dogyard') %}
+    {% endif %}
+    {% if  p != 'unknown' and p != 'null' and p|length > 0 %}
+      {{ p }}
+    {% else %}{{ states('sensor.motion_nosignal_picture') }}{% endif %}
+
+- platform: generic
+  name: motion_detected_entity_picture_dogyard
+  verify_ssl: false
+  limit_refetch_to_url_change: true
+  still_image_url: >-
+    {% if states('input_boolean.motion_snapshot') == 'on' %}
+      {% set p = states('sensor.motion_detected_entity_snapshot_dogyard') %}
+    {% else %}
+      {% set p = states('sensor.motion_detected_entity_picture_dogyard') %}
+    {% endif %}
+    {% if p != 'unknown' and p != 'null' and p|length > 0 %}
+      {{ p }}
+    {% else %}{{ states('sensor.motion_nosignal_picture') }}{% endif %}
+
+###
+# snapshot
+###
+
+- platform: generic
+  name: motion_end_snapshot_dogyard
+  verify_ssl: false
+  still_image_url: >-
+    {% set p = states('sensor.motion_end_snapshot_dogyard') %}
+    {% if p != 'unknown' and p != 'null' and p|length > 0 %}
+      {{ p }}
+    {% else %}{{ states('sensor.motion_nosignal_picture') }}{% endif %}
+
+- platform: generic
+  name: motion_annotated_snapshot_dogyard
+  verify_ssl: false
+  still_image_url: >-
+    {% set p = states('sensor.motion_annotated_snapshot_dogyard') %}
+    {% if p != 'unknown' and p != 'null' and p|length > 0 %}
+      {{ p }}
+    {% else %}{{ states('sensor.motion_nosignal_picture') }}{% endif %}
+
+- platform: generic
+  name: motion_detected_snapshot_dogyard
+  verify_ssl: false
+  still_image_url: >-
+    {% set p = states('sensor.motion_detected_snapshot_dogyard') %}
+    {% if  p != 'unknown' and p != 'null' and p|length > 0 %}
+      {{ p }}
+    {% else %}{{ states('sensor.motion_nosignal_picture') }}{% endif %}
+
+- platform: generic
+  name: motion_detected_entity_snapshot_dogyard
+  verify_ssl: false
+  still_image_url: >-
+    {% set p = states('sensor.motion_detected_entity_snapshot_dogyard') %}
+    {% if p != 'unknown' and p != 'null' and p|length > 0 %}
+      {{ p }}
+    {% else %}{{ states('sensor.motion_nosignal_picture') }}{% endif %}

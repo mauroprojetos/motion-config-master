@@ -1,0 +1,149 @@
+[
+  {
+    "name": "woodshed",
+    "mjpeg_url": "http://192.168.1.163/img/video.mjpeg",
+    "icon": "warehouse",
+    "username": "!secret netcam-username",
+    "password": "!secret netcam-password"
+  },
+  {
+    "name": "livingroom",
+    "mjpeg_url": "http://192.168.1.164/img/video.mjpeg",
+    "icon": "google-classroom",
+    "username": "!secret netcam-username",
+    "password": "!secret netcam-password"
+  },
+  {
+    "name": "equipmentroom",
+    "mjpeg_url": "http://192.168.1.165/img/video.mjpeg",
+    "icon": "dip-switch",
+    "username": "!secret netcam-username",
+    "password": "!secret netcam-password"
+  },
+  {
+    "name": "fireplace",
+    "mjpeg_url": "http://192.168.1.166/img/video.mjpeg",
+    "icon": "fireplace",
+    "username": "!secret netcam-username",
+    "password": "!secret netcam-password"
+  },
+  {
+    "name": "dogyard",
+    "mjpeg_url": "http://192.168.1.169/img/video.mjpeg",
+    "icon": "dog-side",
+    "username": "!secret netcam-username",
+    "password": "!secret netcam-password"
+  },
+  {
+    "name": "dogshedmiddle",
+    "mjpeg_url": "http://192.168.1.170/img/video.mjpeg",
+    "icon": "home-floor-2",
+    "username": "!secret netcam-username",
+    "password": "!secret netcam-password"
+  },
+  {
+    "name": "sideyard",
+    "mjpeg_url": "http://192.168.1.171/img/video.mjpeg",
+    "icon": "image-filter-hdr",
+    "username": "!secret netcam-username",
+    "password": "!secret netcam-password"
+  },
+  {
+    "name": "dogshedfront",
+    "mjpeg_url": "http://192.168.1.172/img/video.mjpeg",
+    "icon": "home-floor-1",
+    "username": "!secret netcam-username",
+    "password": "!secret netcam-password"
+  },
+  {
+    "name": "dogshed",
+    "mjpeg_url": "http://192.168.1.173/img/video.mjpeg",
+    "icon": "dog",
+    "username": "!secret netcam-username",
+    "password": "!secret netcam-password"
+  },
+  {
+    "name": "laundry",
+    "mjpeg_url": "http://192.168.1.177/img/video.mjpeg",
+    "icon": "washing-machine",
+    "username": "!secret netcam-username",
+    "password": "!secret netcam-password"
+  },
+  {
+    "name": "foyer",
+    "mjpeg_url": "http://192.168.1.178/img/video.mjpeg",
+    "icon": "door",
+    "username": "!secret netcam-username",
+    "password": "!secret netcam-password"
+  },
+  {
+    "name": "frontwalk",
+    "mjpeg_url": "http://192.168.1.179/img/video.mjpeg",
+    "icon": "storefront",
+    "username": "!secret netcam-username",
+    "password": "!secret netcam-password"
+  },
+  {
+    "name": "diningroom",
+    "mjpeg_url": "http://192.168.1.182/img/video.mjpeg",
+    "icon": "table-chair",
+    "username": "!secret netcam-username",
+    "password": "!secret netcam-password"
+  },
+  {
+    "name": "backyard",
+    "mjpeg_url": "http://192.168.1.183/img/video.mjpeg",
+    "icon": "texture-box",
+    "username": "!secret netcam-username",
+    "password": "!secret netcam-password"
+  },
+  {
+    "name": "poolcam",
+    "mjpeg_url": "http://192.168.1.251:8090/1",
+    "icon": "water",
+    "username": "username",
+    "password": "password"
+  },
+  {
+    "name": "interiorgate",
+    "mjpeg_url": "http://192.168.1.251:8090/2",
+    "icon": "gate-arrow-right",
+    "username": "username",
+    "password": "password"
+  },
+  {
+    "name": "road",
+    "mjpeg_url": "http://192.168.1.251:8090/3",
+    "icon": "road",
+    "username": "username",
+    "password": "password"
+  },
+  {
+    "name": "window",
+    "mjpeg_url": "http://192.168.1.40:8090/1",
+    "icon": "xbox",
+    "username": "username",
+    "password": "password"
+  },
+  {
+    "name": "shed",
+    "mjpeg_url": "http://192.168.1.97:8090/2",
+    "icon": "window-shutter-open",
+    "username": "username",
+    "password": "password"
+  },
+  {
+    "name": "dogpond",
+    "mjpeg_url": "http://192.168.1.97:8090/3",
+    "icon": "car",
+    "username": "username",
+    "password": "password"
+  },
+  {
+    "name": "pondview",
+    "mjpeg_url": "http://192.168.1.97:8090/4",
+    "icon": "waves",
+    "username": "username",
+    "password": "password"
+  }
+]

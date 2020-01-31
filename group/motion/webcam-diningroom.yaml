@@ -1,0 +1,62 @@
+###
+# group/webcam-diningroom.yaml
+###
+
+motion_diningroom:
+  name: Status diningroom
+  view: true
+  icon: mdi:table-chair
+  control: hidden
+  entities:
+    - camera.motion_live_diningroom
+    - camera.motion_event_annotated_diningroom
+    - camera.motion_event_end_diningroom
+    - camera.motion_event_animated_diningroom
+    - camera.motion_event_animated_mask_diningroom
+    - camera.motion_event_composite_diningroom
+    - group.motion_diningroom_brief
+    - group.motion_diningroom_summary
+
+
+motion_diningroom_brief:
+  name: motion_diningroom_brief
+  control: hidden
+  entities:
+    - camera.motion_detected_entity_picture_diningroom
+    - camera.motion_detected_picture_diningroom
+    - camera.motion_annotated_picture_diningroom
+    - camera.motion_end_picture_diningroom
+    - sensor.motion_detected_entity_status_diningroom
+    - sensor.motion_detected_status_diningroom
+    - sensor.motion_annotated_status_diningroom
+    - sensor.motion_end_status_diningroom
+    - sensor.motion_annotated_delay_diningroom_mean
+    - sensor.motion_status_camera_found_when_diningroom
+    - sensor.motion_status_camera_lost_when_diningroom
+
+motion_diningroom_summary:
+  name: motion_diningroom_summary
+  control: hidden
+  entities:
+    - binary_sensor.motion_detected_entity_diningroom
+    - sensor.motion_detected_entity_count_diningroom
+    - sensor.motion_detected_entity_counter_diningroom
+    - binary_sensor.motion_detected_diningroom
+    - sensor.motion_detected_count_diningroom
+    - sensor.motion_detected_counter_diningroom
+    - binary_sensor.motion_annotated_diningroom
+    - sensor.motion_annotated_count_diningroom
+    - sensor.motion_annotated_entity_count_diningroom
+    - sensor.motion_annotated_counter_diningroom
+    - binary_sensor.motion_end_diningroom
+    - sensor.motion_end_counter_diningroom
+    - sensor.motion_annotated_delay_diningroom
+    - sensor.motion_annotated_ago_diningroom
+    - sensor.motion_end_ago_diningroom
+    - sensor.motion_annotated_percent_diningroom
+    - sensor.motion_annotated_count_diningroom
+    - sensor.motion_annotated_entity_count_diningroom
+    - sensor.motion_annotated_list_diningroom
+    - counter.motion_complete_counter_diningroom
+    - sensor.motion_complete_diningroom
+    - binary_sensor.motion_complete_diningroom

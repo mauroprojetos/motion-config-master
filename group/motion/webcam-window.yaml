@@ -1,0 +1,62 @@
+###
+# group/webcam-window.yaml
+###
+
+motion_window:
+  name: Status window
+  view: true
+  icon: mdi:xbox
+  control: hidden
+  entities:
+    - camera.motion_live_window
+    - camera.motion_event_annotated_window
+    - camera.motion_event_end_window
+    - camera.motion_event_animated_window
+    - camera.motion_event_animated_mask_window
+    - camera.motion_event_composite_window
+    - group.motion_window_brief
+    - group.motion_window_summary
+
+
+motion_window_brief:
+  name: motion_window_brief
+  control: hidden
+  entities:
+    - camera.motion_detected_entity_picture_window
+    - camera.motion_detected_picture_window
+    - camera.motion_annotated_picture_window
+    - camera.motion_end_picture_window
+    - sensor.motion_detected_entity_status_window
+    - sensor.motion_detected_status_window
+    - sensor.motion_annotated_status_window
+    - sensor.motion_end_status_window
+    - sensor.motion_annotated_delay_window_mean
+    - sensor.motion_status_camera_found_when_window
+    - sensor.motion_status_camera_lost_when_window
+
+motion_window_summary:
+  name: motion_window_summary
+  control: hidden
+  entities:
+    - binary_sensor.motion_detected_entity_window
+    - sensor.motion_detected_entity_count_window
+    - sensor.motion_detected_entity_counter_window
+    - binary_sensor.motion_detected_window
+    - sensor.motion_detected_count_window
+    - sensor.motion_detected_counter_window
+    - binary_sensor.motion_annotated_window
+    - sensor.motion_annotated_count_window
+    - sensor.motion_annotated_entity_count_window
+    - sensor.motion_annotated_counter_window
+    - binary_sensor.motion_end_window
+    - sensor.motion_end_counter_window
+    - sensor.motion_annotated_delay_window
+    - sensor.motion_annotated_ago_window
+    - sensor.motion_end_ago_window
+    - sensor.motion_annotated_percent_window
+    - sensor.motion_annotated_count_window
+    - sensor.motion_annotated_entity_count_window
+    - sensor.motion_annotated_list_window
+    - counter.motion_complete_counter_window
+    - sensor.motion_complete_window
+    - binary_sensor.motion_complete_window

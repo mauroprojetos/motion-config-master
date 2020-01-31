@@ -1,0 +1,98 @@
+###
+### motion_window BINARY_SENSOR
+###
+
+- platform: template
+  sensors:
+    motion_end_window:
+      friendly_name: window end
+      entity_id:
+        - sensor.motion_event_end_window
+      value_template: >
+        {{ states('sensor.motion_event_end_window')|lower == 'true' }}
+
+- platform: template
+  sensors:
+    motion_annotated_window:
+      friendly_name: window annotated
+      entity_id:
+        - sensor.motion_event_annotated_window
+      value_template: >
+        {{ states('sensor.motion_event_annotated_window')|lower == 'true' }}
+
+- platform: template
+  sensors:
+    motion_detected_window:
+      friendly_name: window detected
+      entity_id:
+        - sensor.motion_annotated_count_window
+      value_template: >
+        {{ states('sensor.motion_annotated_count_window')|int > 0 }}
+
+- platform: template
+  sensors:
+    motion_detected_entity_window:
+      friendly_name: window detected entity
+      entity_id:
+        - sensor.motion_annotated_entity_count_window
+      value_template: >-
+        {{ states('sensor.motion_annotated_entity_count_window')|int > 0 }}
+
+##
+
+- platform: template
+  sensors:
+    motion_complete_window:
+      friendly_name: window complete
+      entity_id:
+        - sensor.motion_complete_window
+      value_template: >
+        {% set d = states('sensor.motion_complete_window')|int %}
+        {{ d > 0 and d < states('input_number.motion_complete')|int }}
+
+##
+
+- platform: template
+  sensors:
+    motion_detected_person_window:
+      entity_id:
+        - binary_sensor.motion_detected_window
+        - sensor.motion_detected_ago_window
+      value_template: >-
+        {% if states.sensor.motion_event_annotated_window|lower != 'none'
+              and states.sensor.motion_detected_person_window.state|lower != 'unknown'
+              and states.sensor.motion_detected_person_window.state|lower != 'none'
+              and states.sensor.motion_detected_person_window.state|from_json != 'null'
+              and states.sensor.motion_detected_person_window.state|from_json is iterable %}
+          {{ states.sensor.motion_detected_person_window.state|from_json|sum|int > 0 }}
+        {% else %}null{% endif %}
+
+- platform: template
+  sensors:
+    motion_detected_vehicle_window:
+      entity_id:
+        - binary_sensor.motion_detected_window
+        - sensor.motion_detected_ago_window
+      value_template: >-
+        {% if states.sensor.motion_event_annotated_window|lower != 'none'
+              and states.sensor.motion_detected_vehicle_window.state|lower != 'none'
+              and states.sensor.motion_detected_vehicle_window.state|lower != 'unknown'
+              and states.sensor.motion_detected_vehicle_window.state|from_json != 'null'
+              and states.sensor.motion_detected_vehicle_window.state|from_json is iterable %}
+          {{ states.sensor.motion_detected_vehicle_window.state|from_json|sum|int > 0 }}
+        {% else %}null{% endif %}
+
+- platform: template
+  sensors:
+    motion_detected_animal_window:
+      entity_id:
+        - binary_sensor.motion_detected_window
+        - sensor.motion_detected_ago_window
+      value_template: >-
+        {% if states.sensor.motion_event_annotated_window|lower != 'none'
+              and states.sensor.motion_detected_animal_window.state|lower != 'none'
+              and states.sensor.motion_detected_animal_window.state|lower != 'unknown'
+              and states.sensor.motion_detected_animal_window.state|from_json != 'null'
+              and states.sensor.motion_detected_animal_window.state|from_json is iterable %}
+          {{ states.sensor.motion_detected_animal_window.state|from_json|sum|int > 0 }}
+        {% else %}null{% endif %}

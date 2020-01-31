@@ -1,0 +1,14 @@
+motion_camera_poolcam:
+  name: motion_camera_poolcam
+  hours_to_show: 72
+  refresh: 30
+  entities:
+    - sensor.motion_annotated_ago_poolcam
+    - sensor.motion_annotated_ago_poolcam_mean
+    - sensor.motion_annotated_ago_poolcam_stdev
+    - sensor.motion_detected_ago_poolcam
+    - sensor.motion_detected_ago_poolcam_mean
+    - sensor.motion_detected_ago_poolcam_stdev
+    - sensor.motion_detected_entity_ago_poolcam
+    - sensor.motion_detected_entity_ago_poolcam_mean
+    - sensor.motion_detected_entity_ago_poolcam_stdev

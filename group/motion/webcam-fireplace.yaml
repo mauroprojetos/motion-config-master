@@ -1,0 +1,62 @@
+###
+# group/webcam-fireplace.yaml
+###
+
+motion_fireplace:
+  name: Status fireplace
+  view: true
+  icon: mdi:fireplace
+  control: hidden
+  entities:
+    - camera.motion_live_fireplace
+    - camera.motion_event_annotated_fireplace
+    - camera.motion_event_end_fireplace
+    - camera.motion_event_animated_fireplace
+    - camera.motion_event_animated_mask_fireplace
+    - camera.motion_event_composite_fireplace
+    - group.motion_fireplace_brief
+    - group.motion_fireplace_summary
+
+
+motion_fireplace_brief:
+  name: motion_fireplace_brief
+  control: hidden
+  entities:
+    - camera.motion_detected_entity_picture_fireplace
+    - camera.motion_detected_picture_fireplace
+    - camera.motion_annotated_picture_fireplace
+    - camera.motion_end_picture_fireplace
+    - sensor.motion_detected_entity_status_fireplace
+    - sensor.motion_detected_status_fireplace
+    - sensor.motion_annotated_status_fireplace
+    - sensor.motion_end_status_fireplace
+    - sensor.motion_annotated_delay_fireplace_mean
+    - sensor.motion_status_camera_found_when_fireplace
+    - sensor.motion_status_camera_lost_when_fireplace
+
+motion_fireplace_summary:
+  name: motion_fireplace_summary
+  control: hidden
+  entities:
+    - binary_sensor.motion_detected_entity_fireplace
+    - sensor.motion_detected_entity_count_fireplace
+    - sensor.motion_detected_entity_counter_fireplace
+    - binary_sensor.motion_detected_fireplace
+    - sensor.motion_detected_count_fireplace
+    - sensor.motion_detected_counter_fireplace
+    - binary_sensor.motion_annotated_fireplace
+    - sensor.motion_annotated_count_fireplace
+    - sensor.motion_annotated_entity_count_fireplace
+    - sensor.motion_annotated_counter_fireplace
+    - binary_sensor.motion_end_fireplace
+    - sensor.motion_end_counter_fireplace
+    - sensor.motion_annotated_delay_fireplace
+    - sensor.motion_annotated_ago_fireplace
+    - sensor.motion_end_ago_fireplace
+    - sensor.motion_annotated_percent_fireplace
+    - sensor.motion_annotated_count_fireplace
+    - sensor.motion_annotated_entity_count_fireplace
+    - sensor.motion_annotated_list_fireplace
+    - counter.motion_complete_counter_fireplace
+    - sensor.motion_complete_fireplace
+    - binary_sensor.motion_complete_fireplace

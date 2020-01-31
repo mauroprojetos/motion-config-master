@@ -1,0 +1,14 @@
+motion_camera_road:
+  name: motion_camera_road
+  hours_to_show: 72
+  refresh: 30
+  entities:
+    - sensor.motion_annotated_ago_road
+    - sensor.motion_annotated_ago_road_mean
+    - sensor.motion_annotated_ago_road_stdev
+    - sensor.motion_detected_ago_road
+    - sensor.motion_detected_ago_road_mean
+    - sensor.motion_detected_ago_road_stdev
+    - sensor.motion_detected_entity_ago_road
+    - sensor.motion_detected_entity_ago_road_mean
+    - sensor.motion_detected_entity_ago_road_stdev

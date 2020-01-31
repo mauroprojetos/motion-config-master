@@ -1,0 +1,14 @@
+motion_camera_frontwalk:
+  name: motion_camera_frontwalk
+  hours_to_show: 72
+  refresh: 30
+  entities:
+    - sensor.motion_annotated_ago_frontwalk
+    - sensor.motion_annotated_ago_frontwalk_mean
+    - sensor.motion_annotated_ago_frontwalk_stdev
+    - sensor.motion_detected_ago_frontwalk
+    - sensor.motion_detected_ago_frontwalk_mean
+    - sensor.motion_detected_ago_frontwalk_stdev
+    - sensor.motion_detected_entity_ago_frontwalk
+    - sensor.motion_detected_entity_ago_frontwalk_mean
+    - sensor.motion_detected_entity_ago_frontwalk_stdev

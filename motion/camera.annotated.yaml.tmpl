@@ -1,0 +1,23 @@
+##
+## most recent image (via MQTT)
+##
+
+- platform: mqtt
+  name: motion_event_annotated
+  topic: '${MOTION_GROUP}/${MOTION_CLIENT}/+/image/end/+'
+
+- platform: generic
+  name: motion_annotated_picture
+  verify_ssl: false
+  limit_refetch_to_url_change: true
+  still_image_url: >-
+    {% if states('input_boolean.motion_snapshot') == 'on' %}
+      {% set p = states('sensor.motion_annotated_snapshot') %}
+    {% else %}
+      {% set p = states('sensor.motion_annotated_picture') %}
+    {% endif %}
+    {% if p != 'unknown' and p != 'null' and p|length > 0 %}
+      {{ p }}
+    {% else %}
+      {{ states('sensor.motion_nosignal_picture') }}
+    {% endif %}

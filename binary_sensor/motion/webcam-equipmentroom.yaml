@@ -1,0 +1,98 @@
+###
+### motion_equipmentroom BINARY_SENSOR
+###
+
+- platform: template
+  sensors:
+    motion_end_equipmentroom:
+      friendly_name: equipmentroom end
+      entity_id:
+        - sensor.motion_event_end_equipmentroom
+      value_template: >
+        {{ states('sensor.motion_event_end_equipmentroom')|lower == 'true' }}
+
+- platform: template
+  sensors:
+    motion_annotated_equipmentroom:
+      friendly_name: equipmentroom annotated
+      entity_id:
+        - sensor.motion_event_annotated_equipmentroom
+      value_template: >
+        {{ states('sensor.motion_event_annotated_equipmentroom')|lower == 'true' }}
+
+- platform: template
+  sensors:
+    motion_detected_equipmentroom:
+      friendly_name: equipmentroom detected
+      entity_id:
+        - sensor.motion_annotated_count_equipmentroom
+      value_template: >
+        {{ states('sensor.motion_annotated_count_equipmentroom')|int > 0 }}
+
+- platform: template
+  sensors:
+    motion_detected_entity_equipmentroom:
+      friendly_name: equipmentroom detected entity
+      entity_id:
+        - sensor.motion_annotated_entity_count_equipmentroom
+      value_template: >-
+        {{ states('sensor.motion_annotated_entity_count_equipmentroom')|int > 0 }}
+
+##
+
+- platform: template
+  sensors:
+    motion_complete_equipmentroom:
+      friendly_name: equipmentroom complete
+      entity_id:
+        - sensor.motion_complete_equipmentroom
+      value_template: >
+        {% set d = states('sensor.motion_complete_equipmentroom')|int %}
+        {{ d > 0 and d < states('input_number.motion_complete')|int }}
+
+##
+
+- platform: template
+  sensors:
+    motion_detected_person_equipmentroom:
+      entity_id:
+        - binary_sensor.motion_detected_equipmentroom
+        - sensor.motion_detected_ago_equipmentroom
+      value_template: >-
+        {% if states.sensor.motion_event_annotated_equipmentroom|lower != 'none'
+              and states.sensor.motion_detected_person_equipmentroom.state|lower != 'unknown'
+              and states.sensor.motion_detected_person_equipmentroom.state|lower != 'none'
+              and states.sensor.motion_detected_person_equipmentroom.state|from_json != 'null'
+              and states.sensor.motion_detected_person_equipmentroom.state|from_json is iterable %}
+          {{ states.sensor.motion_detected_person_equipmentroom.state|from_json|sum|int > 0 }}
+        {% else %}null{% endif %}
+
+- platform: template
+  sensors:
+    motion_detected_vehicle_equipmentroom:
+      entity_id:
+        - binary_sensor.motion_detected_equipmentroom
+        - sensor.motion_detected_ago_equipmentroom
+      value_template: >-
+        {% if states.sensor.motion_event_annotated_equipmentroom|lower != 'none'
+              and states.sensor.motion_detected_vehicle_equipmentroom.state|lower != 'none'
+              and states.sensor.motion_detected_vehicle_equipmentroom.state|lower != 'unknown'
+              and states.sensor.motion_detected_vehicle_equipmentroom.state|from_json != 'null'
+              and states.sensor.motion_detected_vehicle_equipmentroom.state|from_json is iterable %}
+          {{ states.sensor.motion_detected_vehicle_equipmentroom.state|from_json|sum|int > 0 }}
+        {% else %}null{% endif %}
+
+- platform: template
+  sensors:
+    motion_detected_animal_equipmentroom:
+      entity_id:
+        - binary_sensor.motion_detected_equipmentroom
+        - sensor.motion_detected_ago_equipmentroom
+      value_template: >-
+        {% if states.sensor.motion_event_annotated_equipmentroom|lower != 'none'
+              and states.sensor.motion_detected_animal_equipmentroom.state|lower != 'none'
+              and states.sensor.motion_detected_animal_equipmentroom.state|lower != 'unknown'
+              and states.sensor.motion_detected_animal_equipmentroom.state|from_json != 'null'
+              and states.sensor.motion_detected_animal_equipmentroom.state|from_json is iterable %}
+          {{ states.sensor.motion_detected_animal_equipmentroom.state|from_json|sum|int > 0 }}
+        {% else %}null{% endif %}

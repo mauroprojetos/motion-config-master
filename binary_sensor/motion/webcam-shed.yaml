@@ -1,0 +1,98 @@
+###
+### motion_shed BINARY_SENSOR
+###
+
+- platform: template
+  sensors:
+    motion_end_shed:
+      friendly_name: shed end
+      entity_id:
+        - sensor.motion_event_end_shed
+      value_template: >
+        {{ states('sensor.motion_event_end_shed')|lower == 'true' }}
+
+- platform: template
+  sensors:
+    motion_annotated_shed:
+      friendly_name: shed annotated
+      entity_id:
+        - sensor.motion_event_annotated_shed
+      value_template: >
+        {{ states('sensor.motion_event_annotated_shed')|lower == 'true' }}
+
+- platform: template
+  sensors:
+    motion_detected_shed:
+      friendly_name: shed detected
+      entity_id:
+        - sensor.motion_annotated_count_shed
+      value_template: >
+        {{ states('sensor.motion_annotated_count_shed')|int > 0 }}
+
+- platform: template
+  sensors:
+    motion_detected_entity_shed:
+      friendly_name: shed detected entity
+      entity_id:
+        - sensor.motion_annotated_entity_count_shed
+      value_template: >-
+        {{ states('sensor.motion_annotated_entity_count_shed')|int > 0 }}
+
+##
+
+- platform: template
+  sensors:
+    motion_complete_shed:
+      friendly_name: shed complete
+      entity_id:
+        - sensor.motion_complete_shed
+      value_template: >
+        {% set d = states('sensor.motion_complete_shed')|int %}
+        {{ d > 0 and d < states('input_number.motion_complete')|int }}
+
+##
+
+- platform: template
+  sensors:
+    motion_detected_person_shed:
+      entity_id:
+        - binary_sensor.motion_detected_shed
+        - sensor.motion_detected_ago_shed
+      value_template: >-
+        {% if states.sensor.motion_event_annotated_shed|lower != 'none'
+              and states.sensor.motion_detected_person_shed.state|lower != 'unknown'
+              and states.sensor.motion_detected_person_shed.state|lower != 'none'
+              and states.sensor.motion_detected_person_shed.state|from_json != 'null'
+              and states.sensor.motion_detected_person_shed.state|from_json is iterable %}
+          {{ states.sensor.motion_detected_person_shed.state|from_json|sum|int > 0 }}
+        {% else %}null{% endif %}
+
+- platform: template
+  sensors:
+    motion_detected_vehicle_shed:
+      entity_id:
+        - binary_sensor.motion_detected_shed
+        - sensor.motion_detected_ago_shed
+      value_template: >-
+        {% if states.sensor.motion_event_annotated_shed|lower != 'none'
+              and states.sensor.motion_detected_vehicle_shed.state|lower != 'none'
+              and states.sensor.motion_detected_vehicle_shed.state|lower != 'unknown'
+              and states.sensor.motion_detected_vehicle_shed.state|from_json != 'null'
+              and states.sensor.motion_detected_vehicle_shed.state|from_json is iterable %}
+          {{ states.sensor.motion_detected_vehicle_shed.state|from_json|sum|int > 0 }}
+        {% else %}null{% endif %}
+
+- platform: template
+  sensors:
+    motion_detected_animal_shed:
+      entity_id:
+        - binary_sensor.motion_detected_shed
+        - sensor.motion_detected_ago_shed
+      value_template: >-
+        {% if states.sensor.motion_event_annotated_shed|lower != 'none'
+              and states.sensor.motion_detected_animal_shed.state|lower != 'none'
+              and states.sensor.motion_detected_animal_shed.state|lower != 'unknown'
+              and states.sensor.motion_detected_animal_shed.state|from_json != 'null'
+              and states.sensor.motion_detected_animal_shed.state|from_json is iterable %}
+          {{ states.sensor.motion_detected_animal_shed.state|from_json|sum|int > 0 }}
+        {% else %}null{% endif %}

@@ -1,0 +1,98 @@
+###
+### motion_backyard BINARY_SENSOR
+###
+
+- platform: template
+  sensors:
+    motion_end_backyard:
+      friendly_name: backyard end
+      entity_id:
+        - sensor.motion_event_end_backyard
+      value_template: >
+        {{ states('sensor.motion_event_end_backyard')|lower == 'true' }}
+
+- platform: template
+  sensors:
+    motion_annotated_backyard:
+      friendly_name: backyard annotated
+      entity_id:
+        - sensor.motion_event_annotated_backyard
+      value_template: >
+        {{ states('sensor.motion_event_annotated_backyard')|lower == 'true' }}
+
+- platform: template
+  sensors:
+    motion_detected_backyard:
+      friendly_name: backyard detected
+      entity_id:
+        - sensor.motion_annotated_count_backyard
+      value_template: >
+        {{ states('sensor.motion_annotated_count_backyard')|int > 0 }}
+
+- platform: template
+  sensors:
+    motion_detected_entity_backyard:
+      friendly_name: backyard detected entity
+      entity_id:
+        - sensor.motion_annotated_entity_count_backyard
+      value_template: >-
+        {{ states('sensor.motion_annotated_entity_count_backyard')|int > 0 }}
+
+##
+
+- platform: template
+  sensors:
+    motion_complete_backyard:
+      friendly_name: backyard complete
+      entity_id:
+        - sensor.motion_complete_backyard
+      value_template: >
+        {% set d = states('sensor.motion_complete_backyard')|int %}
+        {{ d > 0 and d < states('input_number.motion_complete')|int }}
+
+##
+
+- platform: template
+  sensors:
+    motion_detected_person_backyard:
+      entity_id:
+        - binary_sensor.motion_detected_backyard
+        - sensor.motion_detected_ago_backyard
+      value_template: >-
+        {% if states.sensor.motion_event_annotated_backyard|lower != 'none'
+              and states.sensor.motion_detected_person_backyard.state|lower != 'unknown'
+              and states.sensor.motion_detected_person_backyard.state|lower != 'none'
+              and states.sensor.motion_detected_person_backyard.state|from_json != 'null'
+              and states.sensor.motion_detected_person_backyard.state|from_json is iterable %}
+          {{ states.sensor.motion_detected_person_backyard.state|from_json|sum|int > 0 }}
+        {% else %}null{% endif %}
+
+- platform: template
+  sensors:
+    motion_detected_vehicle_backyard:
+      entity_id:
+        - binary_sensor.motion_detected_backyard
+        - sensor.motion_detected_ago_backyard
+      value_template: >-
+        {% if states.sensor.motion_event_annotated_backyard|lower != 'none'
+              and states.sensor.motion_detected_vehicle_backyard.state|lower != 'none'
+              and states.sensor.motion_detected_vehicle_backyard.state|lower != 'unknown'
+              and states.sensor.motion_detected_vehicle_backyard.state|from_json != 'null'
+              and states.sensor.motion_detected_vehicle_backyard.state|from_json is iterable %}
+          {{ states.sensor.motion_detected_vehicle_backyard.state|from_json|sum|int > 0 }}
+        {% else %}null{% endif %}
+
+- platform: template
+  sensors:
+    motion_detected_animal_backyard:
+      entity_id:
+        - binary_sensor.motion_detected_backyard
+        - sensor.motion_detected_ago_backyard
+      value_template: >-
+        {% if states.sensor.motion_event_annotated_backyard|lower != 'none'
+              and states.sensor.motion_detected_animal_backyard.state|lower != 'none'
+              and states.sensor.motion_detected_animal_backyard.state|lower != 'unknown'
+              and states.sensor.motion_detected_animal_backyard.state|from_json != 'null'
+              and states.sensor.motion_detected_animal_backyard.state|from_json is iterable %}
+          {{ states.sensor.motion_detected_animal_backyard.state|from_json|sum|int > 0 }}
+        {% else %}null{% endif %}

@@ -1,0 +1,4 @@
+motion_snapshot:
+  name: motion_snapshot
+  initial: !secret motion-snapshot
+  icon: mdi:switch

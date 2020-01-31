@@ -1,0 +1,14 @@
+motion_camera_diningroom:
+  name: motion_camera_diningroom
+  hours_to_show: 72
+  refresh: 30
+  entities:
+    - sensor.motion_annotated_ago_diningroom
+    - sensor.motion_annotated_ago_diningroom_mean
+    - sensor.motion_annotated_ago_diningroom_stdev
+    - sensor.motion_detected_ago_diningroom
+    - sensor.motion_detected_ago_diningroom_mean
+    - sensor.motion_detected_ago_diningroom_stdev
+    - sensor.motion_detected_entity_ago_diningroom
+    - sensor.motion_detected_entity_ago_diningroom_mean
+    - sensor.motion_detected_entity_ago_diningroom_stdev

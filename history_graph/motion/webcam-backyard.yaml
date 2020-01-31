@@ -1,0 +1,14 @@
+motion_camera_backyard:
+  name: motion_camera_backyard
+  hours_to_show: 72
+  refresh: 30
+  entities:
+    - sensor.motion_annotated_ago_backyard
+    - sensor.motion_annotated_ago_backyard_mean
+    - sensor.motion_annotated_ago_backyard_stdev
+    - sensor.motion_detected_ago_backyard
+    - sensor.motion_detected_ago_backyard_mean
+    - sensor.motion_detected_ago_backyard_stdev
+    - sensor.motion_detected_entity_ago_backyard
+    - sensor.motion_detected_entity_ago_backyard_mean
+    - sensor.motion_detected_entity_ago_backyard_stdev

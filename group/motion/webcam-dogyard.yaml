@@ -1,0 +1,62 @@
+###
+# group/webcam-dogyard.yaml
+###
+
+motion_dogyard:
+  name: Status dogyard
+  view: true
+  icon: mdi:dog-side
+  control: hidden
+  entities:
+    - camera.motion_live_dogyard
+    - camera.motion_event_annotated_dogyard
+    - camera.motion_event_end_dogyard
+    - camera.motion_event_animated_dogyard
+    - camera.motion_event_animated_mask_dogyard
+    - camera.motion_event_composite_dogyard
+    - group.motion_dogyard_brief
+    - group.motion_dogyard_summary
+
+
+motion_dogyard_brief:
+  name: motion_dogyard_brief
+  control: hidden
+  entities:
+    - camera.motion_detected_entity_picture_dogyard
+    - camera.motion_detected_picture_dogyard
+    - camera.motion_annotated_picture_dogyard
+    - camera.motion_end_picture_dogyard
+    - sensor.motion_detected_entity_status_dogyard
+    - sensor.motion_detected_status_dogyard
+    - sensor.motion_annotated_status_dogyard
+    - sensor.motion_end_status_dogyard
+    - sensor.motion_annotated_delay_dogyard_mean
+    - sensor.motion_status_camera_found_when_dogyard
+    - sensor.motion_status_camera_lost_when_dogyard
+
+motion_dogyard_summary:
+  name: motion_dogyard_summary
+  control: hidden
+  entities:
+    - binary_sensor.motion_detected_entity_dogyard
+    - sensor.motion_detected_entity_count_dogyard
+    - sensor.motion_detected_entity_counter_dogyard
+    - binary_sensor.motion_detected_dogyard
+    - sensor.motion_detected_count_dogyard
+    - sensor.motion_detected_counter_dogyard
+    - binary_sensor.motion_annotated_dogyard
+    - sensor.motion_annotated_count_dogyard
+    - sensor.motion_annotated_entity_count_dogyard
+    - sensor.motion_annotated_counter_dogyard
+    - binary_sensor.motion_end_dogyard
+    - sensor.motion_end_counter_dogyard
+    - sensor.motion_annotated_delay_dogyard
+    - sensor.motion_annotated_ago_dogyard
+    - sensor.motion_end_ago_dogyard
+    - sensor.motion_annotated_percent_dogyard
+    - sensor.motion_annotated_count_dogyard
+    - sensor.motion_annotated_entity_count_dogyard
+    - sensor.motion_annotated_list_dogyard
+    - counter.motion_complete_counter_dogyard
+    - sensor.motion_complete_dogyard
+    - binary_sensor.motion_complete_dogyard

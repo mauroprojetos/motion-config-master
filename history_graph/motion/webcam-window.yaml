@@ -1,0 +1,14 @@
+motion_camera_window:
+  name: motion_camera_window
+  hours_to_show: 72
+  refresh: 30
+  entities:
+    - sensor.motion_annotated_ago_window
+    - sensor.motion_annotated_ago_window_mean
+    - sensor.motion_annotated_ago_window_stdev
+    - sensor.motion_detected_ago_window
+    - sensor.motion_detected_ago_window_mean
+    - sensor.motion_detected_ago_window_stdev
+    - sensor.motion_detected_entity_ago_window
+    - sensor.motion_detected_entity_ago_window_mean
+    - sensor.motion_detected_entity_ago_window_stdev

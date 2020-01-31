@@ -1,0 +1,100 @@
+###
+### highlow BINARY_SENSOR (low, high, low_persistent, high_persistent)
+###
+### Example:
+###  - PKG="motion"
+###  - SENSOR="detected"
+###  - ITEM="ago"
+###  + Produces:
+###	> binary_sensor.motion_detected_ago_count_low
+###	> binary_sensor.motion_detected_ago_count_high
+###	> binary_sensor.motion_detected_ago_count_low_persistent
+###	> binary_sensor.motion_detected_ago_count_high_persistent
+###
+### External dependencies:
+###  - sensor.motion_detected_$(ITEM} (platform: template)
+###  - sensor.motion_detected_$(ITEM}_statistics (platform: statistics)
+###
+### Control dependencies:
+###  - input_number.motion_detected_$(ITEM}_deviation
+###
+
+## highlow
+- platform: template
+  sensors:
+    # low
+    motion_detected_ago_low:
+      entity_id:
+        - sensor.motion_detected_ago
+        - sensor.motion_detected_ago_statistics
+        - input_number.motion_detected_ago_deviation
+      value_template: >-
+        {% if states.sensor.motion_detected_ago|lower != 'none'
+              and states.sensor.motion_detected_ago_statistics|lower != 'none'
+              and states.input_number.motion_detected_ago_deviation|lower != 'none'
+              and states.sensor.motion_detected_ago.state|float is number
+              and states.input_number.motion_detected_ago_deviation.state|float is number
+              and states.sensor.motion_detected_ago_statistics.attributes.standard_deviation|float is number
+              and states.sensor.motion_detected_ago_statistics.attributes.standard_deviation|float > 0 %}
+          {{ (((states.sensor.motion_detected_ago_statistics.state|float) - (states.sensor.motion_detected_ago.state|float)) / (states.sensor.motion_detected_ago_statistics.attributes.standard_deviation|float) > (states.input_number.motion_detected_ago_deviation.state|float)) }}
+        {%- else -%}false{%- endif -%}
+      icon_template: >
+          mdi:emoticon-sad
+    # high
+    motion_detected_ago_high:
+      entity_id:
+        - sensor.motion_detected_ago
+        - sensor.motion_detected_ago_statistics
+        - input_number.motion_detected_ago_deviation
+      value_template: >-
+        {% if states.sensor.motion_detected_ago|lower != 'none'
+              and states.input_number.motion_detected_ago_deviation|lower != 'none'
+              and states.sensor.motion_detected_ago_statistics|lower != 'none'
+              and states.sensor.motion_detected_ago.state|float is number
+              and states.input_number.motion_detected_ago_deviation.state|float is number
+              and states.sensor.motion_detected_ago_statistics.attributes.standard_deviation|float is number
+              and states.sensor.motion_detected_ago_statistics.attributes.standard_deviation|float > 0 %}
+          {{ (((states.sensor.motion_detected_ago.state|float) - (states.sensor.motion_detected_ago_statistics.state|float)) / (states.sensor.motion_detected_ago_statistics.attributes.standard_deviation|float)) > (states.input_number.motion_detected_ago_deviation.state|float) }}
+        {%- else -%}false{%- endif -%}
+      icon_template: >-
+          mdi:emoticon-happy
+    # low_persistent
+    motion_detected_ago_low_persistent:
+      entity_id:
+        - sensor.motion_detected_ago
+        - sensor.motion_detected_ago_statistics
+        - sensor.motion_detected_ago_stdev_statistics
+        - input_number.motion_detected_ago_deviation
+      value_template: >-
+        {% if states.sensor.motion_detected_ago|lower != 'none' 
+              and states.sensor.motion_detected_ago_statistics|lower != 'none'
+              and states.input_number.motion_detected_ago_deviation|lower != 'none'
+              and states.sensor.motion_detected_ago_stdev_statistics|lower != 'none' 
+              and states.sensor.motion_detected_ago.state|float is number
+              and states.sensor.motion_detected_ago_statistics.state|float is number
+              and states.input_number.motion_detected_ago_deviation.state|float is number
+              and states.sensor.motion_detected_ago_stdev_statistics.state|float is number
+              and states.sensor.motion_detected_ago_stdev_statistics.state|float > 0 %}
+            {{ (((states.sensor.motion_detected_ago_statistics.state|float) - (states.sensor.motion_detected_ago.state|float)) / (states.sensor.motion_detected_ago_stdev_statistics.state|float) > (states.input_number.motion_detected_ago_deviation.state|float)) }}
+        {%- else -%}false{%- endif -%}
+      icon_template: >
+          mdi:emoticon-sad
+    motion_detected_ago_high_persistent:
+      entity_id:
+        - sensor.motion_detected_ago
+        - sensor.motion_detected_ago_stdev_statistics
+        - input_number.motion_detected_ago_deviation
+      value_template: >-
+        {% if states.sensor.motion_detected_ago|lower != 'none' 
+              and states.sensor.motion_detected_ago_statistics|lower != 'none'
+              and states.input_number.motion_detected_ago_deviation|lower != 'none'
+              and states.sensor.motion_detected_ago_stdev_statistics|lower != 'none' 
+              and states.sensor.motion_detected_ago.state|float is number
+              and states.sensor.motion_detected_ago_statistics.state|float is number
+              and states.input_number.motion_detected_ago_deviation.state|float is number
+              and states.sensor.motion_detected_ago_stdev_statistics.state|float is number
+              and states.sensor.motion_detected_ago_stdev_statistics.state|float > 0 %}
+          {{ (((states.sensor.motion_detected_ago.state|float) - (states.sensor.motion_detected_ago_statistics.state|float)) / (states.sensor.motion_detected_ago_stdev_statistics.state|float)) > (states.input_number.motion_detected_ago_deviation.state|float) }}
+        {%- else -%}false{%- endif -%}
+      icon_template: >-
+          mdi:emoticon-happy

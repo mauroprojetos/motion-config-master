@@ -1,0 +1,104 @@
+{
+  "log_level": "info",
+  "group": "motion",
+  "post_pictures": "center",
+  "cameras": [
+    {
+      "name": "woodshed",
+      "url": "null"
+    },
+    {
+      "name": "livingroom",
+      "url": "null"
+    },
+    {
+      "name": "equipmentroom",
+      "url": "null"
+    },
+    {
+      "name": "fireplace",
+      "url": "null"
+    },
+    {
+      "name": "dogyard",
+      "url": "null"
+    },
+    {
+      "name": "dogshedmiddle",
+      "url": "null"
+    },
+    {
+      "name": "sideyard",
+      "url": "null"
+    },
+    {
+      "name": "dogshedfront",
+      "url": "null"
+    },
+    {
+      "name": "dogshed",
+      "url": "null"
+    },
+    {
+      "name": "laundry",
+      "url": "null"
+    },
+    {
+      "name": "foyer",
+      "url": "null"
+    },
+    {
+      "name": "frontwalk",
+      "url": "null"
+    },
+    {
+      "name": "diningroom",
+      "url": "null"
+    },
+    {
+      "name": "backyard",
+      "url": "null"
+    },
+    {
+      "name": "poolcam",
+      "url": "null"
+    },
+    {
+      "name": "interiorgate",
+      "url": "null"
+    },
+    {
+      "name": "road",
+      "url": "null"
+    },
+    {
+      "name": "window",
+      "url": "null"
+    },
+    {
+      "name": "shed",
+      "url": "null"
+    },
+    {
+      "name": "dogpond",
+      "url": "null"
+    },
+    {
+      "name": "pondview",
+      "url": "null"
+    }
+  ],
+  "mqtt": {
+    "host": "",
+    "port": 1883,
+    "username": "",
+    "password": ""
+  },
+  "cloudant": {
+    "url": "",
+    "username": "",
+    "password": ""
+  },
+  "debug": false,
+  "device": "motion-master"
+}

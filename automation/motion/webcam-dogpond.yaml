@@ -1,0 +1,515 @@
+###
+### automation dogpond
+###
+
+###
+# end
+###
+
+- id: motion_end_counter_dogpond
+  alias: motion_end_counter_dogpond
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: binary_sensor.motion_end_dogpond
+  condition:
+    - condition: template
+      value_template: >-
+        {{ is_state('binary_sensor.motion_end_dogpond','on') }}
+  action:
+    - service: counter.increment
+      entity_id: counter.motion_end_counter_dogpond
+    - service: counter.increment
+      entity_id: counter.motion_end_counter
+
+- id: motion_end_snapshot_dogpond
+  alias: motion_end_snapshot_dogpond
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: sensor.motion_event_end_dogpond
+  condition:
+    condition: and
+    conditions:
+      - condition: template
+        value_template: >-
+          {{ is_state('input_boolean.motion_snapshot_save','on') }}
+      - condition: template
+        value_template: >-
+          {{ state_attr('camera.motion_event_end_dogpond','entity_picture') is not none }}
+  action:
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_end-dogpond.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_event_end_dogpond' }}
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_end.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_event_end_dogpond' }}
+#    - delay:
+#        milliseconds: 100
+#    - service: mqtt.publish
+#      data:
+#        topic: 'motion-master/dogpond/snapshot/end'
+#        payload_template: >-
+#          {{ '/config/www/images/motion_end-dogpond.jpg' }}
+#        qos: 1
+#        retain: 0
+
+###
+# annotated
+###
+
+- id: motion_annotated_counter_dogpond
+  alias: motion_annotated_counter_dogpond
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: binary_sensor.motion_annotated_dogpond
+  condition:
+    - condition: template
+      value_template: >-
+        {{ is_state('binary_sensor.motion_annotated_dogpond','on') }}
+  action:
+    - service: counter.increment
+      entity_id: counter.motion_annotated_counter_dogpond
+    - service: counter.increment
+      entity_id: counter.motion_annotated_counter
+
+- id: motion_annotated_snapshot_dogpond
+  alias: motion_annotated_snapshot_dogpond
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: camera.motion_event_annotated_dogpond
+  condition:
+    condition: and
+    conditions:
+      - condition: template
+        value_template: >-
+          {{ is_state('input_boolean.motion_snapshot_save','on') }}
+      - condition: template
+        value_template: >-
+          {{ state_attr('camera.motion_event_annotated_dogpond','entity_picture') is not none }}
+  action:
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_annotated-dogpond.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_event_annotated_dogpond' }}
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_annotated.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_event_annotated_dogpond' }}
+#    - delay:
+#        milliseconds: 100
+#    - service: mqtt.publish
+#      data:
+#        topic: 'motion-master/dogpond/snapshot/annotated'
+#        payload_template: >-
+#          {{ '/config/www/images/motion_annotated-dogpond.jpg' }}
+#        qos: 1
+#        retain: 0
+
+###
+# detected
+###
+
+- id: motion_detected_counter_dogpond
+  alias: motion_detected_counter_dogpond
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: binary_sensor.motion_detected_dogpond
+  condition:
+    - condition: template
+      value_template: >-
+        {{ is_state('binary_sensor.motion_detected_dogpond','on') }}
+  action:
+    - service: counter.increment
+      entity_id: counter.motion_detected_counter_dogpond
+    - service: counter.increment
+      entity_id: counter.motion_detected_counter
+
+- id: motion_detected_snapshot_dogpond
+  alias: motion_detected_snapshot_dogpond
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: sensor.motion_detected_counter_dogpond
+  condition:
+    condition: and
+    conditions:
+      - condition: template
+        value_template: >-
+          {{ is_state('input_boolean.motion_snapshot_save','on') }}
+      - condition: template
+        value_template: >-
+          {{ states('sensor.motion_annotated_count_dogpond')|int > 0 }}
+      - condition: template
+        value_template: >-
+          {{ state_attr('camera.motion_event_annotated_dogpond','entity_picture') is not none }}
+  action:
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_detected-dogpond.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_event_annotated_dogpond' }}
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_detected.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_event_annotated_dogpond' }}
+#    - delay:
+#        milliseconds: 100
+#    - service: mqtt.publish
+#      data:
+#        topic: 'motion-master/dogpond/snapshot/detected'
+#        payload_template: >-
+#          {{ '/config/www/images/motion_detected-dogpond.jpg' }}
+#        qos: 1
+#        retain: 0
+
+###
+# detected_entity
+###
+
+- id: motion_detected_entity_counter_dogpond
+  alias: motion_detected_entity_counter_dogpond
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: binary_sensor.motion_detected_entity_dogpond
+  condition:
+    - condition: template
+      value_template: >-
+        {{ is_state('binary_sensor.motion_detected_entity_dogpond','on') }}
+  action:
+    - service: counter.increment
+      entity_id: counter.motion_detected_entity_counter_dogpond
+    - service: counter.increment
+      entity_id: counter.motion_detected_entity_counter
+
+- id: motion_detected_entity_snapshot_dogpond
+  alias: motion_detected_entity_snapshot_dogpond
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: sensor.motion_detected_entity_counter_dogpond
+  condition:
+    condition: and
+    conditions:
+      - condition: template
+        value_template: >-
+          {{ is_state('input_boolean.motion_snapshot_save','on') }}
+      - condition: template
+        value_template: >-
+          {{ states('sensor.motion_annotated_entity_count_dogpond')|int > 0 }}
+      - condition: template
+        value_template: >-
+          {{ state_attr('camera.motion_detected_entity_dogpond','entity_picture') is not none }}
+  action:
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_detected_entity-dogpond.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_event_annotated_dogpond' }}
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_detected_entity.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_event_annotated_dogpond' }}
+#    - delay:
+#        milliseconds: 100
+#    - service: mqtt.publish
+#      data:
+#        topic: 'motion-master/dogpond/snapshot/detected_entity'
+#        payload_template: >-
+#          {{ '/config/www/images/motion_detected_entity-dogpond.jpg' }}
+#        qos: 1
+#        retain: 0
+
+###
+# complete
+###
+
+- id: motion_complete_counter_dogpond
+  alias: motion_complete_counter_dogpond
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: binary_sensor.motion_complete_dogpond
+  condition:
+    - condition: template
+      value_template: >-
+        {{ is_state('binary_sensor.motion_complete_dogpond','on') }}
+  action:
+    - service: counter.increment
+      entity_id: counter.motion_complete_counter_dogpond
+    - service: counter.increment
+      entity_id: counter.motion_complete_counter
+
+###
+# found
+###
+
+- id: motion_tracker_found_dogpond
+  alias: motion_tracker_found_dogpond
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: sensor.motion_status_camera_found_dogpond
+  condition:
+    condition: and
+    conditions:
+      - condition: template
+        value_template: >
+          {{ is_state('input_boolean.motion_tracker_found','on') }}
+      - condition: template
+        value_template: >
+          {{ trigger.to_state.state != trigger.from_state.state }}
+  action:
+    - service: mqtt.publish
+      data_template:
+        topic: 'motion/tracker/webcam/dogpond'
+        retain: true
+        payload_template: >-
+          { "topic":"motion/tracker/webcam/dogpond", "payload":"home", "date":{{ (now().timestamp()|int) }} }
+
+- id: motion_reset_found_dogpond
+  alias: motion_reset_found_dogpond
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: sensor.motion_status_camera_found_dogpond
+  condition:
+    condition: and
+    conditions:
+      - condition: template
+        value_template: >
+          {{ is_state('input_boolean.motion_reset_found_webcam','on') }}
+      - condition: template
+        value_template: >
+          {{ trigger.to_state.state != trigger.from_state.state }}
+  action:
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_end-dogpond.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_testsignal' }}
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_annotated-dogpond.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_testsignal' }}
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_detected-dogpond.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_testsignal' }}
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_detected_entity-dogpond.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_testsignal' }}
+
+###
+# lost
+###
+
+- id: motion_tracker_lost_dogpond
+  alias: motion_tracker_lost_dogpond
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: sensor.motion_status_camera_lost_dogpond
+  condition:
+    condition: and
+    conditions:
+      - condition: template
+        value_template: >
+          {{ is_state('input_boolean.motion_tracker_lost','on') }}
+      - condition: template
+        value_template: >
+          {{ trigger.to_state.state != trigger.from_state.state }}
+  action:
+    - service: mqtt.publish
+      data_template:
+        topic: 'motion/tracker/webcam/dogpond'
+        retain: true
+        payload_template: >-
+          { "topic":"motion/tracker/webcam/dogpond", "payload":"not_home", "date":{{ (now().timestamp()|int) }} }
+
+- id: motion_reset_lost_dogpond
+  alias: motion_reset_lost_dogpond
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: sensor.motion_status_camera_lost_dogpond
+  condition:
+    condition: and
+    conditions:
+      - condition: template
+        value_template: >
+          {{ is_state('input_boolean.motion_reset_lost_webcam','on') }}
+      - condition: template
+        value_template: >
+          {{ trigger.to_state.state != trigger.from_state.state }}
+  action:
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_end-dogpond.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_nosignal' }}
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_annotated-dogpond.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_nosignal' }}
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_detected-dogpond.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_nosignal' }}
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_detected_entity-dogpond.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_nosignal' }}
+
+###
+# notify lost and found
+###
+
+## found
+- id: motion_status_camera_notify_found_dogpond
+  alias: motion_status_camera_notify_found_dogpond
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: sensor.motion_status_camera_found_dogpond
+  condition:
+    condition: and
+    conditions:
+      - condition: template
+        value_template: >
+          {{ is_state('input_boolean.motion_status_camera_notify','on') }}
+      - condition: template
+        value_template: >
+          {{ trigger.to_state.state != trigger.from_state.state and trigger.to_state|lower != 'none' and trigger.to_state.state|lower != 'unknown' }}
+  action:
+    - service: persistent_notification.create
+      data_template:
+        title: >
+          Camera dogpond found
+        notification_id: >
+          dogpond
+        message: >-
+          Camera dogpond was {{ trigger.from_state.state }};
+          found at {{ now().timestamp()|int|timestamp_custom("%a %b %d @ %I:%M %p") | default(null) }}
+
+## lost
+- id: motion_status_camera_notify_lost_dogpond
+  alias: motion_status_camera_notify_lost_dogpond
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: sensor.motion_status_camera_lost_dogpond
+  condition:
+    condition: and
+    conditions:
+      - condition: template
+        value_template: >
+          {{ is_state('input_boolean.motion_status_camera_notify','on') }}
+      - condition: template
+        value_template: >
+          {{ trigger.to_state.state != trigger.from_state.state and trigger.to_state|lower != 'none' and trigger.to_state.state|lower != 'unknown' }}
+  action:
+    - service: persistent_notification.create
+      data_template:
+        title: >
+          Camera dogpond lost
+        notification_id: >
+          dogpond
+        message: >-
+          Camera dogpond was {{ trigger.from_state.state }};
+          lost at {{ now().timestamp()|int|timestamp_custom("%a %b %d @ %I:%M %p") | default(null) }}
+
+###
+# notify detected
+###
+
+- id: motion_detected_notify_dogpond
+  alias: motion_detected_notify_dogpond
+  initial_state: 'on'
+  trigger:
+    - platform: state
+      entity_id: sensor.motion_detected_counter_dogpond
+  condition:
+    condition: template
+    value_template: >
+      {{ is_state('input_boolean.motion_detected_notify','on') and is_state('binary_sensor.motion_detected_dogpond','on') }}
+  action:
+    - service: persistent_notification.create
+      data_template:
+        title: >-
+          Detected {{ states.sensor.motion_annotated_count_dogpond.state }} {{ states.sensor.motion_detect_entity.state }}(s)
+          from {{ states.sensor.motion_event_annotated_dogpond.attributes.event.camera }}
+        notification_id: >
+          detected-{{- states.sensor.motion_event_annotated_dogpond.attributes.event.camera -}}
+        message: >-
+          Detected {{ states.sensor.motion_annotated_count_dogpond.state }} {{ states.sensor.motion_detect_entity.state }}(s)
+          from {{ states.sensor.motion_event_annotated_dogpond.attributes.event.camera }}
+          for {{ states.sensor.motion_event_annotated_dogpond.attributes.event.elapsed }} seconds
+          ({{ states.sensor.motion_event_annotated_dogpond.attributes.event.images|length }} frames)
+          at {{ states.sensor.motion_event_annotated_dogpond.attributes.event.start|int|timestamp_custom("%a %b %d @ %I:%M %p") | default(null) }}
+
+
+###
+# notify detected_entity
+###
+
+- id: motion_detected_entity_notify_dogpond
+  alias: motion_detected_entity_notify_dogpond
+  initial_state: 'on'
+  trigger:
+    - platform: state
+      entity_id: sensor.motion_detected_entity_counter_dogpond
+  condition:
+    condition: template
+    value_template: >
+      {{ is_state('input_boolean.motion_detected_entity_notify','on') and is_state('binary_sensor.motion_detected_entity_dogpond','on') }}
+  action:
+    - service: persistent_notification.create
+      data_template:
+        title: >-
+          Detected {{ states.sensor.motion_annotated_count_dogpond.state }} {{ states.sensor.motion_detect_entity.state }}(s)
+          from {{ states.sensor.motion_event_annotated_dogpond.attributes.event.camera }}
+        notification_id: >
+          detected_entity-{{- states.sensor.motion_event_annotated_dogpond.attributes.event.camera -}}
+        message: >-
+          Detected {{ states.sensor.motion_annotated_count_dogpond.state }} {{ states.sensor.motion_detect_entity.state }}(s)
+          from {{ states.sensor.motion_event_annotated_dogpond.attributes.event.camera }}
+          for {{ states.sensor.motion_event_annotated_dogpond.attributes.event.elapsed }} seconds
+          ({{ states.sensor.motion_event_annotated_dogpond.attributes.event.images|length }} frames)
+          at {{ states.sensor.motion_event_annotated_dogpond.attributes.event.start|int|timestamp_custom("%a %b %d @ %I:%M %p") | default(null) }}
+

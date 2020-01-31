@@ -1,0 +1,1547 @@
+###
+### dogpond sensors
+###
+
+###
+# found
+###
+
+- platform: mqtt
+  name: motion_status_camera_found_dogpond
+  state_topic: 'motion/+/dogpond/status/found'
+  expire_after: 86400
+  force_update: true
+  json_attributes:
+    - device
+    - camera
+    - date
+    - status
+  value_template: >
+    {% if value_json is defined %}True{% else %}False{% endif %}
+
+## dates
+- platform: template
+  sensors:
+    motion_status_camera_found_date_dogpond:
+      entity_id:
+        - sensor.motion_status_camera_found_dogpond
+      unit_of_measurement: seconds
+      value_template: >-
+        {% if state_attr('sensor.motion_status_camera_found_dogpond','date')|lower != 'none'
+              and states.sensor.motion_status_camera_found_dogpond.attributes.date|int > 0 %}
+          {{ states.sensor.motion_status_camera_found_dogpond.attributes.date|int }}
+        {% else %}{{ now().timestamp()|int }}{% endif %}
+
+- platform: template
+  sensors:
+    motion_status_camera_found_when_dogpond:
+      friendly_name: dogpond found
+      entity_id:
+        - sensor.motion_status_camera_found_date_dogpond
+      value_template: >-
+        {% if states.sensor.motion_status_camera_found_date_dogpond|lower != 'none'
+              and states.sensor.motion_status_camera_found_date_dogpond.state|int > 0 %}
+          {{ states.sensor.motion_status_camera_found_date_dogpond.state|int|timestamp_custom("%a %b %d ~ %I:%M %p") }}
+        {% else %}null{% endif %} 
+
+###
+# lost
+###
+
+- platform: mqtt
+  name: motion_status_camera_lost_dogpond
+  state_topic: 'motion/+/dogpond/status/lost'
+  expire_after: 86400
+  force_update: true
+  json_attributes:
+    - device
+    - camera
+    - date
+    - status
+  value_template: >
+    {% if value_json is defined %}True{% else %}False{% endif %}
+
+## dates
+- platform: template
+  sensors:
+    motion_status_camera_lost_date_dogpond:
+      entity_id:
+        - sensor.motion_status_camera_lost_dogpond
+      unit_of_measurement: seconds
+      value_template: >-
+        {% if state_attr('sensor.motion_status_camera_lost_dogpond','date')|lower != 'none'
+              and states.sensor.motion_status_camera_lost_dogpond.attributes.date|int > 0 %}
+          {{ states.sensor.motion_status_camera_lost_dogpond.attributes.date|int }}
+        {% else %}{{ now().timestamp()|int }}{% endif %}
+
+- platform: template
+  sensors:
+    motion_status_camera_lost_when_dogpond:
+      friendly_name: dogpond lost
+      entity_id:
+        - sensor.motion_status_camera_lost_date_dogpond
+      value_template: >-
+        {% if states.sensor.motion_status_camera_lost_date_dogpond|lower != 'none'
+              and states.sensor.motion_status_camera_lost_date_dogpond.state|int > 0 %}
+          {{ states.sensor.motion_status_camera_lost_date_dogpond.state|int|timestamp_custom("%a %b %d ~ %I:%M %p") }}
+        {% else %}null{% endif %} 
+
+###
+# start event
+###
+
+- platform: mqtt
+  name: motion_event_start_dogpond
+  qos: 1
+  state_topic: 'motion/+/dogpond/event/start'
+  expire_after: 30
+  force_update: true
+  json_attributes:
+    - device
+    - camera
+    - event
+    - start
+  value_template: >
+    {% if value_json is defined %}True{% else %}False{% endif %}
+
+###
+# image event
+###
+
+- platform: mqtt
+  name: motion_event_image_dogpond
+  qos: 1
+  state_topic: 'motion/+/dogpond/event/image'
+  expire_after: 1
+  force_update: true
+  json_attributes:
+    - device
+    - camera
+    - type
+    - date
+    - seqno
+    - event
+    - id
+    - center
+    - width
+    - height
+    - size
+    - noise
+  value_template: >
+    {% if value_json is defined %}True{% else %}False{% endif %}
+
+###
+# end event
+###
+
+- platform: mqtt
+  name: motion_event_end_dogpond
+  qos: 2
+  state_topic: 'motion/+/dogpond/event/end'
+  expire_after: 60
+  force_update: True
+  json_attributes:
+    - device
+    - camera
+    - event
+    - start
+    - end
+    - elapsed
+    - date
+  value_template: >
+    {% if value_json is defined %}True{% else %}False{% endif %}
+
+## status
+- platform: template
+  sensors:
+    motion_end_status_dogpond:
+      friendly_name: dogpond motion
+      entity_id:
+        - sensor.motion_end_counter_dogpond
+        - sensor.motion_end_ago_dogpond
+      value_template: >-
+        {% set elapsed = states('sensor.motion_end_elapsed_dogpond')|int %}
+        {% set ago = states('sensor.motion_end_ago_dogpond')|int %}
+        {% if elapsed > 0 %} {{ elapsed }} {% else %} zero {% endif %} second(s);
+        {{ ago }} second(s) ago
+
+## counting
+- platform: template
+  sensors:
+    motion_end_counter_dogpond:
+      friendly_name: dogpond end counter
+      entity_id:
+        - counter.motion_end_counter_dogpond
+      unit_of_measurement: count
+      value_template: >-
+        {% if states.counter.motion_end_counter_dogpond|lower != 'none' %}
+          {{ states.counter.motion_end_counter_dogpond.state|int }}
+        {%- else -%}null{%- endif -%}
+
+## timing
+- platform: template
+  sensors:
+    motion_end_date_dogpond:
+      entity_id:
+        - sensor.motion_end_counter_dogpond
+      unit_of_measurement: seconds
+      value_template: >-
+        {% if states.sensor.motion_event_end_dogpond|lower != 'none' and state_attr('sensor.motion_event_end_dogpond','end')|lower != 'none' %}
+          {% set date = states.sensor.motion_event_end_dogpond.attributes.end|int %}
+          {% if date > 0 %}{{ date }}{% else %}null{% endif %}
+        {% else %}null{% endif %}
+
+- platform: template
+  sensors:
+    motion_end_when_dogpond:
+      friendly_name: dogpond end
+      entity_id:
+        - sensor.motion_end_date_dogpond
+      value_template: >-
+        {% set date = states('sensor.motion_end_date_dogpond')|int %}
+        {% if date > 0 %} {{ date|timestamp_custom("%a %b %d ~ %I:%M %p") }} {% else %}never{% endif %}
+
+- platform: template
+  sensors:
+    motion_end_ago_dogpond:
+      friendly_name: dogpond end ago
+      entity_id:
+        - sensor.motion_end_date_dogpond
+        - sensor.time
+      unit_of_measurement: seconds
+      value_template: >
+        {% set s = states('sensor.motion_end_date_dogpond')|int %}
+        {% if s >  0 %}
+          {% set s = now().timestamp()|int - s %}
+          {% if s <  86400 %}{{ s }}{%- else -%}null{%- endif -%}
+        {%- else -%}null{%- endif -%}
+
+## elapsed
+- platform: template
+  sensors:
+    motion_end_elapsed_dogpond:
+      entity_id:
+        - sensor.motion_end_counter_dogpond
+      value_template: >
+        {% if states.sensor.motion_event_end_dogpond|lower != 'none'
+              and state_attr('sensor.motion_event_end_dogpond','elapsed')|lower != 'none' %}
+          {{ states.sensor.motion_event_end_dogpond.attributes.elapsed }}
+        {% else %} null {% endif %}
+
+###
+## annotated
+###
+
+## event_annotated
+- platform: mqtt
+  name: motion_event_annotated_dogpond
+  state_topic: 'motion/+/dogpond/event/end/+'
+  expire_after: 60
+  force_update: true
+  json_attributes:
+    - timestamp
+    - date
+    - time
+    - count
+    - event
+    - info
+    - detected
+  value_template: >
+    {% if value_json is defined %}True{% else %}False{% endif %}
+
+## status
+- platform: template
+  sensors:
+    motion_annotated_status_dogpond:
+      friendly_name: dogpond annotated
+      entity_id:
+        - sensor.motion_annotated_counter_dogpond
+        - sensor.motion_annotated_ago_dogpond
+      value_template: >-
+        {% set count = states('sensor.motion_annotated_count_dogpond')|int %}
+        {% set saw = states('sensor.motion_annotated_list_dogpond') %}
+        {% set ago = states('sensor.motion_annotated_ago_dogpond')|int %}
+        {% set delay = states('sensor.motion_annotated_delay_dogpond')|int %}
+        {% set when = states('sensor.motion_annotated_when_dogpond') %}
+        {% if count > 0 %}{{ count }} entity(s): {{ saw -}};{% else %}nothing;{% endif %}
+        {{ when }}; delay: {{ delay }}; {{ ago }} second(s) ago
+
+## count
+- platform: template
+  sensors:
+    motion_annotated_count_dogpond:
+      friendly_name: dogpond annotated count
+      entity_id:
+        - counter.motion_annotated_counter_dogpond
+      unit_of_measurement: entities
+      value_template: >
+        {% if state_attr('sensor.motion_event_annotated_dogpond','count') is not none %}
+          {{ state_attr('sensor.motion_event_annotated_dogpond','count')|int }}
+        {% else %}null{% endif %}
+
+## entity_count_loop
+- platform: template
+  sensors:
+    motion_annotated_entity_count_loop_dogpond:
+      entity_id:
+        - sensor.motion_annotated_count_dogpond
+      unit_of_measurement: entities
+      value_template: >-
+        {% set camera = 'dogpond' %}
+        {% set count = states('sensor.motion_annotated_count_' + camera)|int %}
+        {% if count > 0 %}
+          {% set s = states('sensor.motion_detect_entity') %}
+          {% for detected in state_attr('sensor.motion_event_annotated_' + camera,'detected') %}
+            {% if detected.entity == s or s == 'all' %}
+              {{ detected.count|int }}
+            {% endif %}
+          {% endfor %}
+        {% else %}null{% endif %}
+
+## entity_count
+- platform: template
+  sensors:
+    motion_annotated_entity_count_dogpond:
+      friendly_name: dogpond annotated entity count
+      entity_id:
+        - sensor.motion_annotated_entity_count_loop_dogpond
+      unit_of_measurement: entities
+      value_template: >-
+        {{ states('sensor.motion_annotated_entity_count_loop_dogpond')|int }}
+
+## annotated_list
+- platform: template
+  sensors:
+    motion_annotated_list_dogpond:
+      friendly_name: dogpond annotated entity list
+      entity_id:
+        - counter.motion_annotated_counter_dogpond
+      value_template: >-
+        {% set camera = 'dogpond' %}
+        {% set count = state_attr('sensor.motion_event_annotated_' + camera,'count') %}
+        {% set array = state_attr('sensor.motion_event_annotated_' + camera,'detected') %}
+        {% if count > 0 and array is not none %}
+          {% for detected in array %}
+            {%- if loop.first -%}{%- else -%},{%- endif -%}
+            {{- detected.entity -}}
+          {% endfor %}
+        {% else %}null{% endif %}
+
+## counter
+- platform: template
+  sensors:
+    motion_annotated_counter_dogpond:
+      friendly_name: dogpond annotated counter
+      entity_id:
+        - sensor.motion_annotated_entity_count_dogpond
+      unit_of_measurement: count
+      value_template: >
+        {% if states('counter.motion_annotated_counter_dogpond') != 'unknown' %}
+          {{ states('counter.motion_annotated_counter_dogpond')|int }}
+        {%- else -%}null{%- endif -%}
+
+## date
+- platform: template
+  sensors:
+    # date
+    motion_annotated_date_dogpond:
+      entity_id:
+        - sensor.motion_annotated_count_dogpond
+      unit_of_measurement: seconds
+      value_template: >-
+        {% if  state_attr('sensor.motion_event_annotated_dogpond','event') is not none %}
+          {% set date = states.sensor.motion_event_annotated_dogpond.attributes.event.end|int %}
+          {% if date > 0 %}{{ date }}{% else %}null{% endif %}
+        {% else %}null{% endif %}
+
+## when
+- platform: template
+  sensors:
+    motion_annotated_when_dogpond:
+      friendly_name: dogpond annotated
+      entity_id:
+        - sensor.motion_annotated_date_dogpond
+      value_template: >-
+        {% set date = states('sensor.motion_annotated_date_dogpond')|int %}
+        {% if date > 0 %} {{ date|timestamp_custom("%a %b %d ~ %I:%M %p") }} {% else %}never{% endif %}
+
+## ago
+- platform: template
+  sensors:
+    motion_annotated_ago_dogpond:
+      friendly_name: dogpond annotated ago
+      entity_id:
+        - sensor.motion_annotated_date_dogpond
+        - sensor.time
+      unit_of_measurement: seconds
+      value_template: >
+        {% set s = states('sensor.motion_annotated_date_dogpond')|int %}
+        {% if s >  0 %}
+          {% set s = now().timestamp()|int - s %}
+          {% if s <  86400 %}{{ s }}{%- else -%}null{%- endif -%}
+        {%- else -%}null{%- endif -%}
+
+## percent
+- platform: template
+  sensors:
+    motion_annotated_percent_dogpond:
+      friendly_name: dogpond annotated percent
+      entity_id:
+        - sensor.motion_end_counter_dogpond
+        - sensor.motion_annotated_counter_dogpond
+      unit_of_measurement: '%'
+      value_template: >-
+        {% if states('sensor.motion_annotated_counter_dogpond')|int > 0 and states('sensor.motion_end_counter_dogpond')|int > 0 %}
+          {{  ( states.sensor.motion_annotated_counter_dogpond.state|int / states.sensor.motion_end_counter_dogpond.state|int ) * 100.0 }}
+        {%- else -%}null{%- endif -%}
+
+## delay 
+- platform: template
+  sensors:
+    motion_annotated_delay_dogpond:
+      friendly_name: dogpond delay 
+      entity_id:
+        - sensor.motion_annotated_date_dogpond
+      unit_of_measurement: seconds
+      value_template: >
+        {{ now().timestamp()|int - states('sensor.motion_annotated_date_dogpond')|int }}
+
+###
+# statistics
+###
+
+## ago
+- platform: template
+  sensors:
+    motion_annotated_ago_dogpond_mean:
+      friendly_name: dogpond annotated ago avg
+      entity_id:
+        - sensor.motion_annotated_ago_dogpond_statistics
+      unit_of_measurement: seconds
+      value_template: >-
+        {% if states.sensor.motion_annotated_ago_dogpond_statistics|lower != 'none' %}
+          {{ states.sensor.motion_annotated_ago_dogpond_statistics.state|float }}
+        {%- else -%}null{%- endif -%}
+    motion_annotated_ago_dogpond_min_value:
+      friendly_name: dogpond annotated min
+      entity_id:
+        - sensor.motion_annotated_ago_dogpond_statistics
+      unit_of_measurement: seconds
+      value_template: >-
+        {% if states.sensor.motion_annotated_ago_dogpond_statistics|lower != 'none' %}
+          {{ states.sensor.motion_annotated_ago_dogpond_statistics.attributes.min_value|int }}
+        {%- else -%}null{%- endif -%}
+    motion_annotated_ago_dogpond_max_value:
+      friendly_name: dogpond annotated max
+      entity_id:
+        - sensor.motion_annotated_ago_dogpond_statistics
+      unit_of_measurement: seconds
+      value_template: >-
+        {% if states.sensor.motion_annotated_ago_dogpond_statistics|lower != 'none' %}
+          {{ states.sensor.motion_annotated_ago_dogpond_statistics.attributes.max_value|int }}
+        {%- else -%}null{%- endif -%}
+    motion_annotated_ago_dogpond_stdev:
+      friendly_name: dogpond annotated stdev
+      entity_id:
+        - sensor.motion_annotated_ago_dogpond_statistics
+      unit_of_measurement: seconds
+      value_template: >
+        {% if states.sensor.motion_annotated_ago_dogpond_statistics|lower != 'none' %}
+          {{ states.sensor.motion_annotated_ago_dogpond_statistics.attributes.standard_deviation|float }}
+        {%- else -%}null{%- endif -%}
+    motion_annotated_ago_dogpond_change:
+      friendly_name: dogpond annotated change
+      entity_id:
+        - sensor.motion_annotated_ago_dogpond_statistics
+      unit_of_measurement: seconds
+      value_template: >
+        {% if states.sensor.motion_annotated_ago_dogpond_statistics|lower != 'none' %}
+          {{ states.sensor.motion_annotated_ago_dogpond_statistics.attributes.change|float }}
+        {%- else -%}null{%- endif -%}
+
+## percent
+- platform: template
+  sensors:
+    motion_annotated_percent_dogpond_mean:
+      friendly_name: dogpond annotated percent avg
+      entity_id:
+        - sensor.motion_annotated_percent_dogpond_statistics
+      unit_of_measurement: '%'
+      value_template: >-
+        {% if states('sensor.motion_annotated_percent_dogpond_statistics') != 'unknown' %}
+          {{ states.sensor.motion_annotated_percent_dogpond_statistics.state|float }}
+        {%- else -%}null{%- endif -%}
+    motion_annotated_percent_dogpond_min_value:
+      friendly_name: dogpond annotated percent min
+      entity_id:
+        - sensor.motion_annotated_percent_dogpond_statistics
+      unit_of_measurement: '%'
+      value_template: >-
+        {% if states('sensor.motion_annotated_percent_dogpond_statistics') != 'unknown' %}
+          {{ states.sensor.motion_annotated_percent_dogpond_statistics.attributes.min_value|float }}
+        {%- else -%}null{%- endif -%}
+    motion_annotated_percent_dogpond_max_value:
+      friendly_name: dogpond annotated percent max
+      entity_id:
+        - sensor.motion_annotated_percent_dogpond_statistics
+      unit_of_measurement: '%'
+      value_template: >-
+        {% if states('sensor.motion_annotated_percent_dogpond_statistics') != 'unknown' %}
+          {{ states.sensor.motion_annotated_percent_dogpond_statistics.attributes.max_value|float }}
+        {%- else -%}null{%- endif -%}
+    motion_annotated_percent_dogpond_stdev:
+      friendly_name: dogpond annotated percent stdev
+      entity_id:
+        - sensor.motion_annotated_percent_dogpond_statistics
+      unit_of_measurement: '%'
+      value_template: >
+        {% if states('sensor.motion_annotated_percent_dogpond_statistics') != 'unknown' %}
+          {{ states.sensor.motion_annotated_percent_dogpond_statistics.attributes.standard_deviation|float }}
+        {%- else -%}null{%- endif -%}
+    motion_annotated_percent_dogpond_change:
+      friendly_name: dogpond annotated percent change
+      entity_id:
+        - sensor.motion_annotated_percent_dogpond_statistics
+      unit_of_measurement: '%'
+      value_template: >
+        {% if states('sensor.motion_annotated_percent_dogpond_statistics') != 'unknown' %}
+          {{ states.sensor.motion_annotated_percent_dogpond_statistics.attributes.change|float }}
+        {%- else -%}null{%- endif -%}
+
+## delay 
+- platform: template
+  sensors:
+    motion_annotated_delay_dogpond_mean:
+      friendly_name: dogpond delay avg
+      entity_id:
+        - sensor.motion_annotated_delay_dogpond_statistics
+      unit_of_measurement: seconds
+      value_template: >-
+        {% if states('sensor.motion_annotated_delay_dogpond_statistics') != 'unknown' %}
+          {{ states.sensor.motion_annotated_delay_dogpond_statistics.state|float }}
+        {%- else -%}null{%- endif -%}
+    motion_annotated_delay_dogpond_min_value:
+      friendly_name: dogpond delay min
+      entity_id:
+        - sensor.motion_annotated_delay_dogpond_statistics
+      unit_of_measurement: seconds
+      value_template: >-
+        {% if states('sensor.motion_annotated_delay_dogpond_statistics') != 'unknown' %}
+          {{ states.sensor.motion_annotated_delay_dogpond_statistics.attributes.min_value|int }}
+        {%- else -%}null{%- endif -%}
+    motion_annotated_delay_dogpond_max_value:
+      friendly_name: dogpond delay max
+      entity_id:
+        - sensor.motion_annotated_delay_dogpond_statistics
+      unit_of_measurement: seconds
+      value_template: >-
+        {% if states('sensor.motion_annotated_delay_dogpond_statistics') != 'unknown' %}
+          {{ states.sensor.motion_annotated_delay_dogpond_statistics.attributes.max_value|int }}
+        {%- else -%}null{%- endif -%}
+    motion_annotated_delay_dogpond_stdev:
+      friendly_name: dogpond delay stdev
+      entity_id:
+        - sensor.motion_annotated_delay_dogpond_statistics
+      unit_of_measurement: seconds
+      value_template: >
+        {% if states('sensor.motion_annotated_delay_dogpond_statistics') != 'unknown' %}
+          {{ states.sensor.motion_annotated_delay_dogpond_statistics.attributes.standard_deviation|float }}
+        {%- else -%}null{%- endif -%}
+    motion_annotated_delay_dogpond_change:
+      friendly_name: dogpond delay change
+      entity_id:
+        - sensor.motion_annotated_delay_dogpond_statistics
+      unit_of_measurement: seconds
+      value_template: >
+        {% if states('sensor.motion_annotated_delay_dogpond_statistics') != 'unknown' %}
+          {{ states.sensor.motion_annotated_delay_dogpond_statistics.attributes.change|float }}
+        {%- else -%}null{%- endif -%}
+
+## statistics
+
+# ago
+- platform: statistics
+  name: motion_annotated_ago_dogpond_statistics
+  entity_id: sensor.motion_annotated_ago_dogpond
+  sampling_size: 1000
+  max_age:
+    hours: 72
+- platform: statistics
+  name: motion_annotated_ago_dogpond_stdev_statistics
+  entity_id: sensor.motion_annotated_ago_dogpond_stdev
+  sampling_size: 1000
+  max_age:
+    hours: 72
+
+# percent
+- platform: statistics
+  name: motion_annotated_percent_dogpond_statistics
+  entity_id: sensor.motion_annotated_percent_dogpond
+  sampling_size: 1000
+  max_age:
+    hours: 72
+- platform: statistics
+  name: motion_annotated_percent_dogpond_stdev_statistics
+  entity_id: sensor.motion_annotated_percent_dogpond_stdev
+  sampling_size: 1000
+  max_age:
+    hours: 72
+
+# delay
+- platform: statistics
+  name: motion_annotated_delay_dogpond_statistics
+  entity_id: sensor.motion_annotated_delay_dogpond
+  sampling_size: 1000
+  max_age:
+    hours: 72
+- platform: statistics
+  name: motion_annotated_delay_dogpond_stdev_statistics
+  entity_id: sensor.motion_annotated_delay_dogpond_stdev
+  sampling_size: 1000
+  max_age:
+    hours: 72
+
+###
+## detected
+###
+
+## status
+- platform: template
+  sensors:
+    motion_detected_status_dogpond:
+      friendly_name: dogpond Seen
+      entity_id:
+        - sensor.motion_detected_when_dogpond
+      value_template: >-
+        {% set when = states('sensor.motion_detected_when_dogpond') %}
+        {% set count = states('sensor.motion_detected_count_dogpond')|int %}
+        {% set what = states('sensor.motion_detected_list_dogpond') %}
+        {{ count }} entities: {{ what -}}; {{ when }}
+
+## count
+- platform: template
+  sensors:
+    # count
+    motion_detected_count_dogpond:
+      friendly_name: dogpond detected count
+      entity_id:
+        - binary_sensor.motion_detected_dogpond
+      unit_of_measurement: entities
+      value_template: >-
+        {{ states('sensor.motion_annotated_count_dogpond')|int }}
+
+## counter
+- platform: template
+  sensors:
+    motion_detected_counter_dogpond:
+      friendly_name: dogpond detected counter
+      entity_id:
+        - sensor.motion_detected_count_dogpond
+      unit_of_measurement: count
+      value_template: >
+        {% if states('counter.motion_detected_counter_dogpond') != 'unknown' %}
+          {{ states('counter.motion_detected_counter_dogpond')|int }}
+        {%- else -%}null{%- endif -%}
+
+## date
+- platform: template
+  sensors:
+    motion_detected_date_dogpond:
+      friendly_name: dogpond detected date
+      entity_id:
+        - sensor.motion_detected_counter_dogpond
+      unit_of_measurement: seconds
+      value_template: >-
+        {% set date = states('sensor.motion_annotated_date_dogpond')|int %}
+        {% if date > 0 %}{{ date }}{% else %}null{% endif %}
+
+## when
+- platform: template
+  sensors:
+    motion_detected_when_dogpond:
+      friendly_name: dogpond detected at
+      entity_id:
+        - sensor.motion_detected_date_dogpond
+      value_template: >-
+        {% set date = states('sensor.motion_detected_date_dogpond')|int %}
+        {% if date > 0 %} {{ date|timestamp_custom("%a %b %d ~ %I:%M %p") }} {% else %}never{% endif %}
+
+## ago
+- platform: template
+  sensors:
+    motion_detected_ago_dogpond:
+      friendly_name: dogpond seen ago
+      entity_id:
+        - sensor.motion_detected_date_dogpond
+        - sensor.time
+      unit_of_measurement: seconds
+      value_template: >
+        {% set s = states('sensor.motion_detected_date_dogpond')|int %}
+        {% if s >  0 %}
+          {% set s = now().timestamp()|int - s %}
+          {% if s <  86400 %}{{ s }}{%- else -%}null{%- endif -%}
+        {%- else -%}null{%- endif -%}
+
+## list
+- platform: template
+  sensors:
+    motion_detected_list_dogpond:
+      friendly_name: dogpond entity list
+      entity_id:
+        - sensor.motion_detected_count_dogpond
+      value_template: >-
+        {{ states('sensor.motion_annotated_list_dogpond') }}
+
+## percent
+- platform: template
+  sensors:
+    motion_detected_percent_dogpond:
+      friendly_name: dogpond seen
+      entity_id:
+        - sensor.motion_annotated_counter_dogpond
+        - sensor.motion_detected_counter_dogpond
+      unit_of_measurement: '%'
+      value_template: >-
+        {% if states('sensor.motion_detected_counter_dogpond')|int > 0 and states('sensor.motion_annotated_counter_dogpond')|int > 0 %}
+          {{  ( states.sensor.motion_detected_counter_dogpond.state|int / states.sensor.motion_annotated_counter_dogpond.state|int ) * 100.0 }}
+        {%- else -%}null{%- endif -%}
+
+###
+## statistics
+###
+
+## ago
+- platform: template
+  sensors:
+    motion_detected_ago_dogpond_mean:
+      friendly_name: dogpond seen ago avg
+      entity_id:
+        - sensor.motion_detected_ago_dogpond_statistics
+      unit_of_measurement: seconds
+      value_template: >-
+        {% if states.sensor.motion_detected_ago_dogpond_statistics|lower != 'none' %}
+          {% if states.sensor.motion_detected_ago_dogpond_statistics.state|int is number %}
+            {{ states.sensor.motion_detected_ago_dogpond_statistics.state|float }}
+          {%- else -%}null{%- endif -%}
+        {%- else -%}null{%- endif -%}
+    motion_detected_ago_dogpond_min_value:
+      friendly_name: dogpond seen ago min
+      entity_id:
+        - sensor.motion_detected_ago_dogpond_statistics
+      unit_of_measurement: seconds
+      value_template: >-
+        {% if states.sensor.motion_detected_ago_dogpond_statistics|lower != 'none' %}
+          {{ states.sensor.motion_detected_ago_dogpond_statistics.attributes.min_value|int }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_ago_dogpond_max_value:
+      friendly_name: dogpond seen ago max
+      entity_id:
+        - sensor.motion_detected_ago_dogpond_statistics
+      unit_of_measurement: seconds
+      value_template: >-
+        {% if states.sensor.motion_detected_ago_dogpond_statistics|lower != 'none' %}
+          {{ states.sensor.motion_detected_ago_dogpond_statistics.attributes.max_value|int }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_ago_dogpond_stdev:
+      friendly_name: dogpond seen ago stdev
+      entity_id:
+        - sensor.motion_detected_ago_dogpond_statistics
+      unit_of_measurement: seconds
+      value_template: >
+        {% if states.sensor.motion_detected_ago_dogpond_statistics|lower != 'none' %}
+          {{ states.sensor.motion_detected_ago_dogpond_statistics.attributes.standard_deviation|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_ago_dogpond_change:
+      friendly_name: dogpond ago change
+      entity_id:
+        - sensor.motion_detected_ago_dogpond_statistics
+      unit_of_measurement: seconds
+      value_template: >
+        {% if states.sensor.motion_detected_ago_dogpond_statistics|lower != 'none' %}
+          {{ states.sensor.motion_detected_ago_dogpond_statistics.attributes.change|float }}
+        {%- else -%}null{%- endif -%}
+
+## count
+- platform: template
+  sensors:
+    motion_detected_count_mean_dogpond:
+      friendly_name: dogpond seen avg
+      entity_id:
+        - sensor.motion_detected_count_dogpond_statistics
+      unit_of_measurement: entities
+      value_template: >-
+        {% if states('sensor.motion_detected_count_dogpond_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_count_dogpond_statistics.state|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_count_dogpond_min_value:
+      friendly_name: dogpond seen min
+      entity_id:
+        - sensor.motion_detected_count_dogpond_statistics
+      unit_of_measurement: entities
+      value_template: >-
+        {% if states('sensor.motion_detected_count_dogpond_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_count_dogpond_statistics.attributes.min_value|int }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_count_dogpond_max_value:
+      friendly_name: dogpond seen max
+      entity_id:
+        - sensor.motion_detected_count_dogpond_statistics
+      unit_of_measurement: entities
+      value_template: >-
+        {% if states('sensor.motion_detected_count_dogpond_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_count_dogpond_statistics.attributes.max_value|int }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_count_dogpond_stdev:
+      friendly_name: dogpond seen stdev
+      entity_id:
+        - sensor.motion_detected_count_dogpond_statistics
+      unit_of_measurement: entities
+      value_template: >
+        {% if states('sensor.motion_detected_count_dogpond_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_count_dogpond_statistics.attributes.standard_deviation|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_count_dogpond_change:
+      friendly_name: dogpond seen change
+      entity_id:
+        - sensor.motion_detected_count_dogpond_statistics
+      unit_of_measurement: entities
+      value_template: >
+        {% if states('sensor.motion_detected_count_dogpond_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_count_dogpond_statistics.attributes.change|float }}
+        {%- else -%}null{%- endif -%}
+
+## percent
+- platform: template
+  sensors:
+    motion_detected_percent_dogpond_mean:
+      friendly_name: dogpond seen avg
+      entity_id:
+        - sensor.motion_detected_percent_dogpond_statistics
+      unit_of_measurement: '%'
+      value_template: >-
+        {% if states('sensor.motion_detected_percent_dogpond_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_percent_dogpond_statistics.state|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_percent_dogpond_min_value:
+      friendly_name: dogpond seen min
+      entity_id:
+        - sensor.motion_detected_percent_dogpond_statistics
+      unit_of_measurement: '%'
+      value_template: >-
+        {% if states('sensor.motion_detected_percent_dogpond_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_percent_dogpond_statistics.attributes.min_value|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_percent_dogpond_max_value:
+      friendly_name: dogpond seen max
+      entity_id:
+        - sensor.motion_detected_percent_dogpond_statistics
+      unit_of_measurement: '%'
+      value_template: >-
+        {% if states('sensor.motion_detected_percent_dogpond_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_percent_dogpond_statistics.attributes.max_value|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_percent_dogpond_stdev:
+      friendly_name: dogpond seen stdev
+      entity_id:
+        - sensor.motion_detected_percent_dogpond_statistics
+      unit_of_measurement: '%'
+      value_template: >
+        {% if states('sensor.motion_detected_percent_dogpond_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_percent_dogpond_statistics.attributes.standard_deviation|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_percent_dogpond_change:
+      friendly_name: dogpond seen change
+      entity_id:
+        - sensor.motion_detected_percent_dogpond_statistics
+      unit_of_measurement: '%'
+      value_template: >
+        {% if states('sensor.motion_detected_percent_dogpond_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_percent_dogpond_statistics.attributes.change|float }}
+        {%- else -%}null{%- endif -%}
+
+## statistics
+
+# ago
+- platform: statistics
+  name: motion_detected_ago_dogpond_statistics
+  entity_id: sensor.motion_detected_ago_dogpond
+  sampling_size: 1000
+  max_age:
+    hours: 72
+- platform: statistics
+  name: motion_detected_ago_dogpond_stdev_statistics
+  entity_id: sensor.motion_detected_ago_dogpond_stdev
+  sampling_size: 1000
+  max_age:
+    hours: 72
+
+# count
+- platform: statistics
+  name: motion_detected_count_dogpond_statistics
+  entity_id: sensor.motion_detected_count_dogpond
+  sampling_size: 1000
+  max_age:
+    hours: 72
+- platform: statistics
+  name: motion_detected_count_dogpond_stdev_statistics
+  entity_id: sensor.motion_detected_count_dogpond_stdev
+  sampling_size: 1000
+  max_age:
+    hours: 72
+
+# percent
+- platform: statistics
+  name: motion_detected_percent_dogpond_statistics
+  entity_id: sensor.motion_detected_percent_dogpond
+  sampling_size: 1000
+  max_age:
+    hours: 72
+- platform: statistics
+  name: motion_detected_percent_dogpond_stdev_statistics
+  entity_id: sensor.motion_detected_percent_dogpond_stdev
+  sampling_size: 1000
+  max_age:
+    hours: 72
+
+###
+## detected_entity
+###
+
+## status
+- platform: template
+  sensors:
+    motion_detected_entity_status_dogpond:
+      friendly_name: dogpond found
+      entity_id:
+        - sensor.motion_detected_entity_when_dogpond
+      value_template: >-
+        {% set count = states('sensor.motion_detected_entity_count_dogpond')|int %}
+        {% set what = states('sensor.motion_detect_entity') %}
+        {% set when = states('sensor.motion_detected_entity_when_dogpond') %}
+        {{ count }} {{ what -}}(s); {{ when }}
+
+## count
+- platform: template
+  sensors:
+    motion_detected_entity_count_dogpond:
+      friendly_name: dogpond found
+      unit_of_measurement: entities
+      entity_id:
+        - binary_sensor.motion_detected_entity_dogpond
+      value_template: >-
+        {{ states('sensor.motion_annotated_entity_count_dogpond')|int }}
+
+## counter
+- platform: template
+  sensors:
+    motion_detected_entity_counter_dogpond:
+      friendly_name: dogpond found counter
+      entity_id:
+        - sensor.motion_detected_entity_when_dogpond
+      unit_of_measurement: count
+      value_template: >
+        {% if states('counter.motion_detected_entity_counter_dogpond') != 'unknown' %}
+          {{ states('counter.motion_detected_entity_counter_dogpond')|int }}
+        {%- else -%}null{%- endif -%}
+
+## date
+- platform: template
+  sensors:
+    motion_detected_entity_date_dogpond:
+      entity_id:
+        - sensor.motion_detected_entity_count_dogpond
+      unit_of_measurement: seconds
+      value_template: >-
+        {% set date = states('sensor.motion_annotated_date_dogpond')|int %}
+        {% if date > 0 %}{{ date }}{% else %}null{% endif %}
+
+## when - human readable
+- platform: template
+  sensors:
+    motion_detected_entity_when_dogpond:
+      friendly_name: dogpond identified at
+      entity_id:
+        - sensor.motion_detected_entity_date_dogpond
+      value_template: >-
+        {% set date = states('sensor.motion_detected_entity_date_dogpond')|int %}
+        {% if date > 0 %}{{ date|timestamp_custom("%a %b %d ~ %I:%M %p") }}{% else %}never{% endif %}
+
+## ago
+- platform: template
+  sensors:
+    motion_detected_entity_ago_dogpond:
+      friendly_name: dogpond found ago
+      entity_id:
+        - sensor.motion_detected_entity_date_dogpond
+        - sensor.time
+      unit_of_measurement: seconds
+      value_template: >
+        {% set s = states('sensor.motion_detected_entity_date_dogpond')|int %}
+        {% if s >  0 %}
+          {% set s = now().timestamp()|int - s %}
+          {% if s <  86400 %}{{ s }}{% else %}null{% endif %}
+        {%- else -%}null{%- endif -%}
+
+## percent
+- platform: template
+  sensors:
+    motion_detected_entity_percent_dogpond:
+      friendly_name: dogpond found
+      entity_id:
+        - sensor.motion_annotated_counter_dogpond
+        - sensor.motion_detected_entity_counter_dogpond
+      unit_of_measurement: '%'
+      value_template: >-
+        {% if states('sensor.motion_detected_entity_counter_dogpond')|int > 0 and states('sensor.motion_annotated_counter_dogpond')|int > 0 %}
+          {{ states('sensor.motion_detected_entity_counter_dogpond')|int / states('sensor.motion_annotated_counter_dogpond')|int * 100.0 }}
+        {%- else -%}null{%- endif -%}
+
+###
+# statistics
+###
+
+## count
+- platform: template
+  sensors:
+    motion_detected_entity_count_mean_dogpond:
+      friendly_name: dogpond found avg
+      entity_id:
+        - sensor.motion_detected_entity_count_dogpond_statistics
+      unit_of_measurement: entities
+      value_template: >-
+        {% if states('sensor.motion_detected_entity_count_dogpond_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_entity_count_dogpond_statistics.state|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_count_dogpond_min_value:
+      friendly_name: dogpond found min
+      entity_id:
+        - sensor.motion_detected_entity_count_dogpond_statistics
+      unit_of_measurement: entities
+      value_template: >-
+        {% if states('sensor.motion_detected_entity_count_dogpond_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_entity_count_dogpond_statistics.attributes.min_value|int }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_count_dogpond_max_value:
+      friendly_name: dogpond found max
+      entity_id:
+        - sensor.motion_detected_entity_count_dogpond_statistics
+      unit_of_measurement: entities
+      value_template: >-
+        {% if states('sensor.motion_detected_entity_count_dogpond_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_entity_count_dogpond_statistics.attributes.max_value|int }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_count_dogpond_stdev:
+      friendly_name: dogpond found stdev
+      entity_id:
+        - sensor.motion_detected_entity_count_dogpond_statistics
+      unit_of_measurement: entities
+      value_template: >
+        {% if states('sensor.motion_detected_entity_count_dogpond_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_entity_count_dogpond_statistics.attributes.standard_deviation|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_count_dogpond_change:
+      friendly_name: dogpond found change
+      entity_id:
+        - sensor.motion_detected_entity_count_dogpond_statistics
+      unit_of_measurement: entities
+      value_template: >
+        {% if states('sensor.motion_detected_entity_count_dogpond_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_entity_count_dogpond_statistics.attributes.change|float }}
+        {%- else -%}null{%- endif -%}
+
+## counter
+- platform: template
+  sensors:
+    motion_detected_entity_counter_dogpond_mean:
+      friendly_name: dogpond found avg
+      entity_id:
+        - sensor.motion_detected_entity_counter_dogpond_statistics
+      unit_of_measurement: count
+      value_template: >-
+        {% if states.sensor.motion_detected_entity_counter_dogpond_statistics|lower != 'none' %}
+          {% if states.sensor.motion_detected_entity_counter_dogpond_statistics.state|int is number %}
+            {{ states.sensor.motion_detected_entity_counter_dogpond_statistics.state|float }}
+          {%- else -%}null{%- endif -%}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_counter_dogpond_min_value:
+      friendly_name: dogpond found min
+      entity_id:
+        - sensor.motion_detected_entity_counter_dogpond_statistics
+      unit_of_measurement: count
+      value_template: >-
+        {% if states.sensor.motion_detected_entity_counter_dogpond_statistics|lower != 'none' %}
+          {{ states.sensor.motion_detected_entity_counter_dogpond_statistics.attributes.min_value|int }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_counter_dogpond_max_value:
+      friendly_name: dogpond found max
+      entity_id:
+        - sensor.motion_detected_entity_counter_dogpond_statistics
+      unit_of_measurement: count
+      value_template: >-
+        {% if states.sensor.motion_detected_entity_counter_dogpond_statistics|lower != 'none' %}
+          {{ states.sensor.motion_detected_entity_counter_dogpond_statistics.attributes.max_value|int }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_counter_dogpond_stdev:
+      friendly_name: dogpond found stdev
+      entity_id:
+        - sensor.motion_detected_entity_counter_dogpond_statistics
+      unit_of_measurement: count
+      value_template: >
+        {% if states.sensor.motion_detected_entity_counter_dogpond_statistics|lower != 'none' %}
+          {{ states.sensor.motion_detected_entity_counter_dogpond_statistics.attributes.standard_deviation|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_counter_dogpond_change:
+      friendly_name: dogpond found change
+      entity_id:
+        - sensor.motion_detected_entity_counter_dogpond_statistics
+      unit_of_measurement: count
+      value_template: >
+        {% if states.sensor.motion_detected_entity_counter_dogpond_statistics|lower != 'none' %}
+          {{ states.sensor.motion_detected_entity_counter_dogpond_statistics.attributes.change|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_counter_dogpond_stdev_change:
+      friendly_name: dogpond found stdev change
+      entity_id:
+        - sensor.motion_detected_entity_counter_dogpond_stdev_statistics
+      unit_of_measurement: count
+      value_template: >
+        {% if states.sensor.motion_detected_entity_counter_dogpond_stdev_statistics|lower != 'none' %}
+          {{ states.sensor.motion_detected_entity_counter_dogpond_stdev_statistics.attributes.change|float }}
+        {%- else -%}null{%- endif -%}
+
+## ago
+- platform: template
+  sensors:
+    motion_detected_entity_ago_dogpond_mean:
+      friendly_name: dogpond found ago avg
+      entity_id:
+        - sensor.motion_detected_entity_ago_dogpond_statistics
+      unit_of_measurement: seconds
+      value_template: >-
+        {% if states.sensor.motion_detected_entity_ago_dogpond_statistics|lower != 'none' %}
+          {% if states.sensor.motion_detected_entity_ago_dogpond_statistics.state|int is number %}
+            {{ states.sensor.motion_detected_entity_ago_dogpond_statistics.state|float }}
+          {%- else -%}null{%- endif -%}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_ago_dogpond_min_value:
+      friendly_name: dogpond found ago min
+      entity_id:
+        - sensor.motion_detected_entity_ago_dogpond_statistics
+      unit_of_measurement: seconds
+      value_template: >-
+        {% if states.sensor.motion_detected_entity_ago_dogpond_statistics|lower != 'none' %}
+          {{ states.sensor.motion_detected_entity_ago_dogpond_statistics.attributes.min_value|int }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_ago_dogpond_max_value:
+      friendly_name: dogpond found ago max
+      entity_id:
+        - sensor.motion_detected_entity_ago_dogpond_statistics
+      unit_of_measurement: seconds
+      value_template: >-
+        {% if states.sensor.motion_detected_entity_ago_dogpond_statistics|lower != 'none' %}
+          {{ states.sensor.motion_detected_entity_ago_dogpond_statistics.attributes.max_value|int }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_ago_dogpond_stdev:
+      friendly_name: dogpond found ago stdev
+      entity_id:
+        - sensor.motion_detected_entity_ago_dogpond_statistics
+      unit_of_measurement: seconds
+      value_template: >
+        {% if states.sensor.motion_detected_entity_ago_dogpond_statistics|lower != 'none' %}
+          {{ states.sensor.motion_detected_entity_ago_dogpond_statistics.attributes.standard_deviation|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_ago_dogpond_change:
+      friendly_name: dogpond found ago change
+      entity_id:
+        - sensor.motion_detected_entity_ago_dogpond_statistics
+      unit_of_measurement: seconds
+      value_template: >
+        {% if states.sensor.motion_detected_entity_ago_dogpond_statistics|lower != 'none' %}
+          {{ states.sensor.motion_detected_entity_ago_dogpond_statistics.attributes.change|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_ago_dogpond_stdev_change:
+      friendly_name: dogpond found ago stdev change
+      entity_id:
+        - sensor.motion_detected_entity_ago_dogpond_stdev_statistics
+      unit_of_measurement: seconds
+      value_template: >
+        {% if states.sensor.motion_detected_entity_ago_dogpond_stdev_statistics|lower != 'none' %}
+          {{ states.sensor.motion_detected_entity_ago_dogpond_stdev_statistics.attributes.change|float }}
+        {%- else -%}null{%- endif -%}
+
+## percent
+- platform: template
+  sensors:
+    motion_detected_entity_percent_dogpond_mean:
+      friendly_name: dogpond found avg
+      entity_id:
+        - sensor.motion_detected_entity_percent_dogpond_statistics
+      unit_of_measurement: '%'
+      value_template: >-
+        {% if states('sensor.motion_detected_entity_percent_dogpond_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_entity_percent_dogpond_statistics.state|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_percent_dogpond_min_value:
+      friendly_name: dogpond found min
+      entity_id:
+        - sensor.motion_detected_entity_percent_dogpond_statistics
+      unit_of_measurement: '%'
+      value_template: >-
+        {% if states('sensor.motion_detected_entity_percent_dogpond_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_entity_percent_dogpond_statistics.attributes.min_value|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_percent_dogpond_max_value:
+      friendly_name: dogpond found max
+      entity_id:
+        - sensor.motion_detected_entity_percent_dogpond_statistics
+      unit_of_measurement: '%'
+      value_template: >-
+        {% if states('sensor.motion_detected_entity_percent_dogpond_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_entity_percent_dogpond_statistics.attributes.max_value|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_percent_dogpond_stdev:
+      friendly_name: dogpond found stdev
+      entity_id:
+        - sensor.motion_detected_entity_percent_dogpond_statistics
+      unit_of_measurement: '%'
+      value_template: >
+        {% if states('sensor.motion_detected_entity_percent_dogpond_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_entity_percent_dogpond_statistics.attributes.standard_deviation|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_percent_dogpond_change:
+      friendly_name: dogpond found change
+      entity_id:
+        - sensor.motion_detected_entity_percent_dogpond_statistics
+      unit_of_measurement: '%'
+      value_template: >
+        {% if states('sensor.motion_detected_entity_percent_dogpond_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_entity_percent_dogpond_statistics.attributes.change|float }}
+        {%- else -%}null{%- endif -%}
+
+## statistics
+
+# count
+- platform: statistics
+  name: motion_detected_entity_count_dogpond_statistics
+  entity_id: sensor.motion_detected_entity_count_dogpond
+  sampling_size: 1000
+  max_age:
+    hours: 72
+- platform: statistics
+  name: motion_detected_entity_count_dogpond_stdev_statistics
+  entity_id: sensor.motion_detected_entity_count_dogpond_stdev
+  sampling_size: 1000
+  max_age:
+    hours: 72
+
+# counter
+- platform: statistics
+  name: motion_detected_entity_counter_dogpond_statistics
+  entity_id: sensor.motion_detected_entity_counter_dogpond
+  sampling_size: 1000
+  max_age:
+    hours: 72
+- platform: statistics
+  name: motion_detected_entity_counter_dogpond_stdev_statistics
+  entity_id: sensor.motion_detected_entity_counter_dogpond_stdev
+  sampling_size: 1000
+  max_age:
+    hours: 72
+
+# ago
+- platform: statistics
+  name: motion_detected_entity_ago_dogpond_statistics
+  entity_id: sensor.motion_detected_entity_ago_dogpond
+  sampling_size: 1000
+  max_age:
+    hours: 72
+- platform: statistics
+  name: motion_detected_entity_ago_dogpond_stdev_statistics
+  entity_id: sensor.motion_detected_entity_ago_dogpond_stdev
+  sampling_size: 1000
+  max_age:
+    hours: 72
+
+# percent
+- platform: statistics
+  name: motion_detected_entity_percent_dogpond_statistics
+  entity_id: sensor.motion_detected_entity_percent_dogpond
+  sampling_size: 1000
+  max_age:
+    hours: 72
+- platform: statistics
+  name: motion_detected_entity_percent_dogpond_stdev_statistics
+  entity_id: sensor.motion_detected_entity_percent_dogpond_stdev
+  sampling_size: 1000
+  max_age:
+    hours: 72
+
+###
+# snapshot
+###
+
+- platform: template
+  sensors:
+    motion_end_snapshot_dogpond:
+      entity_id:
+        - sensor.motion_end_counter_dogpond
+      value_template: >-
+        {% set bu = states('sensor.motion_base_url') %}
+        {% if bu != 'unknown' %}
+          {{ bu + '/local/images/motion_end-dogpond.jpg' }}
+        {% else %}{{ states('sensor.motion_testsignal_picture') }}{% endif %}
+
+- platform: template
+  sensors:
+    motion_annotated_snapshot_dogpond:
+      entity_id:
+        - sensor.motion_annotated_counter_dogpond
+      value_template: >-
+        {% set bu = states('sensor.motion_base_url') %}
+        {% if bu != 'unknown' %}
+          {{ bu + '/local/images/motion_annotated-dogpond.jpg' }}
+        {% else %}{{ states('sensor.motion_testsignal_picture') }}{% endif %}
+
+- platform: template
+  sensors:
+    motion_detected_snapshot_dogpond:
+      entity_id:
+        - sensor.motion_detected_counter_dogpond
+      value_template: >-
+        {% set bu = states('sensor.motion_base_url') %}
+        {% if bu != 'unknown' %}
+          {{ bu + '/local/images/motion_detected-dogpond.jpg' }}
+        {% else %}{{ states('sensor.motion_testsignal_picture') }}{% endif %}
+
+- platform: template
+  sensors:
+    motion_detected_entity_snapshot_dogpond:
+      entity_id:
+        - sensor.motion_detected_entity_counter_dogpond
+      value_template: >-
+        {% set bu = states('sensor.motion_base_url') %}
+        {% if bu != 'unknown' %}
+          {{ bu + '/local/images/motion_detected_entity-dogpond.jpg' }}
+        {% else %}{{ states('sensor.motion_testsignal_picture') }}{% endif %}
+
+###
+## picture
+###
+
+- platform: template
+  sensors:
+    motion_end_picture_dogpond:
+      entity_id:
+        - sensor.motion_event_end_dogpond
+        - camera.motion_event_end_dogpond
+      value_template: >-
+        {% set bu = states('sensor.motion_base_url') %}
+        {% set ep = state_attr('camera.motion_event_end_dogpond','entity_picture') %}
+        {% if ep is not none and ep != 'unknown' and ep != 'null' and bu != 'unknown' %}
+          {% set p = bu + ep %}
+        {% else %}
+          {% set p = states('sensor.motion_testsignal_picture') %}
+        {% endif %}
+        {% if p is defined and p is not none and p != 'unknown' and p != 'null' %}
+          {{ p }}
+        {% else %}
+           {{ states('sensor.motion_nosignal_picture') }}
+        {% endif %}
+
+- platform: template
+  sensors:
+    motion_annotated_picture_dogpond:
+      entity_id:
+        - sensor.motion_event_annotated_dogpond
+        - camera.motion_event_annotated_dogpond
+      value_template: >-
+        {% set bu = states('sensor.motion_base_url') %}
+        {% set ep = state_attr('camera.motion_event_annotated_dogpond','entity_picture') %}
+        {% if ep is not none and ep != 'unknown' and ep != 'null' and bu != 'unknown' %}
+          {% set p = bu + ep %}
+        {% else %}
+          {% set p = states('sensor.motion_testsignal_picture') %}
+        {% endif %}
+        {% if p is defined and p is not none and p != 'unknown' and p != 'null' %}
+          {{ p }}
+        {% else %}
+           {{ states('sensor.motion_nosignal_picture') }}
+        {% endif %}
+
+- platform: template
+  sensors:
+    motion_detected_picture_dogpond:
+      friendly_name: dogpond detected picture
+      entity_id:
+        - sensor.motion_annotated_picture_dogpond
+        - sensor.motion_detected_counter_dogpond
+      value_template: >-
+        {% set n = states('sensor.motion_annotated_count_dogpond')|int %}
+        {% if n > 0 %}
+          {% set p = states('sensor.motion_annotated_picture_dogpond') %}
+        {% else %}
+          {% set p = states('sensor.motion_detected_picture_dogpond') %}
+        {% endif %}
+        {% if p is not none and p != 'unknown' and p != 'null' %}
+          {{ p }}
+        {% else %}
+          {{ states('sensor.motion_nosignal_picture') }}
+        {% endif %}
+
+- platform: template
+  sensors:
+    motion_detected_entity_picture_dogpond:
+      friendly_name: dogpond detected entity picture
+      entity_id:
+        - sensor.motion_detected_picture_dogpond
+        - sensor.motion_detected_entity_counter_dogpond
+      value_template: >-
+        {% set n = states('sensor.motion_annotated_entity_count_dogpond')|int %}
+        {% if n > 0 %}
+          {% set p = states('sensor.motion_annotated_picture_dogpond') %}
+        {% else %}
+          {% set p = states('sensor.motion_detected_entity_picture_dogpond') %}
+        {% endif %}
+        {% if p is not none and p != 'unknown' and p != 'null' %}
+          {{ p }}
+        {% else %}
+           {{ states('sensor.motion_nosignal_picture') }}
+        {% endif %}
+
+###
+# complete
+###
+
+- platform: template
+  sensors:
+    motion_complete_dogpond:
+      unit_of_measurement: seconds
+      friendly_name: dogpond complete
+      entity_id:
+        - camera.motion_event_annotated_dogpond
+        - sensor.motion_event_annotated_dogpond
+      value_template: >
+        {% set c = as_timestamp(states.camera.motion_event_annotated_dogpond.last_updated) %}
+        {% set s = as_timestamp(states.sensor.motion_event_annotated_dogpond.last_updated) %}
+        {{  c|float - s|float }}
+
+# complete statistics
+- platform: template
+  sensors:
+    motion_detected_entity_complete_dogpond_mean:
+      friendly_name: dogpond complete avg
+      entity_id:
+        - sensor.motion_detected_entity_complete_dogpond_statistics
+      unit_of_measurement: '%'
+      value_template: >-
+        {% if states('sensor.motion_detected_entity_complete_dogpond_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_entity_complete_dogpond_statistics.state|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_complete_dogpond_min_value:
+      friendly_name: dogpond complete min
+      entity_id:
+        - sensor.motion_detected_entity_complete_dogpond_statistics
+      unit_of_measurement: '%'
+      value_template: >-
+        {% if states('sensor.motion_detected_entity_complete_dogpond_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_entity_complete_dogpond_statistics.attributes.min_value|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_complete_dogpond_max_value:
+      friendly_name: dogpond complete max
+      entity_id:
+        - sensor.motion_detected_entity_complete_dogpond_statistics
+      unit_of_measurement: '%'
+      value_template: >-
+        {% if states('sensor.motion_detected_entity_complete_dogpond_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_entity_complete_dogpond_statistics.attributes.max_value|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_complete_dogpond_stdev:
+      friendly_name: dogpond complete stdev
+      entity_id:
+        - sensor.motion_detected_entity_complete_dogpond_statistics
+      unit_of_measurement: '%'
+      value_template: >
+        {% if states('sensor.motion_detected_entity_complete_dogpond_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_entity_complete_dogpond_statistics.attributes.standard_deviation|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_complete_dogpond_change:
+      friendly_name: dogpond complete change
+      entity_id:
+        - sensor.motion_detected_entity_complete_dogpond_statistics
+      unit_of_measurement: '%'
+      value_template: >
+        {% if states('sensor.motion_detected_entity_complete_dogpond_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_entity_complete_dogpond_statistics.attributes.change|float }}
+        {%- else -%}null{%- endif -%}
+
+# statistics
+- platform: statistics
+  name: motion_detected_entity_complete_dogpond_statistics
+  entity_id: sensor.motion_detected_entity_complete_dogpond
+  sampling_size: 1000
+  max_age:
+    hours: 72
+- platform: statistics
+  name: motion_detected_entity_complete_dogpond_stdev_statistics
+  entity_id: sensor.motion_detected_entity_complete_dogpond_stdev
+  sampling_size: 1000
+  max_age:
+    hours: 72
+
+###
+### variable detection; produce array of booleans
+###
+
+- platform: template
+  sensors:
+    motion_detected_person_dogpond:
+      entity_id:
+        - binary_sensor.motion_detected_dogpond
+        - sensor.motion_detected_ago_dogpond
+      value_template: >-
+        {% if states.sensor.motion_event_annotated_dogpond|lower != 'none'
+              and state_attr('sensor.motion_event_annotated_dogpond','detected')|lower != 'none'
+              and states.sensor.motion_event_annotated_dogpond.attributes.count|int > 0
+              and state_attr('input_select.motion_detect_person','options')|lower != 'none' %}
+          {% for detected in states.sensor.motion_event_annotated_dogpond.attributes.detected %}
+            {%- if loop.first -%}[{%- else -%},{%- endif -%}
+            {% if detected.entity in state_attr('input_select.motion_detect_person','options') %}{{ detected.count }}{% else %}0{% endif %}
+            {%- if loop.last -%}]{%- endif -%}
+          {% endfor %}
+        {% else %}null{% endif %}
+
+- platform: template
+  sensors:
+    motion_detected_vehicle_dogpond:
+      entity_id:
+        - binary_sensor.motion_detected_dogpond
+        - sensor.motion_detected_ago_dogpond
+      value_template: >-
+        {% if states.sensor.motion_event_annotated_dogpond|lower != 'none'
+              and state_attr('sensor.motion_event_annotated_dogpond','detected')|lower != 'none'
+              and states.sensor.motion_event_annotated_dogpond.attributes.count|int > 0
+              and state_attr('input_select.motion_detect_vehicle','options')|lower != 'none' %}
+          {% for detected in states.sensor.motion_event_annotated_dogpond.attributes.detected %}
+            {%- if loop.first -%}[{%- else -%},{%- endif -%}
+            {% if detected.entity in state_attr('input_select.motion_detect_vehicle','options') %}{{ detected.count }}{% else %}0{% endif %}
+            {%- if loop.last -%}]{%- endif -%}
+          {% endfor %}
+        {% else %}null{% endif %}
+
+- platform: template
+  sensors:
+    motion_detected_animal_dogpond:
+      entity_id:
+        - binary_sensor.motion_detected_dogpond
+        - sensor.motion_detected_ago_dogpond
+      value_template: >-
+        {% if states.sensor.motion_event_annotated_dogpond|lower != 'none'
+              and state_attr('sensor.motion_event_annotated_dogpond','detected')|lower != 'none'
+              and states.sensor.motion_event_annotated_dogpond.attributes.count|int > 0
+              and state_attr('input_select.motion_detect_animal','options')|lower != 'none' %}
+          {% for detected in states.sensor.motion_event_annotated_dogpond.attributes.detected %}
+            {%- if loop.first -%}[{%- else -%},{%- endif -%}
+            {% if detected.entity in state_attr('input_select.motion_detect_animal','options') %}{{ detected.count }}{% else %}0{% endif %}
+            {%- if loop.last -%}]{%- endif -%}
+          {% endfor %}
+        {% else %}null{% endif %}

@@ -1,0 +1,62 @@
+###
+# group/webcam-woodshed.yaml
+###
+
+motion_woodshed:
+  name: Status woodshed
+  view: true
+  icon: mdi:warehouse
+  control: hidden
+  entities:
+    - camera.motion_live_woodshed
+    - camera.motion_event_annotated_woodshed
+    - camera.motion_event_end_woodshed
+    - camera.motion_event_animated_woodshed
+    - camera.motion_event_animated_mask_woodshed
+    - camera.motion_event_composite_woodshed
+    - group.motion_woodshed_brief
+    - group.motion_woodshed_summary
+
+
+motion_woodshed_brief:
+  name: motion_woodshed_brief
+  control: hidden
+  entities:
+    - camera.motion_detected_entity_picture_woodshed
+    - camera.motion_detected_picture_woodshed
+    - camera.motion_annotated_picture_woodshed
+    - camera.motion_end_picture_woodshed
+    - sensor.motion_detected_entity_status_woodshed
+    - sensor.motion_detected_status_woodshed
+    - sensor.motion_annotated_status_woodshed
+    - sensor.motion_end_status_woodshed
+    - sensor.motion_annotated_delay_woodshed_mean
+    - sensor.motion_status_camera_found_when_woodshed
+    - sensor.motion_status_camera_lost_when_woodshed
+
+motion_woodshed_summary:
+  name: motion_woodshed_summary
+  control: hidden
+  entities:
+    - binary_sensor.motion_detected_entity_woodshed
+    - sensor.motion_detected_entity_count_woodshed
+    - sensor.motion_detected_entity_counter_woodshed
+    - binary_sensor.motion_detected_woodshed
+    - sensor.motion_detected_count_woodshed
+    - sensor.motion_detected_counter_woodshed
+    - binary_sensor.motion_annotated_woodshed
+    - sensor.motion_annotated_count_woodshed
+    - sensor.motion_annotated_entity_count_woodshed
+    - sensor.motion_annotated_counter_woodshed
+    - binary_sensor.motion_end_woodshed
+    - sensor.motion_end_counter_woodshed
+    - sensor.motion_annotated_delay_woodshed
+    - sensor.motion_annotated_ago_woodshed
+    - sensor.motion_end_ago_woodshed
+    - sensor.motion_annotated_percent_woodshed
+    - sensor.motion_annotated_count_woodshed
+    - sensor.motion_annotated_entity_count_woodshed
+    - sensor.motion_annotated_list_woodshed
+    - counter.motion_complete_counter_woodshed
+    - sensor.motion_complete_woodshed
+    - binary_sensor.motion_complete_woodshed

@@ -1,0 +1,33 @@
+###
+### detected_entity_fireplace COUNTER
+###
+
+motion_end_counter_fireplace:
+  name: motion_end_counter_fireplace
+  initial: 0
+  step: 1
+  icon: mdi:counter
+
+motion_annotated_counter_fireplace:
+  name: motion_annotated_counter_fireplace
+  initial: 0
+  step: 1
+  icon: mdi:counter
+
+motion_detected_counter_fireplace:
+  name: motion_detected_counter_fireplace
+  initial: 0
+  step: 1
+  icon: mdi:counter
+
+motion_detected_entity_counter_fireplace:
+  name: motion_detected_entity_counter_fireplace
+  initial: 0
+  step: 1
+  icon: mdi:counter
+
+motion_complete_counter_fireplace:
+  name: motion_complete_counter_fireplace
+  initial: 0
+  step: 1
+  icon: mdi:counter

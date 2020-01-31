@@ -1,0 +1,14 @@
+motion_camera_livingroom:
+  name: motion_camera_livingroom
+  hours_to_show: 72
+  refresh: 30
+  entities:
+    - sensor.motion_annotated_ago_livingroom
+    - sensor.motion_annotated_ago_livingroom_mean
+    - sensor.motion_annotated_ago_livingroom_stdev
+    - sensor.motion_detected_ago_livingroom
+    - sensor.motion_detected_ago_livingroom_mean
+    - sensor.motion_detected_ago_livingroom_stdev
+    - sensor.motion_detected_entity_ago_livingroom
+    - sensor.motion_detected_entity_ago_livingroom_mean
+    - sensor.motion_detected_entity_ago_livingroom_stdev

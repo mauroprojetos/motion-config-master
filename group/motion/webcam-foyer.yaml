@@ -1,0 +1,62 @@
+###
+# group/webcam-foyer.yaml
+###
+
+motion_foyer:
+  name: Status foyer
+  view: true
+  icon: mdi:door
+  control: hidden
+  entities:
+    - camera.motion_live_foyer
+    - camera.motion_event_annotated_foyer
+    - camera.motion_event_end_foyer
+    - camera.motion_event_animated_foyer
+    - camera.motion_event_animated_mask_foyer
+    - camera.motion_event_composite_foyer
+    - group.motion_foyer_brief
+    - group.motion_foyer_summary
+
+
+motion_foyer_brief:
+  name: motion_foyer_brief
+  control: hidden
+  entities:
+    - camera.motion_detected_entity_picture_foyer
+    - camera.motion_detected_picture_foyer
+    - camera.motion_annotated_picture_foyer
+    - camera.motion_end_picture_foyer
+    - sensor.motion_detected_entity_status_foyer
+    - sensor.motion_detected_status_foyer
+    - sensor.motion_annotated_status_foyer
+    - sensor.motion_end_status_foyer
+    - sensor.motion_annotated_delay_foyer_mean
+    - sensor.motion_status_camera_found_when_foyer
+    - sensor.motion_status_camera_lost_when_foyer
+
+motion_foyer_summary:
+  name: motion_foyer_summary
+  control: hidden
+  entities:
+    - binary_sensor.motion_detected_entity_foyer
+    - sensor.motion_detected_entity_count_foyer
+    - sensor.motion_detected_entity_counter_foyer
+    - binary_sensor.motion_detected_foyer
+    - sensor.motion_detected_count_foyer
+    - sensor.motion_detected_counter_foyer
+    - binary_sensor.motion_annotated_foyer
+    - sensor.motion_annotated_count_foyer
+    - sensor.motion_annotated_entity_count_foyer
+    - sensor.motion_annotated_counter_foyer
+    - binary_sensor.motion_end_foyer
+    - sensor.motion_end_counter_foyer
+    - sensor.motion_annotated_delay_foyer
+    - sensor.motion_annotated_ago_foyer
+    - sensor.motion_end_ago_foyer
+    - sensor.motion_annotated_percent_foyer
+    - sensor.motion_annotated_count_foyer
+    - sensor.motion_annotated_entity_count_foyer
+    - sensor.motion_annotated_list_foyer
+    - counter.motion_complete_counter_foyer
+    - sensor.motion_complete_foyer
+    - binary_sensor.motion_complete_foyer

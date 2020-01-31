@@ -1,0 +1,98 @@
+###
+### motion_frontwalk BINARY_SENSOR
+###
+
+- platform: template
+  sensors:
+    motion_end_frontwalk:
+      friendly_name: frontwalk end
+      entity_id:
+        - sensor.motion_event_end_frontwalk
+      value_template: >
+        {{ states('sensor.motion_event_end_frontwalk')|lower == 'true' }}
+
+- platform: template
+  sensors:
+    motion_annotated_frontwalk:
+      friendly_name: frontwalk annotated
+      entity_id:
+        - sensor.motion_event_annotated_frontwalk
+      value_template: >
+        {{ states('sensor.motion_event_annotated_frontwalk')|lower == 'true' }}
+
+- platform: template
+  sensors:
+    motion_detected_frontwalk:
+      friendly_name: frontwalk detected
+      entity_id:
+        - sensor.motion_annotated_count_frontwalk
+      value_template: >
+        {{ states('sensor.motion_annotated_count_frontwalk')|int > 0 }}
+
+- platform: template
+  sensors:
+    motion_detected_entity_frontwalk:
+      friendly_name: frontwalk detected entity
+      entity_id:
+        - sensor.motion_annotated_entity_count_frontwalk
+      value_template: >-
+        {{ states('sensor.motion_annotated_entity_count_frontwalk')|int > 0 }}
+
+##
+
+- platform: template
+  sensors:
+    motion_complete_frontwalk:
+      friendly_name: frontwalk complete
+      entity_id:
+        - sensor.motion_complete_frontwalk
+      value_template: >
+        {% set d = states('sensor.motion_complete_frontwalk')|int %}
+        {{ d > 0 and d < states('input_number.motion_complete')|int }}
+
+##
+
+- platform: template
+  sensors:
+    motion_detected_person_frontwalk:
+      entity_id:
+        - binary_sensor.motion_detected_frontwalk
+        - sensor.motion_detected_ago_frontwalk
+      value_template: >-
+        {% if states.sensor.motion_event_annotated_frontwalk|lower != 'none'
+              and states.sensor.motion_detected_person_frontwalk.state|lower != 'unknown'
+              and states.sensor.motion_detected_person_frontwalk.state|lower != 'none'
+              and states.sensor.motion_detected_person_frontwalk.state|from_json != 'null'
+              and states.sensor.motion_detected_person_frontwalk.state|from_json is iterable %}
+          {{ states.sensor.motion_detected_person_frontwalk.state|from_json|sum|int > 0 }}
+        {% else %}null{% endif %}
+
+- platform: template
+  sensors:
+    motion_detected_vehicle_frontwalk:
+      entity_id:
+        - binary_sensor.motion_detected_frontwalk
+        - sensor.motion_detected_ago_frontwalk
+      value_template: >-
+        {% if states.sensor.motion_event_annotated_frontwalk|lower != 'none'
+              and states.sensor.motion_detected_vehicle_frontwalk.state|lower != 'none'
+              and states.sensor.motion_detected_vehicle_frontwalk.state|lower != 'unknown'
+              and states.sensor.motion_detected_vehicle_frontwalk.state|from_json != 'null'
+              and states.sensor.motion_detected_vehicle_frontwalk.state|from_json is iterable %}
+          {{ states.sensor.motion_detected_vehicle_frontwalk.state|from_json|sum|int > 0 }}
+        {% else %}null{% endif %}
+
+- platform: template
+  sensors:
+    motion_detected_animal_frontwalk:
+      entity_id:
+        - binary_sensor.motion_detected_frontwalk
+        - sensor.motion_detected_ago_frontwalk
+      value_template: >-
+        {% if states.sensor.motion_event_annotated_frontwalk|lower != 'none'
+              and states.sensor.motion_detected_animal_frontwalk.state|lower != 'none'
+              and states.sensor.motion_detected_animal_frontwalk.state|lower != 'unknown'
+              and states.sensor.motion_detected_animal_frontwalk.state|from_json != 'null'
+              and states.sensor.motion_detected_animal_frontwalk.state|from_json is iterable %}
+          {{ states.sensor.motion_detected_animal_frontwalk.state|from_json|sum|int > 0 }}
+        {% else %}null{% endif %}

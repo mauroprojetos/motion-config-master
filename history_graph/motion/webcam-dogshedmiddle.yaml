@@ -1,0 +1,14 @@
+motion_camera_dogshedmiddle:
+  name: motion_camera_dogshedmiddle
+  hours_to_show: 72
+  refresh: 30
+  entities:
+    - sensor.motion_annotated_ago_dogshedmiddle
+    - sensor.motion_annotated_ago_dogshedmiddle_mean
+    - sensor.motion_annotated_ago_dogshedmiddle_stdev
+    - sensor.motion_detected_ago_dogshedmiddle
+    - sensor.motion_detected_ago_dogshedmiddle_mean
+    - sensor.motion_detected_ago_dogshedmiddle_stdev
+    - sensor.motion_detected_entity_ago_dogshedmiddle
+    - sensor.motion_detected_entity_ago_dogshedmiddle_mean
+    - sensor.motion_detected_entity_ago_dogshedmiddle_stdev

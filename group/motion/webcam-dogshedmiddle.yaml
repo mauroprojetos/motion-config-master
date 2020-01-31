@@ -1,0 +1,62 @@
+###
+# group/webcam-dogshedmiddle.yaml
+###
+
+motion_dogshedmiddle:
+  name: Status dogshedmiddle
+  view: true
+  icon: mdi:home-floor-2
+  control: hidden
+  entities:
+    - camera.motion_live_dogshedmiddle
+    - camera.motion_event_annotated_dogshedmiddle
+    - camera.motion_event_end_dogshedmiddle
+    - camera.motion_event_animated_dogshedmiddle
+    - camera.motion_event_animated_mask_dogshedmiddle
+    - camera.motion_event_composite_dogshedmiddle
+    - group.motion_dogshedmiddle_brief
+    - group.motion_dogshedmiddle_summary
+
+
+motion_dogshedmiddle_brief:
+  name: motion_dogshedmiddle_brief
+  control: hidden
+  entities:
+    - camera.motion_detected_entity_picture_dogshedmiddle
+    - camera.motion_detected_picture_dogshedmiddle
+    - camera.motion_annotated_picture_dogshedmiddle
+    - camera.motion_end_picture_dogshedmiddle
+    - sensor.motion_detected_entity_status_dogshedmiddle
+    - sensor.motion_detected_status_dogshedmiddle
+    - sensor.motion_annotated_status_dogshedmiddle
+    - sensor.motion_end_status_dogshedmiddle
+    - sensor.motion_annotated_delay_dogshedmiddle_mean
+    - sensor.motion_status_camera_found_when_dogshedmiddle
+    - sensor.motion_status_camera_lost_when_dogshedmiddle
+
+motion_dogshedmiddle_summary:
+  name: motion_dogshedmiddle_summary
+  control: hidden
+  entities:
+    - binary_sensor.motion_detected_entity_dogshedmiddle
+    - sensor.motion_detected_entity_count_dogshedmiddle
+    - sensor.motion_detected_entity_counter_dogshedmiddle
+    - binary_sensor.motion_detected_dogshedmiddle
+    - sensor.motion_detected_count_dogshedmiddle
+    - sensor.motion_detected_counter_dogshedmiddle
+    - binary_sensor.motion_annotated_dogshedmiddle
+    - sensor.motion_annotated_count_dogshedmiddle
+    - sensor.motion_annotated_entity_count_dogshedmiddle
+    - sensor.motion_annotated_counter_dogshedmiddle
+    - binary_sensor.motion_end_dogshedmiddle
+    - sensor.motion_end_counter_dogshedmiddle
+    - sensor.motion_annotated_delay_dogshedmiddle
+    - sensor.motion_annotated_ago_dogshedmiddle
+    - sensor.motion_end_ago_dogshedmiddle
+    - sensor.motion_annotated_percent_dogshedmiddle
+    - sensor.motion_annotated_count_dogshedmiddle
+    - sensor.motion_annotated_entity_count_dogshedmiddle
+    - sensor.motion_annotated_list_dogshedmiddle
+    - counter.motion_complete_counter_dogshedmiddle
+    - sensor.motion_complete_dogshedmiddle
+    - binary_sensor.motion_complete_dogshedmiddle

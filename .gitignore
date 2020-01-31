@@ -1,0 +1,16 @@
+.cloud
+.DS_Store
+home-assistant.log
+home-assistant_v2.*
+.HA_VERSION
+.storage
+secrets.yaml
+custom_components/favicon/__pycache*
+DOMAIN_NAME
+EXCHANGE_APIKEY
+HOST_PORT
+LICENSE
+MOTIONCAM_PASSWORD
+MQTT_HOST
+NETCAM_PASSWORD
+NETCAM_USERNAME

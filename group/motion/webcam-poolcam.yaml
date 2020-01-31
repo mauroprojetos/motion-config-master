@@ -1,0 +1,62 @@
+###
+# group/webcam-poolcam.yaml
+###
+
+motion_poolcam:
+  name: Status poolcam
+  view: true
+  icon: mdi:water
+  control: hidden
+  entities:
+    - camera.motion_live_poolcam
+    - camera.motion_event_annotated_poolcam
+    - camera.motion_event_end_poolcam
+    - camera.motion_event_animated_poolcam
+    - camera.motion_event_animated_mask_poolcam
+    - camera.motion_event_composite_poolcam
+    - group.motion_poolcam_brief
+    - group.motion_poolcam_summary
+
+
+motion_poolcam_brief:
+  name: motion_poolcam_brief
+  control: hidden
+  entities:
+    - camera.motion_detected_entity_picture_poolcam
+    - camera.motion_detected_picture_poolcam
+    - camera.motion_annotated_picture_poolcam
+    - camera.motion_end_picture_poolcam
+    - sensor.motion_detected_entity_status_poolcam
+    - sensor.motion_detected_status_poolcam
+    - sensor.motion_annotated_status_poolcam
+    - sensor.motion_end_status_poolcam
+    - sensor.motion_annotated_delay_poolcam_mean
+    - sensor.motion_status_camera_found_when_poolcam
+    - sensor.motion_status_camera_lost_when_poolcam
+
+motion_poolcam_summary:
+  name: motion_poolcam_summary
+  control: hidden
+  entities:
+    - binary_sensor.motion_detected_entity_poolcam
+    - sensor.motion_detected_entity_count_poolcam
+    - sensor.motion_detected_entity_counter_poolcam
+    - binary_sensor.motion_detected_poolcam
+    - sensor.motion_detected_count_poolcam
+    - sensor.motion_detected_counter_poolcam
+    - binary_sensor.motion_annotated_poolcam
+    - sensor.motion_annotated_count_poolcam
+    - sensor.motion_annotated_entity_count_poolcam
+    - sensor.motion_annotated_counter_poolcam
+    - binary_sensor.motion_end_poolcam
+    - sensor.motion_end_counter_poolcam
+    - sensor.motion_annotated_delay_poolcam
+    - sensor.motion_annotated_ago_poolcam
+    - sensor.motion_end_ago_poolcam
+    - sensor.motion_annotated_percent_poolcam
+    - sensor.motion_annotated_count_poolcam
+    - sensor.motion_annotated_entity_count_poolcam
+    - sensor.motion_annotated_list_poolcam
+    - counter.motion_complete_counter_poolcam
+    - sensor.motion_complete_poolcam
+    - binary_sensor.motion_complete_poolcam

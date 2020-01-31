@@ -1,0 +1,98 @@
+###
+### motion_laundry BINARY_SENSOR
+###
+
+- platform: template
+  sensors:
+    motion_end_laundry:
+      friendly_name: laundry end
+      entity_id:
+        - sensor.motion_event_end_laundry
+      value_template: >
+        {{ states('sensor.motion_event_end_laundry')|lower == 'true' }}
+
+- platform: template
+  sensors:
+    motion_annotated_laundry:
+      friendly_name: laundry annotated
+      entity_id:
+        - sensor.motion_event_annotated_laundry
+      value_template: >
+        {{ states('sensor.motion_event_annotated_laundry')|lower == 'true' }}
+
+- platform: template
+  sensors:
+    motion_detected_laundry:
+      friendly_name: laundry detected
+      entity_id:
+        - sensor.motion_annotated_count_laundry
+      value_template: >
+        {{ states('sensor.motion_annotated_count_laundry')|int > 0 }}
+
+- platform: template
+  sensors:
+    motion_detected_entity_laundry:
+      friendly_name: laundry detected entity
+      entity_id:
+        - sensor.motion_annotated_entity_count_laundry
+      value_template: >-
+        {{ states('sensor.motion_annotated_entity_count_laundry')|int > 0 }}
+
+##
+
+- platform: template
+  sensors:
+    motion_complete_laundry:
+      friendly_name: laundry complete
+      entity_id:
+        - sensor.motion_complete_laundry
+      value_template: >
+        {% set d = states('sensor.motion_complete_laundry')|int %}
+        {{ d > 0 and d < states('input_number.motion_complete')|int }}
+
+##
+
+- platform: template
+  sensors:
+    motion_detected_person_laundry:
+      entity_id:
+        - binary_sensor.motion_detected_laundry
+        - sensor.motion_detected_ago_laundry
+      value_template: >-
+        {% if states.sensor.motion_event_annotated_laundry|lower != 'none'
+              and states.sensor.motion_detected_person_laundry.state|lower != 'unknown'
+              and states.sensor.motion_detected_person_laundry.state|lower != 'none'
+              and states.sensor.motion_detected_person_laundry.state|from_json != 'null'
+              and states.sensor.motion_detected_person_laundry.state|from_json is iterable %}
+          {{ states.sensor.motion_detected_person_laundry.state|from_json|sum|int > 0 }}
+        {% else %}null{% endif %}
+
+- platform: template
+  sensors:
+    motion_detected_vehicle_laundry:
+      entity_id:
+        - binary_sensor.motion_detected_laundry
+        - sensor.motion_detected_ago_laundry
+      value_template: >-
+        {% if states.sensor.motion_event_annotated_laundry|lower != 'none'
+              and states.sensor.motion_detected_vehicle_laundry.state|lower != 'none'
+              and states.sensor.motion_detected_vehicle_laundry.state|lower != 'unknown'
+              and states.sensor.motion_detected_vehicle_laundry.state|from_json != 'null'
+              and states.sensor.motion_detected_vehicle_laundry.state|from_json is iterable %}
+          {{ states.sensor.motion_detected_vehicle_laundry.state|from_json|sum|int > 0 }}
+        {% else %}null{% endif %}
+
+- platform: template
+  sensors:
+    motion_detected_animal_laundry:
+      entity_id:
+        - binary_sensor.motion_detected_laundry
+        - sensor.motion_detected_ago_laundry
+      value_template: >-
+        {% if states.sensor.motion_event_annotated_laundry|lower != 'none'
+              and states.sensor.motion_detected_animal_laundry.state|lower != 'none'
+              and states.sensor.motion_detected_animal_laundry.state|lower != 'unknown'
+              and states.sensor.motion_detected_animal_laundry.state|from_json != 'null'
+              and states.sensor.motion_detected_animal_laundry.state|from_json is iterable %}
+          {{ states.sensor.motion_detected_animal_laundry.state|from_json|sum|int > 0 }}
+        {% else %}null{% endif %}

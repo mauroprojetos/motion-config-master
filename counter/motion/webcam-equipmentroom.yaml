@@ -1,0 +1,33 @@
+###
+### detected_entity_equipmentroom COUNTER
+###
+
+motion_end_counter_equipmentroom:
+  name: motion_end_counter_equipmentroom
+  initial: 0
+  step: 1
+  icon: mdi:counter
+
+motion_annotated_counter_equipmentroom:
+  name: motion_annotated_counter_equipmentroom
+  initial: 0
+  step: 1
+  icon: mdi:counter
+
+motion_detected_counter_equipmentroom:
+  name: motion_detected_counter_equipmentroom
+  initial: 0
+  step: 1
+  icon: mdi:counter
+
+motion_detected_entity_counter_equipmentroom:
+  name: motion_detected_entity_counter_equipmentroom
+  initial: 0
+  step: 1
+  icon: mdi:counter
+
+motion_complete_counter_equipmentroom:
+  name: motion_complete_counter_equipmentroom
+  initial: 0
+  step: 1
+  icon: mdi:counter

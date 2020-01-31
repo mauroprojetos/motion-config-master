@@ -1,0 +1,33 @@
+###
+### detected_entity_dogshedfront COUNTER
+###
+
+motion_end_counter_dogshedfront:
+  name: motion_end_counter_dogshedfront
+  initial: 0
+  step: 1
+  icon: mdi:counter
+
+motion_annotated_counter_dogshedfront:
+  name: motion_annotated_counter_dogshedfront
+  initial: 0
+  step: 1
+  icon: mdi:counter
+
+motion_detected_counter_dogshedfront:
+  name: motion_detected_counter_dogshedfront
+  initial: 0
+  step: 1
+  icon: mdi:counter
+
+motion_detected_entity_counter_dogshedfront:
+  name: motion_detected_entity_counter_dogshedfront
+  initial: 0
+  step: 1
+  icon: mdi:counter
+
+motion_complete_counter_dogshedfront:
+  name: motion_complete_counter_dogshedfront
+  initial: 0
+  step: 1
+  icon: mdi:counter

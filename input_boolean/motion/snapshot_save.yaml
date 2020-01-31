@@ -1,0 +1,3 @@
+motion_snapshot_save:
+  name: motion_snapshot_save
+  initial: true

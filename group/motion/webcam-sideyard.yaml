@@ -1,0 +1,62 @@
+###
+# group/webcam-sideyard.yaml
+###
+
+motion_sideyard:
+  name: Status sideyard
+  view: true
+  icon: mdi:image-filter-hdr
+  control: hidden
+  entities:
+    - camera.motion_live_sideyard
+    - camera.motion_event_annotated_sideyard
+    - camera.motion_event_end_sideyard
+    - camera.motion_event_animated_sideyard
+    - camera.motion_event_animated_mask_sideyard
+    - camera.motion_event_composite_sideyard
+    - group.motion_sideyard_brief
+    - group.motion_sideyard_summary
+
+
+motion_sideyard_brief:
+  name: motion_sideyard_brief
+  control: hidden
+  entities:
+    - camera.motion_detected_entity_picture_sideyard
+    - camera.motion_detected_picture_sideyard
+    - camera.motion_annotated_picture_sideyard
+    - camera.motion_end_picture_sideyard
+    - sensor.motion_detected_entity_status_sideyard
+    - sensor.motion_detected_status_sideyard
+    - sensor.motion_annotated_status_sideyard
+    - sensor.motion_end_status_sideyard
+    - sensor.motion_annotated_delay_sideyard_mean
+    - sensor.motion_status_camera_found_when_sideyard
+    - sensor.motion_status_camera_lost_when_sideyard
+
+motion_sideyard_summary:
+  name: motion_sideyard_summary
+  control: hidden
+  entities:
+    - binary_sensor.motion_detected_entity_sideyard
+    - sensor.motion_detected_entity_count_sideyard
+    - sensor.motion_detected_entity_counter_sideyard
+    - binary_sensor.motion_detected_sideyard
+    - sensor.motion_detected_count_sideyard
+    - sensor.motion_detected_counter_sideyard
+    - binary_sensor.motion_annotated_sideyard
+    - sensor.motion_annotated_count_sideyard
+    - sensor.motion_annotated_entity_count_sideyard
+    - sensor.motion_annotated_counter_sideyard
+    - binary_sensor.motion_end_sideyard
+    - sensor.motion_end_counter_sideyard
+    - sensor.motion_annotated_delay_sideyard
+    - sensor.motion_annotated_ago_sideyard
+    - sensor.motion_end_ago_sideyard
+    - sensor.motion_annotated_percent_sideyard
+    - sensor.motion_annotated_count_sideyard
+    - sensor.motion_annotated_entity_count_sideyard
+    - sensor.motion_annotated_list_sideyard
+    - counter.motion_complete_counter_sideyard
+    - sensor.motion_complete_sideyard
+    - binary_sensor.motion_complete_sideyard

@@ -1,0 +1,147 @@
+###
+### diningroom cameras
+###
+
+- platform: mjpeg
+  name: motion_live_diningroom
+  mjpeg_url: http://192.168.1.182/img/video.mjpeg
+  verify_ssl: false
+  authentication: basic
+  username: !secret netcam-username
+  password: !secret netcam-password
+
+#- platform: mqtt
+#  name: motion_current_diningroom
+#  topic: 'motion/+/diningroom/image'
+#
+#- platform: mqtt
+#  name: motion_event_average_diningroom
+#  topic: 'motion/+/diningroom/image-average'
+#
+#- platform: mqtt
+#  name: motion_event_blend_diningroom
+#  topic: 'motion/+/diningroom/image-blend'
+#
+#- platform: mqtt
+#  name: motion_event_animated_mask_diningroom
+#  topic: 'motion/+/diningroom/image-animated-mask'
+#
+#- platform: mqtt
+#  name: motion_event_composite_diningroom
+#  topic: 'motion/+/diningroom/image-composite'
+#
+#- platform: mqtt
+#  name: motion_event_cropped_diningroom
+#  topic: 'motion/+/diningroom/image-cropped'
+
+- platform: mqtt
+  name: motion_event_animated_diningroom
+  topic: 'motion/+/diningroom/image-animated'
+
+- platform: mqtt
+  name: motion_event_end_diningroom
+  topic: 'motion/+/diningroom/image/end'
+
+- platform: mqtt
+  name: motion_event_annotated_diningroom
+  topic: 'motion/+/diningroom/image/end/+'
+
+###
+# picture
+###
+
+- platform: generic
+  name: motion_end_picture_diningroom
+  verify_ssl: false
+  limit_refetch_to_url_change: true
+  still_image_url: >-
+    {% if states('input_boolean.motion_snapshot') == 'on' %}
+      {% set p = states('sensor.motion_end_snapshot_diningroom') %}
+    {% else %}
+      {% set p = states('sensor.motion_end_picture_diningroom') %}
+    {% endif %}
+    {% if p != 'unknown' and p != 'null' and p|length > 0 %}
+      {{ p }}
+    {% else %}{{ states('sensor.motion_nosignal_picture') }}{% endif %}
+
+- platform: generic
+  name: motion_annotated_picture_diningroom
+  verify_ssl: false
+  limit_refetch_to_url_change: true
+  still_image_url: >-
+    {% if states('input_boolean.motion_snapshot') == 'on' %}
+      {% set p = states('sensor.motion_annotated_snapshot_diningroom') %}
+    {% else %}
+      {% set p = states('sensor.motion_annotated_picture_diningroom') %}
+    {% endif %}
+    {% if p != 'unknown' and p != 'null' and p|length > 0 %}
+      {{ p }}
+    {% else %}{{ states('sensor.motion_nosignal_picture') }}{% endif %}
+
+- platform: generic
+  name: motion_detected_picture_diningroom
+  verify_ssl: false
+  limit_refetch_to_url_change: true
+  still_image_url: >-
+    {% if states('input_boolean.motion_snapshot') == 'on' %}
+      {% set p = states('sensor.motion_detected_snapshot_diningroom') %}
+    {% else %}
+      {% set p = states('sensor.motion_detected_picture_diningroom') %}
+    {% endif %}
+    {% if  p != 'unknown' and p != 'null' and p|length > 0 %}
+      {{ p }}
+    {% else %}{{ states('sensor.motion_nosignal_picture') }}{% endif %}
+
+- platform: generic
+  name: motion_detected_entity_picture_diningroom
+  verify_ssl: false
+  limit_refetch_to_url_change: true
+  still_image_url: >-
+    {% if states('input_boolean.motion_snapshot') == 'on' %}
+      {% set p = states('sensor.motion_detected_entity_snapshot_diningroom') %}
+    {% else %}
+      {% set p = states('sensor.motion_detected_entity_picture_diningroom') %}
+    {% endif %}
+    {% if p != 'unknown' and p != 'null' and p|length > 0 %}
+      {{ p }}
+    {% else %}{{ states('sensor.motion_nosignal_picture') }}{% endif %}
+
+###
+# snapshot
+###
+
+- platform: generic
+  name: motion_end_snapshot_diningroom
+  verify_ssl: false
+  still_image_url: >-
+    {% set p = states('sensor.motion_end_snapshot_diningroom') %}
+    {% if p != 'unknown' and p != 'null' and p|length > 0 %}
+      {{ p }}
+    {% else %}{{ states('sensor.motion_nosignal_picture') }}{% endif %}
+
+- platform: generic
+  name: motion_annotated_snapshot_diningroom
+  verify_ssl: false
+  still_image_url: >-
+    {% set p = states('sensor.motion_annotated_snapshot_diningroom') %}
+    {% if p != 'unknown' and p != 'null' and p|length > 0 %}
+      {{ p }}
+    {% else %}{{ states('sensor.motion_nosignal_picture') }}{% endif %}
+
+- platform: generic
+  name: motion_detected_snapshot_diningroom
+  verify_ssl: false
+  still_image_url: >-
+    {% set p = states('sensor.motion_detected_snapshot_diningroom') %}
+    {% if  p != 'unknown' and p != 'null' and p|length > 0 %}
+      {{ p }}
+    {% else %}{{ states('sensor.motion_nosignal_picture') }}{% endif %}
+
+- platform: generic
+  name: motion_detected_entity_snapshot_diningroom
+  verify_ssl: false
+  still_image_url: >-
+    {% set p = states('sensor.motion_detected_entity_snapshot_diningroom') %}
+    {% if p != 'unknown' and p != 'null' and p|length > 0 %}
+      {{ p }}
+    {% else %}{{ states('sensor.motion_nosignal_picture') }}{% endif %}

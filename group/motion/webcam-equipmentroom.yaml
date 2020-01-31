@@ -1,0 +1,62 @@
+###
+# group/webcam-equipmentroom.yaml
+###
+
+motion_equipmentroom:
+  name: Status equipmentroom
+  view: true
+  icon: mdi:dip-switch
+  control: hidden
+  entities:
+    - camera.motion_live_equipmentroom
+    - camera.motion_event_annotated_equipmentroom
+    - camera.motion_event_end_equipmentroom
+    - camera.motion_event_animated_equipmentroom
+    - camera.motion_event_animated_mask_equipmentroom
+    - camera.motion_event_composite_equipmentroom
+    - group.motion_equipmentroom_brief
+    - group.motion_equipmentroom_summary
+
+
+motion_equipmentroom_brief:
+  name: motion_equipmentroom_brief
+  control: hidden
+  entities:
+    - camera.motion_detected_entity_picture_equipmentroom
+    - camera.motion_detected_picture_equipmentroom
+    - camera.motion_annotated_picture_equipmentroom
+    - camera.motion_end_picture_equipmentroom
+    - sensor.motion_detected_entity_status_equipmentroom
+    - sensor.motion_detected_status_equipmentroom
+    - sensor.motion_annotated_status_equipmentroom
+    - sensor.motion_end_status_equipmentroom
+    - sensor.motion_annotated_delay_equipmentroom_mean
+    - sensor.motion_status_camera_found_when_equipmentroom
+    - sensor.motion_status_camera_lost_when_equipmentroom
+
+motion_equipmentroom_summary:
+  name: motion_equipmentroom_summary
+  control: hidden
+  entities:
+    - binary_sensor.motion_detected_entity_equipmentroom
+    - sensor.motion_detected_entity_count_equipmentroom
+    - sensor.motion_detected_entity_counter_equipmentroom
+    - binary_sensor.motion_detected_equipmentroom
+    - sensor.motion_detected_count_equipmentroom
+    - sensor.motion_detected_counter_equipmentroom
+    - binary_sensor.motion_annotated_equipmentroom
+    - sensor.motion_annotated_count_equipmentroom
+    - sensor.motion_annotated_entity_count_equipmentroom
+    - sensor.motion_annotated_counter_equipmentroom
+    - binary_sensor.motion_end_equipmentroom
+    - sensor.motion_end_counter_equipmentroom
+    - sensor.motion_annotated_delay_equipmentroom
+    - sensor.motion_annotated_ago_equipmentroom
+    - sensor.motion_end_ago_equipmentroom
+    - sensor.motion_annotated_percent_equipmentroom
+    - sensor.motion_annotated_count_equipmentroom
+    - sensor.motion_annotated_entity_count_equipmentroom
+    - sensor.motion_annotated_list_equipmentroom
+    - counter.motion_complete_counter_equipmentroom
+    - sensor.motion_complete_equipmentroom
+    - binary_sensor.motion_complete_equipmentroom

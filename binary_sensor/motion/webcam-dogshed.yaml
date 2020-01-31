@@ -1,0 +1,98 @@
+###
+### motion_dogshed BINARY_SENSOR
+###
+
+- platform: template
+  sensors:
+    motion_end_dogshed:
+      friendly_name: dogshed end
+      entity_id:
+        - sensor.motion_event_end_dogshed
+      value_template: >
+        {{ states('sensor.motion_event_end_dogshed')|lower == 'true' }}
+
+- platform: template
+  sensors:
+    motion_annotated_dogshed:
+      friendly_name: dogshed annotated
+      entity_id:
+        - sensor.motion_event_annotated_dogshed
+      value_template: >
+        {{ states('sensor.motion_event_annotated_dogshed')|lower == 'true' }}
+
+- platform: template
+  sensors:
+    motion_detected_dogshed:
+      friendly_name: dogshed detected
+      entity_id:
+        - sensor.motion_annotated_count_dogshed
+      value_template: >
+        {{ states('sensor.motion_annotated_count_dogshed')|int > 0 }}
+
+- platform: template
+  sensors:
+    motion_detected_entity_dogshed:
+      friendly_name: dogshed detected entity
+      entity_id:
+        - sensor.motion_annotated_entity_count_dogshed
+      value_template: >-
+        {{ states('sensor.motion_annotated_entity_count_dogshed')|int > 0 }}
+
+##
+
+- platform: template
+  sensors:
+    motion_complete_dogshed:
+      friendly_name: dogshed complete
+      entity_id:
+        - sensor.motion_complete_dogshed
+      value_template: >
+        {% set d = states('sensor.motion_complete_dogshed')|int %}
+        {{ d > 0 and d < states('input_number.motion_complete')|int }}
+
+##
+
+- platform: template
+  sensors:
+    motion_detected_person_dogshed:
+      entity_id:
+        - binary_sensor.motion_detected_dogshed
+        - sensor.motion_detected_ago_dogshed
+      value_template: >-
+        {% if states.sensor.motion_event_annotated_dogshed|lower != 'none'
+              and states.sensor.motion_detected_person_dogshed.state|lower != 'unknown'
+              and states.sensor.motion_detected_person_dogshed.state|lower != 'none'
+              and states.sensor.motion_detected_person_dogshed.state|from_json != 'null'
+              and states.sensor.motion_detected_person_dogshed.state|from_json is iterable %}
+          {{ states.sensor.motion_detected_person_dogshed.state|from_json|sum|int > 0 }}
+        {% else %}null{% endif %}
+
+- platform: template
+  sensors:
+    motion_detected_vehicle_dogshed:
+      entity_id:
+        - binary_sensor.motion_detected_dogshed
+        - sensor.motion_detected_ago_dogshed
+      value_template: >-
+        {% if states.sensor.motion_event_annotated_dogshed|lower != 'none'
+              and states.sensor.motion_detected_vehicle_dogshed.state|lower != 'none'
+              and states.sensor.motion_detected_vehicle_dogshed.state|lower != 'unknown'
+              and states.sensor.motion_detected_vehicle_dogshed.state|from_json != 'null'
+              and states.sensor.motion_detected_vehicle_dogshed.state|from_json is iterable %}
+          {{ states.sensor.motion_detected_vehicle_dogshed.state|from_json|sum|int > 0 }}
+        {% else %}null{% endif %}
+
+- platform: template
+  sensors:
+    motion_detected_animal_dogshed:
+      entity_id:
+        - binary_sensor.motion_detected_dogshed
+        - sensor.motion_detected_ago_dogshed
+      value_template: >-
+        {% if states.sensor.motion_event_annotated_dogshed|lower != 'none'
+              and states.sensor.motion_detected_animal_dogshed.state|lower != 'none'
+              and states.sensor.motion_detected_animal_dogshed.state|lower != 'unknown'
+              and states.sensor.motion_detected_animal_dogshed.state|from_json != 'null'
+              and states.sensor.motion_detected_animal_dogshed.state|from_json is iterable %}
+          {{ states.sensor.motion_detected_animal_dogshed.state|from_json|sum|int > 0 }}
+        {% else %}null{% endif %}

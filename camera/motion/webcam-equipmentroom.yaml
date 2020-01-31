@@ -1,0 +1,147 @@
+###
+### equipmentroom cameras
+###
+
+- platform: mjpeg
+  name: motion_live_equipmentroom
+  mjpeg_url: http://192.168.1.165/img/video.mjpeg
+  verify_ssl: false
+  authentication: basic
+  username: !secret netcam-username
+  password: !secret netcam-password
+
+#- platform: mqtt
+#  name: motion_current_equipmentroom
+#  topic: 'motion/+/equipmentroom/image'
+#
+#- platform: mqtt
+#  name: motion_event_average_equipmentroom
+#  topic: 'motion/+/equipmentroom/image-average'
+#
+#- platform: mqtt
+#  name: motion_event_blend_equipmentroom
+#  topic: 'motion/+/equipmentroom/image-blend'
+#
+#- platform: mqtt
+#  name: motion_event_animated_mask_equipmentroom
+#  topic: 'motion/+/equipmentroom/image-animated-mask'
+#
+#- platform: mqtt
+#  name: motion_event_composite_equipmentroom
+#  topic: 'motion/+/equipmentroom/image-composite'
+#
+#- platform: mqtt
+#  name: motion_event_cropped_equipmentroom
+#  topic: 'motion/+/equipmentroom/image-cropped'
+
+- platform: mqtt
+  name: motion_event_animated_equipmentroom
+  topic: 'motion/+/equipmentroom/image-animated'
+
+- platform: mqtt
+  name: motion_event_end_equipmentroom
+  topic: 'motion/+/equipmentroom/image/end'
+
+- platform: mqtt
+  name: motion_event_annotated_equipmentroom
+  topic: 'motion/+/equipmentroom/image/end/+'
+
+###
+# picture
+###
+
+- platform: generic
+  name: motion_end_picture_equipmentroom
+  verify_ssl: false
+  limit_refetch_to_url_change: true
+  still_image_url: >-
+    {% if states('input_boolean.motion_snapshot') == 'on' %}
+      {% set p = states('sensor.motion_end_snapshot_equipmentroom') %}
+    {% else %}
+      {% set p = states('sensor.motion_end_picture_equipmentroom') %}
+    {% endif %}
+    {% if p != 'unknown' and p != 'null' and p|length > 0 %}
+      {{ p }}
+    {% else %}{{ states('sensor.motion_nosignal_picture') }}{% endif %}
+
+- platform: generic
+  name: motion_annotated_picture_equipmentroom
+  verify_ssl: false
+  limit_refetch_to_url_change: true
+  still_image_url: >-
+    {% if states('input_boolean.motion_snapshot') == 'on' %}
+      {% set p = states('sensor.motion_annotated_snapshot_equipmentroom') %}
+    {% else %}
+      {% set p = states('sensor.motion_annotated_picture_equipmentroom') %}
+    {% endif %}
+    {% if p != 'unknown' and p != 'null' and p|length > 0 %}
+      {{ p }}
+    {% else %}{{ states('sensor.motion_nosignal_picture') }}{% endif %}
+
+- platform: generic
+  name: motion_detected_picture_equipmentroom
+  verify_ssl: false
+  limit_refetch_to_url_change: true
+  still_image_url: >-
+    {% if states('input_boolean.motion_snapshot') == 'on' %}
+      {% set p = states('sensor.motion_detected_snapshot_equipmentroom') %}
+    {% else %}
+      {% set p = states('sensor.motion_detected_picture_equipmentroom') %}
+    {% endif %}
+    {% if  p != 'unknown' and p != 'null' and p|length > 0 %}
+      {{ p }}
+    {% else %}{{ states('sensor.motion_nosignal_picture') }}{% endif %}
+
+- platform: generic
+  name: motion_detected_entity_picture_equipmentroom
+  verify_ssl: false
+  limit_refetch_to_url_change: true
+  still_image_url: >-
+    {% if states('input_boolean.motion_snapshot') == 'on' %}
+      {% set p = states('sensor.motion_detected_entity_snapshot_equipmentroom') %}
+    {% else %}
+      {% set p = states('sensor.motion_detected_entity_picture_equipmentroom') %}
+    {% endif %}
+    {% if p != 'unknown' and p != 'null' and p|length > 0 %}
+      {{ p }}
+    {% else %}{{ states('sensor.motion_nosignal_picture') }}{% endif %}
+
+###
+# snapshot
+###
+
+- platform: generic
+  name: motion_end_snapshot_equipmentroom
+  verify_ssl: false
+  still_image_url: >-
+    {% set p = states('sensor.motion_end_snapshot_equipmentroom') %}
+    {% if p != 'unknown' and p != 'null' and p|length > 0 %}
+      {{ p }}
+    {% else %}{{ states('sensor.motion_nosignal_picture') }}{% endif %}
+
+- platform: generic
+  name: motion_annotated_snapshot_equipmentroom
+  verify_ssl: false
+  still_image_url: >-
+    {% set p = states('sensor.motion_annotated_snapshot_equipmentroom') %}
+    {% if p != 'unknown' and p != 'null' and p|length > 0 %}
+      {{ p }}
+    {% else %}{{ states('sensor.motion_nosignal_picture') }}{% endif %}
+
+- platform: generic
+  name: motion_detected_snapshot_equipmentroom
+  verify_ssl: false
+  still_image_url: >-
+    {% set p = states('sensor.motion_detected_snapshot_equipmentroom') %}
+    {% if  p != 'unknown' and p != 'null' and p|length > 0 %}
+      {{ p }}
+    {% else %}{{ states('sensor.motion_nosignal_picture') }}{% endif %}
+
+- platform: generic
+  name: motion_detected_entity_snapshot_equipmentroom
+  verify_ssl: false
+  still_image_url: >-
+    {% set p = states('sensor.motion_detected_entity_snapshot_equipmentroom') %}
+    {% if p != 'unknown' and p != 'null' and p|length > 0 %}
+      {{ p }}
+    {% else %}{{ states('sensor.motion_nosignal_picture') }}{% endif %}

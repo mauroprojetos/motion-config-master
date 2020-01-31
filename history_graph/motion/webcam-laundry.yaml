@@ -1,0 +1,14 @@
+motion_camera_laundry:
+  name: motion_camera_laundry
+  hours_to_show: 72
+  refresh: 30
+  entities:
+    - sensor.motion_annotated_ago_laundry
+    - sensor.motion_annotated_ago_laundry_mean
+    - sensor.motion_annotated_ago_laundry_stdev
+    - sensor.motion_detected_ago_laundry
+    - sensor.motion_detected_ago_laundry_mean
+    - sensor.motion_detected_ago_laundry_stdev
+    - sensor.motion_detected_entity_ago_laundry
+    - sensor.motion_detected_entity_ago_laundry_mean
+    - sensor.motion_detected_entity_ago_laundry_stdev

@@ -1,0 +1,98 @@
+###
+### motion_livingroom BINARY_SENSOR
+###
+
+- platform: template
+  sensors:
+    motion_end_livingroom:
+      friendly_name: livingroom end
+      entity_id:
+        - sensor.motion_event_end_livingroom
+      value_template: >
+        {{ states('sensor.motion_event_end_livingroom')|lower == 'true' }}
+
+- platform: template
+  sensors:
+    motion_annotated_livingroom:
+      friendly_name: livingroom annotated
+      entity_id:
+        - sensor.motion_event_annotated_livingroom
+      value_template: >
+        {{ states('sensor.motion_event_annotated_livingroom')|lower == 'true' }}
+
+- platform: template
+  sensors:
+    motion_detected_livingroom:
+      friendly_name: livingroom detected
+      entity_id:
+        - sensor.motion_annotated_count_livingroom
+      value_template: >
+        {{ states('sensor.motion_annotated_count_livingroom')|int > 0 }}
+
+- platform: template
+  sensors:
+    motion_detected_entity_livingroom:
+      friendly_name: livingroom detected entity
+      entity_id:
+        - sensor.motion_annotated_entity_count_livingroom
+      value_template: >-
+        {{ states('sensor.motion_annotated_entity_count_livingroom')|int > 0 }}
+
+##
+
+- platform: template
+  sensors:
+    motion_complete_livingroom:
+      friendly_name: livingroom complete
+      entity_id:
+        - sensor.motion_complete_livingroom
+      value_template: >
+        {% set d = states('sensor.motion_complete_livingroom')|int %}
+        {{ d > 0 and d < states('input_number.motion_complete')|int }}
+
+##
+
+- platform: template
+  sensors:
+    motion_detected_person_livingroom:
+      entity_id:
+        - binary_sensor.motion_detected_livingroom
+        - sensor.motion_detected_ago_livingroom
+      value_template: >-
+        {% if states.sensor.motion_event_annotated_livingroom|lower != 'none'
+              and states.sensor.motion_detected_person_livingroom.state|lower != 'unknown'
+              and states.sensor.motion_detected_person_livingroom.state|lower != 'none'
+              and states.sensor.motion_detected_person_livingroom.state|from_json != 'null'
+              and states.sensor.motion_detected_person_livingroom.state|from_json is iterable %}
+          {{ states.sensor.motion_detected_person_livingroom.state|from_json|sum|int > 0 }}
+        {% else %}null{% endif %}
+
+- platform: template
+  sensors:
+    motion_detected_vehicle_livingroom:
+      entity_id:
+        - binary_sensor.motion_detected_livingroom
+        - sensor.motion_detected_ago_livingroom
+      value_template: >-
+        {% if states.sensor.motion_event_annotated_livingroom|lower != 'none'
+              and states.sensor.motion_detected_vehicle_livingroom.state|lower != 'none'
+              and states.sensor.motion_detected_vehicle_livingroom.state|lower != 'unknown'
+              and states.sensor.motion_detected_vehicle_livingroom.state|from_json != 'null'
+              and states.sensor.motion_detected_vehicle_livingroom.state|from_json is iterable %}
+          {{ states.sensor.motion_detected_vehicle_livingroom.state|from_json|sum|int > 0 }}
+        {% else %}null{% endif %}
+
+- platform: template
+  sensors:
+    motion_detected_animal_livingroom:
+      entity_id:
+        - binary_sensor.motion_detected_livingroom
+        - sensor.motion_detected_ago_livingroom
+      value_template: >-
+        {% if states.sensor.motion_event_annotated_livingroom|lower != 'none'
+              and states.sensor.motion_detected_animal_livingroom.state|lower != 'none'
+              and states.sensor.motion_detected_animal_livingroom.state|lower != 'unknown'
+              and states.sensor.motion_detected_animal_livingroom.state|from_json != 'null'
+              and states.sensor.motion_detected_animal_livingroom.state|from_json is iterable %}
+          {{ states.sensor.motion_detected_animal_livingroom.state|from_json|sum|int > 0 }}
+        {% else %}null{% endif %}

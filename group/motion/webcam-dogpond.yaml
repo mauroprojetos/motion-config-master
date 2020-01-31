@@ -1,0 +1,62 @@
+###
+# group/webcam-dogpond.yaml
+###
+
+motion_dogpond:
+  name: Status dogpond
+  view: true
+  icon: mdi:car
+  control: hidden
+  entities:
+    - camera.motion_live_dogpond
+    - camera.motion_event_annotated_dogpond
+    - camera.motion_event_end_dogpond
+    - camera.motion_event_animated_dogpond
+    - camera.motion_event_animated_mask_dogpond
+    - camera.motion_event_composite_dogpond
+    - group.motion_dogpond_brief
+    - group.motion_dogpond_summary
+
+
+motion_dogpond_brief:
+  name: motion_dogpond_brief
+  control: hidden
+  entities:
+    - camera.motion_detected_entity_picture_dogpond
+    - camera.motion_detected_picture_dogpond
+    - camera.motion_annotated_picture_dogpond
+    - camera.motion_end_picture_dogpond
+    - sensor.motion_detected_entity_status_dogpond
+    - sensor.motion_detected_status_dogpond
+    - sensor.motion_annotated_status_dogpond
+    - sensor.motion_end_status_dogpond
+    - sensor.motion_annotated_delay_dogpond_mean
+    - sensor.motion_status_camera_found_when_dogpond
+    - sensor.motion_status_camera_lost_when_dogpond
+
+motion_dogpond_summary:
+  name: motion_dogpond_summary
+  control: hidden
+  entities:
+    - binary_sensor.motion_detected_entity_dogpond
+    - sensor.motion_detected_entity_count_dogpond
+    - sensor.motion_detected_entity_counter_dogpond
+    - binary_sensor.motion_detected_dogpond
+    - sensor.motion_detected_count_dogpond
+    - sensor.motion_detected_counter_dogpond
+    - binary_sensor.motion_annotated_dogpond
+    - sensor.motion_annotated_count_dogpond
+    - sensor.motion_annotated_entity_count_dogpond
+    - sensor.motion_annotated_counter_dogpond
+    - binary_sensor.motion_end_dogpond
+    - sensor.motion_end_counter_dogpond
+    - sensor.motion_annotated_delay_dogpond
+    - sensor.motion_annotated_ago_dogpond
+    - sensor.motion_end_ago_dogpond
+    - sensor.motion_annotated_percent_dogpond
+    - sensor.motion_annotated_count_dogpond
+    - sensor.motion_annotated_entity_count_dogpond
+    - sensor.motion_annotated_list_dogpond
+    - counter.motion_complete_counter_dogpond
+    - sensor.motion_complete_dogpond
+    - binary_sensor.motion_complete_dogpond

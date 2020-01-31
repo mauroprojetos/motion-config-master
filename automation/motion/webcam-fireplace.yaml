@@ -1,0 +1,515 @@
+###
+### automation fireplace
+###
+
+###
+# end
+###
+
+- id: motion_end_counter_fireplace
+  alias: motion_end_counter_fireplace
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: binary_sensor.motion_end_fireplace
+  condition:
+    - condition: template
+      value_template: >-
+        {{ is_state('binary_sensor.motion_end_fireplace','on') }}
+  action:
+    - service: counter.increment
+      entity_id: counter.motion_end_counter_fireplace
+    - service: counter.increment
+      entity_id: counter.motion_end_counter
+
+- id: motion_end_snapshot_fireplace
+  alias: motion_end_snapshot_fireplace
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: sensor.motion_event_end_fireplace
+  condition:
+    condition: and
+    conditions:
+      - condition: template
+        value_template: >-
+          {{ is_state('input_boolean.motion_snapshot_save','on') }}
+      - condition: template
+        value_template: >-
+          {{ state_attr('camera.motion_event_end_fireplace','entity_picture') is not none }}
+  action:
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_end-fireplace.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_event_end_fireplace' }}
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_end.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_event_end_fireplace' }}
+#    - delay:
+#        milliseconds: 100
+#    - service: mqtt.publish
+#      data:
+#        topic: 'motion-master/fireplace/snapshot/end'
+#        payload_template: >-
+#          {{ '/config/www/images/motion_end-fireplace.jpg' }}
+#        qos: 1
+#        retain: 0
+
+###
+# annotated
+###
+
+- id: motion_annotated_counter_fireplace
+  alias: motion_annotated_counter_fireplace
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: binary_sensor.motion_annotated_fireplace
+  condition:
+    - condition: template
+      value_template: >-
+        {{ is_state('binary_sensor.motion_annotated_fireplace','on') }}
+  action:
+    - service: counter.increment
+      entity_id: counter.motion_annotated_counter_fireplace
+    - service: counter.increment
+      entity_id: counter.motion_annotated_counter
+
+- id: motion_annotated_snapshot_fireplace
+  alias: motion_annotated_snapshot_fireplace
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: camera.motion_event_annotated_fireplace
+  condition:
+    condition: and
+    conditions:
+      - condition: template
+        value_template: >-
+          {{ is_state('input_boolean.motion_snapshot_save','on') }}
+      - condition: template
+        value_template: >-
+          {{ state_attr('camera.motion_event_annotated_fireplace','entity_picture') is not none }}
+  action:
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_annotated-fireplace.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_event_annotated_fireplace' }}
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_annotated.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_event_annotated_fireplace' }}
+#    - delay:
+#        milliseconds: 100
+#    - service: mqtt.publish
+#      data:
+#        topic: 'motion-master/fireplace/snapshot/annotated'
+#        payload_template: >-
+#          {{ '/config/www/images/motion_annotated-fireplace.jpg' }}
+#        qos: 1
+#        retain: 0
+
+###
+# detected
+###
+
+- id: motion_detected_counter_fireplace
+  alias: motion_detected_counter_fireplace
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: binary_sensor.motion_detected_fireplace
+  condition:
+    - condition: template
+      value_template: >-
+        {{ is_state('binary_sensor.motion_detected_fireplace','on') }}
+  action:
+    - service: counter.increment
+      entity_id: counter.motion_detected_counter_fireplace
+    - service: counter.increment
+      entity_id: counter.motion_detected_counter
+
+- id: motion_detected_snapshot_fireplace
+  alias: motion_detected_snapshot_fireplace
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: sensor.motion_detected_counter_fireplace
+  condition:
+    condition: and
+    conditions:
+      - condition: template
+        value_template: >-
+          {{ is_state('input_boolean.motion_snapshot_save','on') }}
+      - condition: template
+        value_template: >-
+          {{ states('sensor.motion_annotated_count_fireplace')|int > 0 }}
+      - condition: template
+        value_template: >-
+          {{ state_attr('camera.motion_event_annotated_fireplace','entity_picture') is not none }}
+  action:
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_detected-fireplace.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_event_annotated_fireplace' }}
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_detected.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_event_annotated_fireplace' }}
+#    - delay:
+#        milliseconds: 100
+#    - service: mqtt.publish
+#      data:
+#        topic: 'motion-master/fireplace/snapshot/detected'
+#        payload_template: >-
+#          {{ '/config/www/images/motion_detected-fireplace.jpg' }}
+#        qos: 1
+#        retain: 0
+
+###
+# detected_entity
+###
+
+- id: motion_detected_entity_counter_fireplace
+  alias: motion_detected_entity_counter_fireplace
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: binary_sensor.motion_detected_entity_fireplace
+  condition:
+    - condition: template
+      value_template: >-
+        {{ is_state('binary_sensor.motion_detected_entity_fireplace','on') }}
+  action:
+    - service: counter.increment
+      entity_id: counter.motion_detected_entity_counter_fireplace
+    - service: counter.increment
+      entity_id: counter.motion_detected_entity_counter
+
+- id: motion_detected_entity_snapshot_fireplace
+  alias: motion_detected_entity_snapshot_fireplace
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: sensor.motion_detected_entity_counter_fireplace
+  condition:
+    condition: and
+    conditions:
+      - condition: template
+        value_template: >-
+          {{ is_state('input_boolean.motion_snapshot_save','on') }}
+      - condition: template
+        value_template: >-
+          {{ states('sensor.motion_annotated_entity_count_fireplace')|int > 0 }}
+      - condition: template
+        value_template: >-
+          {{ state_attr('camera.motion_detected_entity_fireplace','entity_picture') is not none }}
+  action:
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_detected_entity-fireplace.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_event_annotated_fireplace' }}
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_detected_entity.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_event_annotated_fireplace' }}
+#    - delay:
+#        milliseconds: 100
+#    - service: mqtt.publish
+#      data:
+#        topic: 'motion-master/fireplace/snapshot/detected_entity'
+#        payload_template: >-
+#          {{ '/config/www/images/motion_detected_entity-fireplace.jpg' }}
+#        qos: 1
+#        retain: 0
+
+###
+# complete
+###
+
+- id: motion_complete_counter_fireplace
+  alias: motion_complete_counter_fireplace
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: binary_sensor.motion_complete_fireplace
+  condition:
+    - condition: template
+      value_template: >-
+        {{ is_state('binary_sensor.motion_complete_fireplace','on') }}
+  action:
+    - service: counter.increment
+      entity_id: counter.motion_complete_counter_fireplace
+    - service: counter.increment
+      entity_id: counter.motion_complete_counter
+
+###
+# found
+###
+
+- id: motion_tracker_found_fireplace
+  alias: motion_tracker_found_fireplace
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: sensor.motion_status_camera_found_fireplace
+  condition:
+    condition: and
+    conditions:
+      - condition: template
+        value_template: >
+          {{ is_state('input_boolean.motion_tracker_found','on') }}
+      - condition: template
+        value_template: >
+          {{ trigger.to_state.state != trigger.from_state.state }}
+  action:
+    - service: mqtt.publish
+      data_template:
+        topic: 'motion/tracker/webcam/fireplace'
+        retain: true
+        payload_template: >-
+          { "topic":"motion/tracker/webcam/fireplace", "payload":"home", "date":{{ (now().timestamp()|int) }} }
+
+- id: motion_reset_found_fireplace
+  alias: motion_reset_found_fireplace
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: sensor.motion_status_camera_found_fireplace
+  condition:
+    condition: and
+    conditions:
+      - condition: template
+        value_template: >
+          {{ is_state('input_boolean.motion_reset_found_webcam','on') }}
+      - condition: template
+        value_template: >
+          {{ trigger.to_state.state != trigger.from_state.state }}
+  action:
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_end-fireplace.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_testsignal' }}
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_annotated-fireplace.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_testsignal' }}
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_detected-fireplace.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_testsignal' }}
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_detected_entity-fireplace.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_testsignal' }}
+
+###
+# lost
+###
+
+- id: motion_tracker_lost_fireplace
+  alias: motion_tracker_lost_fireplace
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: sensor.motion_status_camera_lost_fireplace
+  condition:
+    condition: and
+    conditions:
+      - condition: template
+        value_template: >
+          {{ is_state('input_boolean.motion_tracker_lost','on') }}
+      - condition: template
+        value_template: >
+          {{ trigger.to_state.state != trigger.from_state.state }}
+  action:
+    - service: mqtt.publish
+      data_template:
+        topic: 'motion/tracker/webcam/fireplace'
+        retain: true
+        payload_template: >-
+          { "topic":"motion/tracker/webcam/fireplace", "payload":"not_home", "date":{{ (now().timestamp()|int) }} }
+
+- id: motion_reset_lost_fireplace
+  alias: motion_reset_lost_fireplace
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: sensor.motion_status_camera_lost_fireplace
+  condition:
+    condition: and
+    conditions:
+      - condition: template
+        value_template: >
+          {{ is_state('input_boolean.motion_reset_lost_webcam','on') }}
+      - condition: template
+        value_template: >
+          {{ trigger.to_state.state != trigger.from_state.state }}
+  action:
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_end-fireplace.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_nosignal' }}
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_annotated-fireplace.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_nosignal' }}
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_detected-fireplace.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_nosignal' }}
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_detected_entity-fireplace.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_nosignal' }}
+
+###
+# notify lost and found
+###
+
+## found
+- id: motion_status_camera_notify_found_fireplace
+  alias: motion_status_camera_notify_found_fireplace
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: sensor.motion_status_camera_found_fireplace
+  condition:
+    condition: and
+    conditions:
+      - condition: template
+        value_template: >
+          {{ is_state('input_boolean.motion_status_camera_notify','on') }}
+      - condition: template
+        value_template: >
+          {{ trigger.to_state.state != trigger.from_state.state and trigger.to_state|lower != 'none' and trigger.to_state.state|lower != 'unknown' }}
+  action:
+    - service: persistent_notification.create
+      data_template:
+        title: >
+          Camera fireplace found
+        notification_id: >
+          fireplace
+        message: >-
+          Camera fireplace was {{ trigger.from_state.state }};
+          found at {{ now().timestamp()|int|timestamp_custom("%a %b %d @ %I:%M %p") | default(null) }}
+
+## lost
+- id: motion_status_camera_notify_lost_fireplace
+  alias: motion_status_camera_notify_lost_fireplace
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: sensor.motion_status_camera_lost_fireplace
+  condition:
+    condition: and
+    conditions:
+      - condition: template
+        value_template: >
+          {{ is_state('input_boolean.motion_status_camera_notify','on') }}
+      - condition: template
+        value_template: >
+          {{ trigger.to_state.state != trigger.from_state.state and trigger.to_state|lower != 'none' and trigger.to_state.state|lower != 'unknown' }}
+  action:
+    - service: persistent_notification.create
+      data_template:
+        title: >
+          Camera fireplace lost
+        notification_id: >
+          fireplace
+        message: >-
+          Camera fireplace was {{ trigger.from_state.state }};
+          lost at {{ now().timestamp()|int|timestamp_custom("%a %b %d @ %I:%M %p") | default(null) }}
+
+###
+# notify detected
+###
+
+- id: motion_detected_notify_fireplace
+  alias: motion_detected_notify_fireplace
+  initial_state: 'on'
+  trigger:
+    - platform: state
+      entity_id: sensor.motion_detected_counter_fireplace
+  condition:
+    condition: template
+    value_template: >
+      {{ is_state('input_boolean.motion_detected_notify','on') and is_state('binary_sensor.motion_detected_fireplace','on') }}
+  action:
+    - service: persistent_notification.create
+      data_template:
+        title: >-
+          Detected {{ states.sensor.motion_annotated_count_fireplace.state }} {{ states.sensor.motion_detect_entity.state }}(s)
+          from {{ states.sensor.motion_event_annotated_fireplace.attributes.event.camera }}
+        notification_id: >
+          detected-{{- states.sensor.motion_event_annotated_fireplace.attributes.event.camera -}}
+        message: >-
+          Detected {{ states.sensor.motion_annotated_count_fireplace.state }} {{ states.sensor.motion_detect_entity.state }}(s)
+          from {{ states.sensor.motion_event_annotated_fireplace.attributes.event.camera }}
+          for {{ states.sensor.motion_event_annotated_fireplace.attributes.event.elapsed }} seconds
+          ({{ states.sensor.motion_event_annotated_fireplace.attributes.event.images|length }} frames)
+          at {{ states.sensor.motion_event_annotated_fireplace.attributes.event.start|int|timestamp_custom("%a %b %d @ %I:%M %p") | default(null) }}
+
+
+###
+# notify detected_entity
+###
+
+- id: motion_detected_entity_notify_fireplace
+  alias: motion_detected_entity_notify_fireplace
+  initial_state: 'on'
+  trigger:
+    - platform: state
+      entity_id: sensor.motion_detected_entity_counter_fireplace
+  condition:
+    condition: template
+    value_template: >
+      {{ is_state('input_boolean.motion_detected_entity_notify','on') and is_state('binary_sensor.motion_detected_entity_fireplace','on') }}
+  action:
+    - service: persistent_notification.create
+      data_template:
+        title: >-
+          Detected {{ states.sensor.motion_annotated_count_fireplace.state }} {{ states.sensor.motion_detect_entity.state }}(s)
+          from {{ states.sensor.motion_event_annotated_fireplace.attributes.event.camera }}
+        notification_id: >
+          detected_entity-{{- states.sensor.motion_event_annotated_fireplace.attributes.event.camera -}}
+        message: >-
+          Detected {{ states.sensor.motion_annotated_count_fireplace.state }} {{ states.sensor.motion_detect_entity.state }}(s)
+          from {{ states.sensor.motion_event_annotated_fireplace.attributes.event.camera }}
+          for {{ states.sensor.motion_event_annotated_fireplace.attributes.event.elapsed }} seconds
+          ({{ states.sensor.motion_event_annotated_fireplace.attributes.event.images|length }} frames)
+          at {{ states.sensor.motion_event_annotated_fireplace.attributes.event.start|int|timestamp_custom("%a %b %d @ %I:%M %p") | default(null) }}
+

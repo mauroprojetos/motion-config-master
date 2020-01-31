@@ -1,0 +1,33 @@
+###
+### detected_entity_backyard COUNTER
+###
+
+motion_end_counter_backyard:
+  name: motion_end_counter_backyard
+  initial: 0
+  step: 1
+  icon: mdi:counter
+
+motion_annotated_counter_backyard:
+  name: motion_annotated_counter_backyard
+  initial: 0
+  step: 1
+  icon: mdi:counter
+
+motion_detected_counter_backyard:
+  name: motion_detected_counter_backyard
+  initial: 0
+  step: 1
+  icon: mdi:counter
+
+motion_detected_entity_counter_backyard:
+  name: motion_detected_entity_counter_backyard
+  initial: 0
+  step: 1
+  icon: mdi:counter
+
+motion_complete_counter_backyard:
+  name: motion_complete_counter_backyard
+  initial: 0
+  step: 1
+  icon: mdi:counter

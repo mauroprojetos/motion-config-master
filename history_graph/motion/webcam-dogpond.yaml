@@ -1,0 +1,14 @@
+motion_camera_dogpond:
+  name: motion_camera_dogpond
+  hours_to_show: 72
+  refresh: 30
+  entities:
+    - sensor.motion_annotated_ago_dogpond
+    - sensor.motion_annotated_ago_dogpond_mean
+    - sensor.motion_annotated_ago_dogpond_stdev
+    - sensor.motion_detected_ago_dogpond
+    - sensor.motion_detected_ago_dogpond_mean
+    - sensor.motion_detected_ago_dogpond_stdev
+    - sensor.motion_detected_entity_ago_dogpond
+    - sensor.motion_detected_entity_ago_dogpond_mean
+    - sensor.motion_detected_entity_ago_dogpond_stdev

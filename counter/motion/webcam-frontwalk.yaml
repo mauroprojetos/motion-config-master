@@ -1,0 +1,33 @@
+###
+### detected_entity_frontwalk COUNTER
+###
+
+motion_end_counter_frontwalk:
+  name: motion_end_counter_frontwalk
+  initial: 0
+  step: 1
+  icon: mdi:counter
+
+motion_annotated_counter_frontwalk:
+  name: motion_annotated_counter_frontwalk
+  initial: 0
+  step: 1
+  icon: mdi:counter
+
+motion_detected_counter_frontwalk:
+  name: motion_detected_counter_frontwalk
+  initial: 0
+  step: 1
+  icon: mdi:counter
+
+motion_detected_entity_counter_frontwalk:
+  name: motion_detected_entity_counter_frontwalk
+  initial: 0
+  step: 1
+  icon: mdi:counter
+
+motion_complete_counter_frontwalk:
+  name: motion_complete_counter_frontwalk
+  initial: 0
+  step: 1
+  icon: mdi:counter

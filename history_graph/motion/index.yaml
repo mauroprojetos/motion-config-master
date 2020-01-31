@@ -1,0 +1,29 @@
+###
+### MOTION
+###
+
+###
+# history_graph/motion.yaml
+###
+
+motion_percent:
+  name: motion_percent
+  entities:
+    - sensor.motion_annotated_percent
+    - sensor.motion_detected_percent
+    - sensor.motion_detected_entity_percent
+
+motion_counter:
+  name: motion_counter
+  entities:
+    - sensor.motion_end_counter
+    - sensor.motion_annotated_counter
+    - sensor.motion_detected_counter
+    - sensor.motion_detected_entity_counter
+
+motion_count:
+  name: motion_count
+  entities:
+    - sensor.motion_annotated_count
+    - sensor.motion_detected_count
+    - sensor.motion_detected_entity_count

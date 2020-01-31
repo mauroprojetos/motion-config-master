@@ -1,0 +1,14 @@
+motion_camera_equipmentroom:
+  name: motion_camera_equipmentroom
+  hours_to_show: 72
+  refresh: 30
+  entities:
+    - sensor.motion_annotated_ago_equipmentroom
+    - sensor.motion_annotated_ago_equipmentroom_mean
+    - sensor.motion_annotated_ago_equipmentroom_stdev
+    - sensor.motion_detected_ago_equipmentroom
+    - sensor.motion_detected_ago_equipmentroom_mean
+    - sensor.motion_detected_ago_equipmentroom_stdev
+    - sensor.motion_detected_entity_ago_equipmentroom
+    - sensor.motion_detected_entity_ago_equipmentroom_mean
+    - sensor.motion_detected_entity_ago_equipmentroom_stdev

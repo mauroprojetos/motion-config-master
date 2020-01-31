@@ -1,0 +1,147 @@
+###
+### ${MOTION_CAMERA} cameras
+###
+
+- platform: mjpeg
+  name: motion_live_${MOTION_CAMERA}
+  mjpeg_url: ${MOTION_CAMERA_MJPEG}
+  verify_ssl: false
+  authentication: basic
+  username: ${MOTION_CAMERA_USERNAME}
+  password: ${MOTION_CAMERA_PASSWORD}
+
+#- platform: mqtt
+#  name: motion_current_${MOTION_CAMERA}
+#  topic: '${MOTION_GROUP}/${MOTION_CLIENT}/${MOTION_CAMERA}/image'
+#
+#- platform: mqtt
+#  name: motion_event_average_${MOTION_CAMERA}
+#  topic: '${MOTION_GROUP}/${MOTION_CLIENT}/${MOTION_CAMERA}/image-average'
+#
+#- platform: mqtt
+#  name: motion_event_blend_${MOTION_CAMERA}
+#  topic: '${MOTION_GROUP}/${MOTION_CLIENT}/${MOTION_CAMERA}/image-blend'
+#
+#- platform: mqtt
+#  name: motion_event_animated_mask_${MOTION_CAMERA}
+#  topic: '${MOTION_GROUP}/${MOTION_CLIENT}/${MOTION_CAMERA}/image-animated-mask'
+#
+#- platform: mqtt
+#  name: motion_event_composite_${MOTION_CAMERA}
+#  topic: '${MOTION_GROUP}/${MOTION_CLIENT}/${MOTION_CAMERA}/image-composite'
+#
+#- platform: mqtt
+#  name: motion_event_cropped_${MOTION_CAMERA}
+#  topic: '${MOTION_GROUP}/${MOTION_CLIENT}/${MOTION_CAMERA}/image-cropped'
+
+- platform: mqtt
+  name: motion_event_animated_${MOTION_CAMERA}
+  topic: '${MOTION_GROUP}/${MOTION_CLIENT}/${MOTION_CAMERA}/image-animated'
+
+- platform: mqtt
+  name: motion_event_end_${MOTION_CAMERA}
+  topic: '${MOTION_GROUP}/${MOTION_CLIENT}/${MOTION_CAMERA}/image/end'
+
+- platform: mqtt
+  name: motion_event_annotated_${MOTION_CAMERA}
+  topic: '${MOTION_GROUP}/${MOTION_CLIENT}/${MOTION_CAMERA}/image/end/+'
+
+###
+# picture
+###
+
+- platform: generic
+  name: motion_end_picture_${MOTION_CAMERA}
+  verify_ssl: false
+  limit_refetch_to_url_change: true
+  still_image_url: >-
+    {% if states('input_boolean.motion_snapshot') == 'on' %}
+      {% set p = states('sensor.motion_end_snapshot_${MOTION_CAMERA}') %}
+    {% else %}
+      {% set p = states('sensor.motion_end_picture_${MOTION_CAMERA}') %}
+    {% endif %}
+    {% if p != 'unknown' and p != 'null' and p|length > 0 %}
+      {{ p }}
+    {% else %}{{ states('sensor.motion_nosignal_picture') }}{% endif %}
+
+- platform: generic
+  name: motion_annotated_picture_${MOTION_CAMERA}
+  verify_ssl: false
+  limit_refetch_to_url_change: true
+  still_image_url: >-
+    {% if states('input_boolean.motion_snapshot') == 'on' %}
+      {% set p = states('sensor.motion_annotated_snapshot_${MOTION_CAMERA}') %}
+    {% else %}
+      {% set p = states('sensor.motion_annotated_picture_${MOTION_CAMERA}') %}
+    {% endif %}
+    {% if p != 'unknown' and p != 'null' and p|length > 0 %}
+      {{ p }}
+    {% else %}{{ states('sensor.motion_nosignal_picture') }}{% endif %}
+
+- platform: generic
+  name: motion_detected_picture_${MOTION_CAMERA}
+  verify_ssl: false
+  limit_refetch_to_url_change: true
+  still_image_url: >-
+    {% if states('input_boolean.motion_snapshot') == 'on' %}
+      {% set p = states('sensor.motion_detected_snapshot_${MOTION_CAMERA}') %}
+    {% else %}
+      {% set p = states('sensor.motion_detected_picture_${MOTION_CAMERA}') %}
+    {% endif %}
+    {% if  p != 'unknown' and p != 'null' and p|length > 0 %}
+      {{ p }}
+    {% else %}{{ states('sensor.motion_nosignal_picture') }}{% endif %}
+
+- platform: generic
+  name: motion_detected_entity_picture_${MOTION_CAMERA}
+  verify_ssl: false
+  limit_refetch_to_url_change: true
+  still_image_url: >-
+    {% if states('input_boolean.motion_snapshot') == 'on' %}
+      {% set p = states('sensor.motion_detected_entity_snapshot_${MOTION_CAMERA}') %}
+    {% else %}
+      {% set p = states('sensor.motion_detected_entity_picture_${MOTION_CAMERA}') %}
+    {% endif %}
+    {% if p != 'unknown' and p != 'null' and p|length > 0 %}
+      {{ p }}
+    {% else %}{{ states('sensor.motion_nosignal_picture') }}{% endif %}
+
+###
+# snapshot
+###
+
+- platform: generic
+  name: motion_end_snapshot_${MOTION_CAMERA}
+  verify_ssl: false
+  still_image_url: >-
+    {% set p = states('sensor.motion_end_snapshot_${MOTION_CAMERA}') %}
+    {% if p != 'unknown' and p != 'null' and p|length > 0 %}
+      {{ p }}
+    {% else %}{{ states('sensor.motion_nosignal_picture') }}{% endif %}
+
+- platform: generic
+  name: motion_annotated_snapshot_${MOTION_CAMERA}
+  verify_ssl: false
+  still_image_url: >-
+    {% set p = states('sensor.motion_annotated_snapshot_${MOTION_CAMERA}') %}
+    {% if p != 'unknown' and p != 'null' and p|length > 0 %}
+      {{ p }}
+    {% else %}{{ states('sensor.motion_nosignal_picture') }}{% endif %}
+
+- platform: generic
+  name: motion_detected_snapshot_${MOTION_CAMERA}
+  verify_ssl: false
+  still_image_url: >-
+    {% set p = states('sensor.motion_detected_snapshot_${MOTION_CAMERA}') %}
+    {% if  p != 'unknown' and p != 'null' and p|length > 0 %}
+      {{ p }}
+    {% else %}{{ states('sensor.motion_nosignal_picture') }}{% endif %}
+
+- platform: generic
+  name: motion_detected_entity_snapshot_${MOTION_CAMERA}
+  verify_ssl: false
+  still_image_url: >-
+    {% set p = states('sensor.motion_detected_entity_snapshot_${MOTION_CAMERA}') %}
+    {% if p != 'unknown' and p != 'null' and p|length > 0 %}
+      {{ p }}
+    {% else %}{{ states('sensor.motion_nosignal_picture') }}{% endif %}

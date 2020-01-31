@@ -1,0 +1,62 @@
+###
+# group/webcam-road.yaml
+###
+
+motion_road:
+  name: Status road
+  view: true
+  icon: mdi:road
+  control: hidden
+  entities:
+    - camera.motion_live_road
+    - camera.motion_event_annotated_road
+    - camera.motion_event_end_road
+    - camera.motion_event_animated_road
+    - camera.motion_event_animated_mask_road
+    - camera.motion_event_composite_road
+    - group.motion_road_brief
+    - group.motion_road_summary
+
+
+motion_road_brief:
+  name: motion_road_brief
+  control: hidden
+  entities:
+    - camera.motion_detected_entity_picture_road
+    - camera.motion_detected_picture_road
+    - camera.motion_annotated_picture_road
+    - camera.motion_end_picture_road
+    - sensor.motion_detected_entity_status_road
+    - sensor.motion_detected_status_road
+    - sensor.motion_annotated_status_road
+    - sensor.motion_end_status_road
+    - sensor.motion_annotated_delay_road_mean
+    - sensor.motion_status_camera_found_when_road
+    - sensor.motion_status_camera_lost_when_road
+
+motion_road_summary:
+  name: motion_road_summary
+  control: hidden
+  entities:
+    - binary_sensor.motion_detected_entity_road
+    - sensor.motion_detected_entity_count_road
+    - sensor.motion_detected_entity_counter_road
+    - binary_sensor.motion_detected_road
+    - sensor.motion_detected_count_road
+    - sensor.motion_detected_counter_road
+    - binary_sensor.motion_annotated_road
+    - sensor.motion_annotated_count_road
+    - sensor.motion_annotated_entity_count_road
+    - sensor.motion_annotated_counter_road
+    - binary_sensor.motion_end_road
+    - sensor.motion_end_counter_road
+    - sensor.motion_annotated_delay_road
+    - sensor.motion_annotated_ago_road
+    - sensor.motion_end_ago_road
+    - sensor.motion_annotated_percent_road
+    - sensor.motion_annotated_count_road
+    - sensor.motion_annotated_entity_count_road
+    - sensor.motion_annotated_list_road
+    - counter.motion_complete_counter_road
+    - sensor.motion_complete_road
+    - binary_sensor.motion_complete_road

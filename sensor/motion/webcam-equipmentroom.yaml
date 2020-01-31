@@ -1,0 +1,1547 @@
+###
+### equipmentroom sensors
+###
+
+###
+# found
+###
+
+- platform: mqtt
+  name: motion_status_camera_found_equipmentroom
+  state_topic: 'motion/+/equipmentroom/status/found'
+  expire_after: 86400
+  force_update: true
+  json_attributes:
+    - device
+    - camera
+    - date
+    - status
+  value_template: >
+    {% if value_json is defined %}True{% else %}False{% endif %}
+
+## dates
+- platform: template
+  sensors:
+    motion_status_camera_found_date_equipmentroom:
+      entity_id:
+        - sensor.motion_status_camera_found_equipmentroom
+      unit_of_measurement: seconds
+      value_template: >-
+        {% if state_attr('sensor.motion_status_camera_found_equipmentroom','date')|lower != 'none'
+              and states.sensor.motion_status_camera_found_equipmentroom.attributes.date|int > 0 %}
+          {{ states.sensor.motion_status_camera_found_equipmentroom.attributes.date|int }}
+        {% else %}{{ now().timestamp()|int }}{% endif %}
+
+- platform: template
+  sensors:
+    motion_status_camera_found_when_equipmentroom:
+      friendly_name: equipmentroom found
+      entity_id:
+        - sensor.motion_status_camera_found_date_equipmentroom
+      value_template: >-
+        {% if states.sensor.motion_status_camera_found_date_equipmentroom|lower != 'none'
+              and states.sensor.motion_status_camera_found_date_equipmentroom.state|int > 0 %}
+          {{ states.sensor.motion_status_camera_found_date_equipmentroom.state|int|timestamp_custom("%a %b %d ~ %I:%M %p") }}
+        {% else %}null{% endif %} 
+
+###
+# lost
+###
+
+- platform: mqtt
+  name: motion_status_camera_lost_equipmentroom
+  state_topic: 'motion/+/equipmentroom/status/lost'
+  expire_after: 86400
+  force_update: true
+  json_attributes:
+    - device
+    - camera
+    - date
+    - status
+  value_template: >
+    {% if value_json is defined %}True{% else %}False{% endif %}
+
+## dates
+- platform: template
+  sensors:
+    motion_status_camera_lost_date_equipmentroom:
+      entity_id:
+        - sensor.motion_status_camera_lost_equipmentroom
+      unit_of_measurement: seconds
+      value_template: >-
+        {% if state_attr('sensor.motion_status_camera_lost_equipmentroom','date')|lower != 'none'
+              and states.sensor.motion_status_camera_lost_equipmentroom.attributes.date|int > 0 %}
+          {{ states.sensor.motion_status_camera_lost_equipmentroom.attributes.date|int }}
+        {% else %}{{ now().timestamp()|int }}{% endif %}
+
+- platform: template
+  sensors:
+    motion_status_camera_lost_when_equipmentroom:
+      friendly_name: equipmentroom lost
+      entity_id:
+        - sensor.motion_status_camera_lost_date_equipmentroom
+      value_template: >-
+        {% if states.sensor.motion_status_camera_lost_date_equipmentroom|lower != 'none'
+              and states.sensor.motion_status_camera_lost_date_equipmentroom.state|int > 0 %}
+          {{ states.sensor.motion_status_camera_lost_date_equipmentroom.state|int|timestamp_custom("%a %b %d ~ %I:%M %p") }}
+        {% else %}null{% endif %} 
+
+###
+# start event
+###
+
+- platform: mqtt
+  name: motion_event_start_equipmentroom
+  qos: 1
+  state_topic: 'motion/+/equipmentroom/event/start'
+  expire_after: 30
+  force_update: true
+  json_attributes:
+    - device
+    - camera
+    - event
+    - start
+  value_template: >
+    {% if value_json is defined %}True{% else %}False{% endif %}
+
+###
+# image event
+###
+
+- platform: mqtt
+  name: motion_event_image_equipmentroom
+  qos: 1
+  state_topic: 'motion/+/equipmentroom/event/image'
+  expire_after: 1
+  force_update: true
+  json_attributes:
+    - device
+    - camera
+    - type
+    - date
+    - seqno
+    - event
+    - id
+    - center
+    - width
+    - height
+    - size
+    - noise
+  value_template: >
+    {% if value_json is defined %}True{% else %}False{% endif %}
+
+###
+# end event
+###
+
+- platform: mqtt
+  name: motion_event_end_equipmentroom
+  qos: 2
+  state_topic: 'motion/+/equipmentroom/event/end'
+  expire_after: 60
+  force_update: True
+  json_attributes:
+    - device
+    - camera
+    - event
+    - start
+    - end
+    - elapsed
+    - date
+  value_template: >
+    {% if value_json is defined %}True{% else %}False{% endif %}
+
+## status
+- platform: template
+  sensors:
+    motion_end_status_equipmentroom:
+      friendly_name: equipmentroom motion
+      entity_id:
+        - sensor.motion_end_counter_equipmentroom
+        - sensor.motion_end_ago_equipmentroom
+      value_template: >-
+        {% set elapsed = states('sensor.motion_end_elapsed_equipmentroom')|int %}
+        {% set ago = states('sensor.motion_end_ago_equipmentroom')|int %}
+        {% if elapsed > 0 %} {{ elapsed }} {% else %} zero {% endif %} second(s);
+        {{ ago }} second(s) ago
+
+## counting
+- platform: template
+  sensors:
+    motion_end_counter_equipmentroom:
+      friendly_name: equipmentroom end counter
+      entity_id:
+        - counter.motion_end_counter_equipmentroom
+      unit_of_measurement: count
+      value_template: >-
+        {% if states.counter.motion_end_counter_equipmentroom|lower != 'none' %}
+          {{ states.counter.motion_end_counter_equipmentroom.state|int }}
+        {%- else -%}null{%- endif -%}
+
+## timing
+- platform: template
+  sensors:
+    motion_end_date_equipmentroom:
+      entity_id:
+        - sensor.motion_end_counter_equipmentroom
+      unit_of_measurement: seconds
+      value_template: >-
+        {% if states.sensor.motion_event_end_equipmentroom|lower != 'none' and state_attr('sensor.motion_event_end_equipmentroom','end')|lower != 'none' %}
+          {% set date = states.sensor.motion_event_end_equipmentroom.attributes.end|int %}
+          {% if date > 0 %}{{ date }}{% else %}null{% endif %}
+        {% else %}null{% endif %}
+
+- platform: template
+  sensors:
+    motion_end_when_equipmentroom:
+      friendly_name: equipmentroom end
+      entity_id:
+        - sensor.motion_end_date_equipmentroom
+      value_template: >-
+        {% set date = states('sensor.motion_end_date_equipmentroom')|int %}
+        {% if date > 0 %} {{ date|timestamp_custom("%a %b %d ~ %I:%M %p") }} {% else %}never{% endif %}
+
+- platform: template
+  sensors:
+    motion_end_ago_equipmentroom:
+      friendly_name: equipmentroom end ago
+      entity_id:
+        - sensor.motion_end_date_equipmentroom
+        - sensor.time
+      unit_of_measurement: seconds
+      value_template: >
+        {% set s = states('sensor.motion_end_date_equipmentroom')|int %}
+        {% if s >  0 %}
+          {% set s = now().timestamp()|int - s %}
+          {% if s <  86400 %}{{ s }}{%- else -%}null{%- endif -%}
+        {%- else -%}null{%- endif -%}
+
+## elapsed
+- platform: template
+  sensors:
+    motion_end_elapsed_equipmentroom:
+      entity_id:
+        - sensor.motion_end_counter_equipmentroom
+      value_template: >
+        {% if states.sensor.motion_event_end_equipmentroom|lower != 'none'
+              and state_attr('sensor.motion_event_end_equipmentroom','elapsed')|lower != 'none' %}
+          {{ states.sensor.motion_event_end_equipmentroom.attributes.elapsed }}
+        {% else %} null {% endif %}
+
+###
+## annotated
+###
+
+## event_annotated
+- platform: mqtt
+  name: motion_event_annotated_equipmentroom
+  state_topic: 'motion/+/equipmentroom/event/end/+'
+  expire_after: 60
+  force_update: true
+  json_attributes:
+    - timestamp
+    - date
+    - time
+    - count
+    - event
+    - info
+    - detected
+  value_template: >
+    {% if value_json is defined %}True{% else %}False{% endif %}
+
+## status
+- platform: template
+  sensors:
+    motion_annotated_status_equipmentroom:
+      friendly_name: equipmentroom annotated
+      entity_id:
+        - sensor.motion_annotated_counter_equipmentroom
+        - sensor.motion_annotated_ago_equipmentroom
+      value_template: >-
+        {% set count = states('sensor.motion_annotated_count_equipmentroom')|int %}
+        {% set saw = states('sensor.motion_annotated_list_equipmentroom') %}
+        {% set ago = states('sensor.motion_annotated_ago_equipmentroom')|int %}
+        {% set delay = states('sensor.motion_annotated_delay_equipmentroom')|int %}
+        {% set when = states('sensor.motion_annotated_when_equipmentroom') %}
+        {% if count > 0 %}{{ count }} entity(s): {{ saw -}};{% else %}nothing;{% endif %}
+        {{ when }}; delay: {{ delay }}; {{ ago }} second(s) ago
+
+## count
+- platform: template
+  sensors:
+    motion_annotated_count_equipmentroom:
+      friendly_name: equipmentroom annotated count
+      entity_id:
+        - counter.motion_annotated_counter_equipmentroom
+      unit_of_measurement: entities
+      value_template: >
+        {% if state_attr('sensor.motion_event_annotated_equipmentroom','count') is not none %}
+          {{ state_attr('sensor.motion_event_annotated_equipmentroom','count')|int }}
+        {% else %}null{% endif %}
+
+## entity_count_loop
+- platform: template
+  sensors:
+    motion_annotated_entity_count_loop_equipmentroom:
+      entity_id:
+        - sensor.motion_annotated_count_equipmentroom
+      unit_of_measurement: entities
+      value_template: >-
+        {% set camera = 'equipmentroom' %}
+        {% set count = states('sensor.motion_annotated_count_' + camera)|int %}
+        {% if count > 0 %}
+          {% set s = states('sensor.motion_detect_entity') %}
+          {% for detected in state_attr('sensor.motion_event_annotated_' + camera,'detected') %}
+            {% if detected.entity == s or s == 'all' %}
+              {{ detected.count|int }}
+            {% endif %}
+          {% endfor %}
+        {% else %}null{% endif %}
+
+## entity_count
+- platform: template
+  sensors:
+    motion_annotated_entity_count_equipmentroom:
+      friendly_name: equipmentroom annotated entity count
+      entity_id:
+        - sensor.motion_annotated_entity_count_loop_equipmentroom
+      unit_of_measurement: entities
+      value_template: >-
+        {{ states('sensor.motion_annotated_entity_count_loop_equipmentroom')|int }}
+
+## annotated_list
+- platform: template
+  sensors:
+    motion_annotated_list_equipmentroom:
+      friendly_name: equipmentroom annotated entity list
+      entity_id:
+        - counter.motion_annotated_counter_equipmentroom
+      value_template: >-
+        {% set camera = 'equipmentroom' %}
+        {% set count = state_attr('sensor.motion_event_annotated_' + camera,'count') %}
+        {% set array = state_attr('sensor.motion_event_annotated_' + camera,'detected') %}
+        {% if count > 0 and array is not none %}
+          {% for detected in array %}
+            {%- if loop.first -%}{%- else -%},{%- endif -%}
+            {{- detected.entity -}}
+          {% endfor %}
+        {% else %}null{% endif %}
+
+## counter
+- platform: template
+  sensors:
+    motion_annotated_counter_equipmentroom:
+      friendly_name: equipmentroom annotated counter
+      entity_id:
+        - sensor.motion_annotated_entity_count_equipmentroom
+      unit_of_measurement: count
+      value_template: >
+        {% if states('counter.motion_annotated_counter_equipmentroom') != 'unknown' %}
+          {{ states('counter.motion_annotated_counter_equipmentroom')|int }}
+        {%- else -%}null{%- endif -%}
+
+## date
+- platform: template
+  sensors:
+    # date
+    motion_annotated_date_equipmentroom:
+      entity_id:
+        - sensor.motion_annotated_count_equipmentroom
+      unit_of_measurement: seconds
+      value_template: >-
+        {% if  state_attr('sensor.motion_event_annotated_equipmentroom','event') is not none %}
+          {% set date = states.sensor.motion_event_annotated_equipmentroom.attributes.event.end|int %}
+          {% if date > 0 %}{{ date }}{% else %}null{% endif %}
+        {% else %}null{% endif %}
+
+## when
+- platform: template
+  sensors:
+    motion_annotated_when_equipmentroom:
+      friendly_name: equipmentroom annotated
+      entity_id:
+        - sensor.motion_annotated_date_equipmentroom
+      value_template: >-
+        {% set date = states('sensor.motion_annotated_date_equipmentroom')|int %}
+        {% if date > 0 %} {{ date|timestamp_custom("%a %b %d ~ %I:%M %p") }} {% else %}never{% endif %}
+
+## ago
+- platform: template
+  sensors:
+    motion_annotated_ago_equipmentroom:
+      friendly_name: equipmentroom annotated ago
+      entity_id:
+        - sensor.motion_annotated_date_equipmentroom
+        - sensor.time
+      unit_of_measurement: seconds
+      value_template: >
+        {% set s = states('sensor.motion_annotated_date_equipmentroom')|int %}
+        {% if s >  0 %}
+          {% set s = now().timestamp()|int - s %}
+          {% if s <  86400 %}{{ s }}{%- else -%}null{%- endif -%}
+        {%- else -%}null{%- endif -%}
+
+## percent
+- platform: template
+  sensors:
+    motion_annotated_percent_equipmentroom:
+      friendly_name: equipmentroom annotated percent
+      entity_id:
+        - sensor.motion_end_counter_equipmentroom
+        - sensor.motion_annotated_counter_equipmentroom
+      unit_of_measurement: '%'
+      value_template: >-
+        {% if states('sensor.motion_annotated_counter_equipmentroom')|int > 0 and states('sensor.motion_end_counter_equipmentroom')|int > 0 %}
+          {{  ( states.sensor.motion_annotated_counter_equipmentroom.state|int / states.sensor.motion_end_counter_equipmentroom.state|int ) * 100.0 }}
+        {%- else -%}null{%- endif -%}
+
+## delay 
+- platform: template
+  sensors:
+    motion_annotated_delay_equipmentroom:
+      friendly_name: equipmentroom delay 
+      entity_id:
+        - sensor.motion_annotated_date_equipmentroom
+      unit_of_measurement: seconds
+      value_template: >
+        {{ now().timestamp()|int - states('sensor.motion_annotated_date_equipmentroom')|int }}
+
+###
+# statistics
+###
+
+## ago
+- platform: template
+  sensors:
+    motion_annotated_ago_equipmentroom_mean:
+      friendly_name: equipmentroom annotated ago avg
+      entity_id:
+        - sensor.motion_annotated_ago_equipmentroom_statistics
+      unit_of_measurement: seconds
+      value_template: >-
+        {% if states.sensor.motion_annotated_ago_equipmentroom_statistics|lower != 'none' %}
+          {{ states.sensor.motion_annotated_ago_equipmentroom_statistics.state|float }}
+        {%- else -%}null{%- endif -%}
+    motion_annotated_ago_equipmentroom_min_value:
+      friendly_name: equipmentroom annotated min
+      entity_id:
+        - sensor.motion_annotated_ago_equipmentroom_statistics
+      unit_of_measurement: seconds
+      value_template: >-
+        {% if states.sensor.motion_annotated_ago_equipmentroom_statistics|lower != 'none' %}
+          {{ states.sensor.motion_annotated_ago_equipmentroom_statistics.attributes.min_value|int }}
+        {%- else -%}null{%- endif -%}
+    motion_annotated_ago_equipmentroom_max_value:
+      friendly_name: equipmentroom annotated max
+      entity_id:
+        - sensor.motion_annotated_ago_equipmentroom_statistics
+      unit_of_measurement: seconds
+      value_template: >-
+        {% if states.sensor.motion_annotated_ago_equipmentroom_statistics|lower != 'none' %}
+          {{ states.sensor.motion_annotated_ago_equipmentroom_statistics.attributes.max_value|int }}
+        {%- else -%}null{%- endif -%}
+    motion_annotated_ago_equipmentroom_stdev:
+      friendly_name: equipmentroom annotated stdev
+      entity_id:
+        - sensor.motion_annotated_ago_equipmentroom_statistics
+      unit_of_measurement: seconds
+      value_template: >
+        {% if states.sensor.motion_annotated_ago_equipmentroom_statistics|lower != 'none' %}
+          {{ states.sensor.motion_annotated_ago_equipmentroom_statistics.attributes.standard_deviation|float }}
+        {%- else -%}null{%- endif -%}
+    motion_annotated_ago_equipmentroom_change:
+      friendly_name: equipmentroom annotated change
+      entity_id:
+        - sensor.motion_annotated_ago_equipmentroom_statistics
+      unit_of_measurement: seconds
+      value_template: >
+        {% if states.sensor.motion_annotated_ago_equipmentroom_statistics|lower != 'none' %}
+          {{ states.sensor.motion_annotated_ago_equipmentroom_statistics.attributes.change|float }}
+        {%- else -%}null{%- endif -%}
+
+## percent
+- platform: template
+  sensors:
+    motion_annotated_percent_equipmentroom_mean:
+      friendly_name: equipmentroom annotated percent avg
+      entity_id:
+        - sensor.motion_annotated_percent_equipmentroom_statistics
+      unit_of_measurement: '%'
+      value_template: >-
+        {% if states('sensor.motion_annotated_percent_equipmentroom_statistics') != 'unknown' %}
+          {{ states.sensor.motion_annotated_percent_equipmentroom_statistics.state|float }}
+        {%- else -%}null{%- endif -%}
+    motion_annotated_percent_equipmentroom_min_value:
+      friendly_name: equipmentroom annotated percent min
+      entity_id:
+        - sensor.motion_annotated_percent_equipmentroom_statistics
+      unit_of_measurement: '%'
+      value_template: >-
+        {% if states('sensor.motion_annotated_percent_equipmentroom_statistics') != 'unknown' %}
+          {{ states.sensor.motion_annotated_percent_equipmentroom_statistics.attributes.min_value|float }}
+        {%- else -%}null{%- endif -%}
+    motion_annotated_percent_equipmentroom_max_value:
+      friendly_name: equipmentroom annotated percent max
+      entity_id:
+        - sensor.motion_annotated_percent_equipmentroom_statistics
+      unit_of_measurement: '%'
+      value_template: >-
+        {% if states('sensor.motion_annotated_percent_equipmentroom_statistics') != 'unknown' %}
+          {{ states.sensor.motion_annotated_percent_equipmentroom_statistics.attributes.max_value|float }}
+        {%- else -%}null{%- endif -%}
+    motion_annotated_percent_equipmentroom_stdev:
+      friendly_name: equipmentroom annotated percent stdev
+      entity_id:
+        - sensor.motion_annotated_percent_equipmentroom_statistics
+      unit_of_measurement: '%'
+      value_template: >
+        {% if states('sensor.motion_annotated_percent_equipmentroom_statistics') != 'unknown' %}
+          {{ states.sensor.motion_annotated_percent_equipmentroom_statistics.attributes.standard_deviation|float }}
+        {%- else -%}null{%- endif -%}
+    motion_annotated_percent_equipmentroom_change:
+      friendly_name: equipmentroom annotated percent change
+      entity_id:
+        - sensor.motion_annotated_percent_equipmentroom_statistics
+      unit_of_measurement: '%'
+      value_template: >
+        {% if states('sensor.motion_annotated_percent_equipmentroom_statistics') != 'unknown' %}
+          {{ states.sensor.motion_annotated_percent_equipmentroom_statistics.attributes.change|float }}
+        {%- else -%}null{%- endif -%}
+
+## delay 
+- platform: template
+  sensors:
+    motion_annotated_delay_equipmentroom_mean:
+      friendly_name: equipmentroom delay avg
+      entity_id:
+        - sensor.motion_annotated_delay_equipmentroom_statistics
+      unit_of_measurement: seconds
+      value_template: >-
+        {% if states('sensor.motion_annotated_delay_equipmentroom_statistics') != 'unknown' %}
+          {{ states.sensor.motion_annotated_delay_equipmentroom_statistics.state|float }}
+        {%- else -%}null{%- endif -%}
+    motion_annotated_delay_equipmentroom_min_value:
+      friendly_name: equipmentroom delay min
+      entity_id:
+        - sensor.motion_annotated_delay_equipmentroom_statistics
+      unit_of_measurement: seconds
+      value_template: >-
+        {% if states('sensor.motion_annotated_delay_equipmentroom_statistics') != 'unknown' %}
+          {{ states.sensor.motion_annotated_delay_equipmentroom_statistics.attributes.min_value|int }}
+        {%- else -%}null{%- endif -%}
+    motion_annotated_delay_equipmentroom_max_value:
+      friendly_name: equipmentroom delay max
+      entity_id:
+        - sensor.motion_annotated_delay_equipmentroom_statistics
+      unit_of_measurement: seconds
+      value_template: >-
+        {% if states('sensor.motion_annotated_delay_equipmentroom_statistics') != 'unknown' %}
+          {{ states.sensor.motion_annotated_delay_equipmentroom_statistics.attributes.max_value|int }}
+        {%- else -%}null{%- endif -%}
+    motion_annotated_delay_equipmentroom_stdev:
+      friendly_name: equipmentroom delay stdev
+      entity_id:
+        - sensor.motion_annotated_delay_equipmentroom_statistics
+      unit_of_measurement: seconds
+      value_template: >
+        {% if states('sensor.motion_annotated_delay_equipmentroom_statistics') != 'unknown' %}
+          {{ states.sensor.motion_annotated_delay_equipmentroom_statistics.attributes.standard_deviation|float }}
+        {%- else -%}null{%- endif -%}
+    motion_annotated_delay_equipmentroom_change:
+      friendly_name: equipmentroom delay change
+      entity_id:
+        - sensor.motion_annotated_delay_equipmentroom_statistics
+      unit_of_measurement: seconds
+      value_template: >
+        {% if states('sensor.motion_annotated_delay_equipmentroom_statistics') != 'unknown' %}
+          {{ states.sensor.motion_annotated_delay_equipmentroom_statistics.attributes.change|float }}
+        {%- else -%}null{%- endif -%}
+
+## statistics
+
+# ago
+- platform: statistics
+  name: motion_annotated_ago_equipmentroom_statistics
+  entity_id: sensor.motion_annotated_ago_equipmentroom
+  sampling_size: 1000
+  max_age:
+    hours: 72
+- platform: statistics
+  name: motion_annotated_ago_equipmentroom_stdev_statistics
+  entity_id: sensor.motion_annotated_ago_equipmentroom_stdev
+  sampling_size: 1000
+  max_age:
+    hours: 72
+
+# percent
+- platform: statistics
+  name: motion_annotated_percent_equipmentroom_statistics
+  entity_id: sensor.motion_annotated_percent_equipmentroom
+  sampling_size: 1000
+  max_age:
+    hours: 72
+- platform: statistics
+  name: motion_annotated_percent_equipmentroom_stdev_statistics
+  entity_id: sensor.motion_annotated_percent_equipmentroom_stdev
+  sampling_size: 1000
+  max_age:
+    hours: 72
+
+# delay
+- platform: statistics
+  name: motion_annotated_delay_equipmentroom_statistics
+  entity_id: sensor.motion_annotated_delay_equipmentroom
+  sampling_size: 1000
+  max_age:
+    hours: 72
+- platform: statistics
+  name: motion_annotated_delay_equipmentroom_stdev_statistics
+  entity_id: sensor.motion_annotated_delay_equipmentroom_stdev
+  sampling_size: 1000
+  max_age:
+    hours: 72
+
+###
+## detected
+###
+
+## status
+- platform: template
+  sensors:
+    motion_detected_status_equipmentroom:
+      friendly_name: equipmentroom Seen
+      entity_id:
+        - sensor.motion_detected_when_equipmentroom
+      value_template: >-
+        {% set when = states('sensor.motion_detected_when_equipmentroom') %}
+        {% set count = states('sensor.motion_detected_count_equipmentroom')|int %}
+        {% set what = states('sensor.motion_detected_list_equipmentroom') %}
+        {{ count }} entities: {{ what -}}; {{ when }}
+
+## count
+- platform: template
+  sensors:
+    # count
+    motion_detected_count_equipmentroom:
+      friendly_name: equipmentroom detected count
+      entity_id:
+        - binary_sensor.motion_detected_equipmentroom
+      unit_of_measurement: entities
+      value_template: >-
+        {{ states('sensor.motion_annotated_count_equipmentroom')|int }}
+
+## counter
+- platform: template
+  sensors:
+    motion_detected_counter_equipmentroom:
+      friendly_name: equipmentroom detected counter
+      entity_id:
+        - sensor.motion_detected_count_equipmentroom
+      unit_of_measurement: count
+      value_template: >
+        {% if states('counter.motion_detected_counter_equipmentroom') != 'unknown' %}
+          {{ states('counter.motion_detected_counter_equipmentroom')|int }}
+        {%- else -%}null{%- endif -%}
+
+## date
+- platform: template
+  sensors:
+    motion_detected_date_equipmentroom:
+      friendly_name: equipmentroom detected date
+      entity_id:
+        - sensor.motion_detected_counter_equipmentroom
+      unit_of_measurement: seconds
+      value_template: >-
+        {% set date = states('sensor.motion_annotated_date_equipmentroom')|int %}
+        {% if date > 0 %}{{ date }}{% else %}null{% endif %}
+
+## when
+- platform: template
+  sensors:
+    motion_detected_when_equipmentroom:
+      friendly_name: equipmentroom detected at
+      entity_id:
+        - sensor.motion_detected_date_equipmentroom
+      value_template: >-
+        {% set date = states('sensor.motion_detected_date_equipmentroom')|int %}
+        {% if date > 0 %} {{ date|timestamp_custom("%a %b %d ~ %I:%M %p") }} {% else %}never{% endif %}
+
+## ago
+- platform: template
+  sensors:
+    motion_detected_ago_equipmentroom:
+      friendly_name: equipmentroom seen ago
+      entity_id:
+        - sensor.motion_detected_date_equipmentroom
+        - sensor.time
+      unit_of_measurement: seconds
+      value_template: >
+        {% set s = states('sensor.motion_detected_date_equipmentroom')|int %}
+        {% if s >  0 %}
+          {% set s = now().timestamp()|int - s %}
+          {% if s <  86400 %}{{ s }}{%- else -%}null{%- endif -%}
+        {%- else -%}null{%- endif -%}
+
+## list
+- platform: template
+  sensors:
+    motion_detected_list_equipmentroom:
+      friendly_name: equipmentroom entity list
+      entity_id:
+        - sensor.motion_detected_count_equipmentroom
+      value_template: >-
+        {{ states('sensor.motion_annotated_list_equipmentroom') }}
+
+## percent
+- platform: template
+  sensors:
+    motion_detected_percent_equipmentroom:
+      friendly_name: equipmentroom seen
+      entity_id:
+        - sensor.motion_annotated_counter_equipmentroom
+        - sensor.motion_detected_counter_equipmentroom
+      unit_of_measurement: '%'
+      value_template: >-
+        {% if states('sensor.motion_detected_counter_equipmentroom')|int > 0 and states('sensor.motion_annotated_counter_equipmentroom')|int > 0 %}
+          {{  ( states.sensor.motion_detected_counter_equipmentroom.state|int / states.sensor.motion_annotated_counter_equipmentroom.state|int ) * 100.0 }}
+        {%- else -%}null{%- endif -%}
+
+###
+## statistics
+###
+
+## ago
+- platform: template
+  sensors:
+    motion_detected_ago_equipmentroom_mean:
+      friendly_name: equipmentroom seen ago avg
+      entity_id:
+        - sensor.motion_detected_ago_equipmentroom_statistics
+      unit_of_measurement: seconds
+      value_template: >-
+        {% if states.sensor.motion_detected_ago_equipmentroom_statistics|lower != 'none' %}
+          {% if states.sensor.motion_detected_ago_equipmentroom_statistics.state|int is number %}
+            {{ states.sensor.motion_detected_ago_equipmentroom_statistics.state|float }}
+          {%- else -%}null{%- endif -%}
+        {%- else -%}null{%- endif -%}
+    motion_detected_ago_equipmentroom_min_value:
+      friendly_name: equipmentroom seen ago min
+      entity_id:
+        - sensor.motion_detected_ago_equipmentroom_statistics
+      unit_of_measurement: seconds
+      value_template: >-
+        {% if states.sensor.motion_detected_ago_equipmentroom_statistics|lower != 'none' %}
+          {{ states.sensor.motion_detected_ago_equipmentroom_statistics.attributes.min_value|int }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_ago_equipmentroom_max_value:
+      friendly_name: equipmentroom seen ago max
+      entity_id:
+        - sensor.motion_detected_ago_equipmentroom_statistics
+      unit_of_measurement: seconds
+      value_template: >-
+        {% if states.sensor.motion_detected_ago_equipmentroom_statistics|lower != 'none' %}
+          {{ states.sensor.motion_detected_ago_equipmentroom_statistics.attributes.max_value|int }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_ago_equipmentroom_stdev:
+      friendly_name: equipmentroom seen ago stdev
+      entity_id:
+        - sensor.motion_detected_ago_equipmentroom_statistics
+      unit_of_measurement: seconds
+      value_template: >
+        {% if states.sensor.motion_detected_ago_equipmentroom_statistics|lower != 'none' %}
+          {{ states.sensor.motion_detected_ago_equipmentroom_statistics.attributes.standard_deviation|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_ago_equipmentroom_change:
+      friendly_name: equipmentroom ago change
+      entity_id:
+        - sensor.motion_detected_ago_equipmentroom_statistics
+      unit_of_measurement: seconds
+      value_template: >
+        {% if states.sensor.motion_detected_ago_equipmentroom_statistics|lower != 'none' %}
+          {{ states.sensor.motion_detected_ago_equipmentroom_statistics.attributes.change|float }}
+        {%- else -%}null{%- endif -%}
+
+## count
+- platform: template
+  sensors:
+    motion_detected_count_mean_equipmentroom:
+      friendly_name: equipmentroom seen avg
+      entity_id:
+        - sensor.motion_detected_count_equipmentroom_statistics
+      unit_of_measurement: entities
+      value_template: >-
+        {% if states('sensor.motion_detected_count_equipmentroom_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_count_equipmentroom_statistics.state|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_count_equipmentroom_min_value:
+      friendly_name: equipmentroom seen min
+      entity_id:
+        - sensor.motion_detected_count_equipmentroom_statistics
+      unit_of_measurement: entities
+      value_template: >-
+        {% if states('sensor.motion_detected_count_equipmentroom_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_count_equipmentroom_statistics.attributes.min_value|int }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_count_equipmentroom_max_value:
+      friendly_name: equipmentroom seen max
+      entity_id:
+        - sensor.motion_detected_count_equipmentroom_statistics
+      unit_of_measurement: entities
+      value_template: >-
+        {% if states('sensor.motion_detected_count_equipmentroom_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_count_equipmentroom_statistics.attributes.max_value|int }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_count_equipmentroom_stdev:
+      friendly_name: equipmentroom seen stdev
+      entity_id:
+        - sensor.motion_detected_count_equipmentroom_statistics
+      unit_of_measurement: entities
+      value_template: >
+        {% if states('sensor.motion_detected_count_equipmentroom_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_count_equipmentroom_statistics.attributes.standard_deviation|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_count_equipmentroom_change:
+      friendly_name: equipmentroom seen change
+      entity_id:
+        - sensor.motion_detected_count_equipmentroom_statistics
+      unit_of_measurement: entities
+      value_template: >
+        {% if states('sensor.motion_detected_count_equipmentroom_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_count_equipmentroom_statistics.attributes.change|float }}
+        {%- else -%}null{%- endif -%}
+
+## percent
+- platform: template
+  sensors:
+    motion_detected_percent_equipmentroom_mean:
+      friendly_name: equipmentroom seen avg
+      entity_id:
+        - sensor.motion_detected_percent_equipmentroom_statistics
+      unit_of_measurement: '%'
+      value_template: >-
+        {% if states('sensor.motion_detected_percent_equipmentroom_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_percent_equipmentroom_statistics.state|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_percent_equipmentroom_min_value:
+      friendly_name: equipmentroom seen min
+      entity_id:
+        - sensor.motion_detected_percent_equipmentroom_statistics
+      unit_of_measurement: '%'
+      value_template: >-
+        {% if states('sensor.motion_detected_percent_equipmentroom_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_percent_equipmentroom_statistics.attributes.min_value|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_percent_equipmentroom_max_value:
+      friendly_name: equipmentroom seen max
+      entity_id:
+        - sensor.motion_detected_percent_equipmentroom_statistics
+      unit_of_measurement: '%'
+      value_template: >-
+        {% if states('sensor.motion_detected_percent_equipmentroom_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_percent_equipmentroom_statistics.attributes.max_value|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_percent_equipmentroom_stdev:
+      friendly_name: equipmentroom seen stdev
+      entity_id:
+        - sensor.motion_detected_percent_equipmentroom_statistics
+      unit_of_measurement: '%'
+      value_template: >
+        {% if states('sensor.motion_detected_percent_equipmentroom_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_percent_equipmentroom_statistics.attributes.standard_deviation|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_percent_equipmentroom_change:
+      friendly_name: equipmentroom seen change
+      entity_id:
+        - sensor.motion_detected_percent_equipmentroom_statistics
+      unit_of_measurement: '%'
+      value_template: >
+        {% if states('sensor.motion_detected_percent_equipmentroom_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_percent_equipmentroom_statistics.attributes.change|float }}
+        {%- else -%}null{%- endif -%}
+
+## statistics
+
+# ago
+- platform: statistics
+  name: motion_detected_ago_equipmentroom_statistics
+  entity_id: sensor.motion_detected_ago_equipmentroom
+  sampling_size: 1000
+  max_age:
+    hours: 72
+- platform: statistics
+  name: motion_detected_ago_equipmentroom_stdev_statistics
+  entity_id: sensor.motion_detected_ago_equipmentroom_stdev
+  sampling_size: 1000
+  max_age:
+    hours: 72
+
+# count
+- platform: statistics
+  name: motion_detected_count_equipmentroom_statistics
+  entity_id: sensor.motion_detected_count_equipmentroom
+  sampling_size: 1000
+  max_age:
+    hours: 72
+- platform: statistics
+  name: motion_detected_count_equipmentroom_stdev_statistics
+  entity_id: sensor.motion_detected_count_equipmentroom_stdev
+  sampling_size: 1000
+  max_age:
+    hours: 72
+
+# percent
+- platform: statistics
+  name: motion_detected_percent_equipmentroom_statistics
+  entity_id: sensor.motion_detected_percent_equipmentroom
+  sampling_size: 1000
+  max_age:
+    hours: 72
+- platform: statistics
+  name: motion_detected_percent_equipmentroom_stdev_statistics
+  entity_id: sensor.motion_detected_percent_equipmentroom_stdev
+  sampling_size: 1000
+  max_age:
+    hours: 72
+
+###
+## detected_entity
+###
+
+## status
+- platform: template
+  sensors:
+    motion_detected_entity_status_equipmentroom:
+      friendly_name: equipmentroom found
+      entity_id:
+        - sensor.motion_detected_entity_when_equipmentroom
+      value_template: >-
+        {% set count = states('sensor.motion_detected_entity_count_equipmentroom')|int %}
+        {% set what = states('sensor.motion_detect_entity') %}
+        {% set when = states('sensor.motion_detected_entity_when_equipmentroom') %}
+        {{ count }} {{ what -}}(s); {{ when }}
+
+## count
+- platform: template
+  sensors:
+    motion_detected_entity_count_equipmentroom:
+      friendly_name: equipmentroom found
+      unit_of_measurement: entities
+      entity_id:
+        - binary_sensor.motion_detected_entity_equipmentroom
+      value_template: >-
+        {{ states('sensor.motion_annotated_entity_count_equipmentroom')|int }}
+
+## counter
+- platform: template
+  sensors:
+    motion_detected_entity_counter_equipmentroom:
+      friendly_name: equipmentroom found counter
+      entity_id:
+        - sensor.motion_detected_entity_when_equipmentroom
+      unit_of_measurement: count
+      value_template: >
+        {% if states('counter.motion_detected_entity_counter_equipmentroom') != 'unknown' %}
+          {{ states('counter.motion_detected_entity_counter_equipmentroom')|int }}
+        {%- else -%}null{%- endif -%}
+
+## date
+- platform: template
+  sensors:
+    motion_detected_entity_date_equipmentroom:
+      entity_id:
+        - sensor.motion_detected_entity_count_equipmentroom
+      unit_of_measurement: seconds
+      value_template: >-
+        {% set date = states('sensor.motion_annotated_date_equipmentroom')|int %}
+        {% if date > 0 %}{{ date }}{% else %}null{% endif %}
+
+## when - human readable
+- platform: template
+  sensors:
+    motion_detected_entity_when_equipmentroom:
+      friendly_name: equipmentroom identified at
+      entity_id:
+        - sensor.motion_detected_entity_date_equipmentroom
+      value_template: >-
+        {% set date = states('sensor.motion_detected_entity_date_equipmentroom')|int %}
+        {% if date > 0 %}{{ date|timestamp_custom("%a %b %d ~ %I:%M %p") }}{% else %}never{% endif %}
+
+## ago
+- platform: template
+  sensors:
+    motion_detected_entity_ago_equipmentroom:
+      friendly_name: equipmentroom found ago
+      entity_id:
+        - sensor.motion_detected_entity_date_equipmentroom
+        - sensor.time
+      unit_of_measurement: seconds
+      value_template: >
+        {% set s = states('sensor.motion_detected_entity_date_equipmentroom')|int %}
+        {% if s >  0 %}
+          {% set s = now().timestamp()|int - s %}
+          {% if s <  86400 %}{{ s }}{% else %}null{% endif %}
+        {%- else -%}null{%- endif -%}
+
+## percent
+- platform: template
+  sensors:
+    motion_detected_entity_percent_equipmentroom:
+      friendly_name: equipmentroom found
+      entity_id:
+        - sensor.motion_annotated_counter_equipmentroom
+        - sensor.motion_detected_entity_counter_equipmentroom
+      unit_of_measurement: '%'
+      value_template: >-
+        {% if states('sensor.motion_detected_entity_counter_equipmentroom')|int > 0 and states('sensor.motion_annotated_counter_equipmentroom')|int > 0 %}
+          {{ states('sensor.motion_detected_entity_counter_equipmentroom')|int / states('sensor.motion_annotated_counter_equipmentroom')|int * 100.0 }}
+        {%- else -%}null{%- endif -%}
+
+###
+# statistics
+###
+
+## count
+- platform: template
+  sensors:
+    motion_detected_entity_count_mean_equipmentroom:
+      friendly_name: equipmentroom found avg
+      entity_id:
+        - sensor.motion_detected_entity_count_equipmentroom_statistics
+      unit_of_measurement: entities
+      value_template: >-
+        {% if states('sensor.motion_detected_entity_count_equipmentroom_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_entity_count_equipmentroom_statistics.state|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_count_equipmentroom_min_value:
+      friendly_name: equipmentroom found min
+      entity_id:
+        - sensor.motion_detected_entity_count_equipmentroom_statistics
+      unit_of_measurement: entities
+      value_template: >-
+        {% if states('sensor.motion_detected_entity_count_equipmentroom_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_entity_count_equipmentroom_statistics.attributes.min_value|int }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_count_equipmentroom_max_value:
+      friendly_name: equipmentroom found max
+      entity_id:
+        - sensor.motion_detected_entity_count_equipmentroom_statistics
+      unit_of_measurement: entities
+      value_template: >-
+        {% if states('sensor.motion_detected_entity_count_equipmentroom_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_entity_count_equipmentroom_statistics.attributes.max_value|int }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_count_equipmentroom_stdev:
+      friendly_name: equipmentroom found stdev
+      entity_id:
+        - sensor.motion_detected_entity_count_equipmentroom_statistics
+      unit_of_measurement: entities
+      value_template: >
+        {% if states('sensor.motion_detected_entity_count_equipmentroom_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_entity_count_equipmentroom_statistics.attributes.standard_deviation|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_count_equipmentroom_change:
+      friendly_name: equipmentroom found change
+      entity_id:
+        - sensor.motion_detected_entity_count_equipmentroom_statistics
+      unit_of_measurement: entities
+      value_template: >
+        {% if states('sensor.motion_detected_entity_count_equipmentroom_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_entity_count_equipmentroom_statistics.attributes.change|float }}
+        {%- else -%}null{%- endif -%}
+
+## counter
+- platform: template
+  sensors:
+    motion_detected_entity_counter_equipmentroom_mean:
+      friendly_name: equipmentroom found avg
+      entity_id:
+        - sensor.motion_detected_entity_counter_equipmentroom_statistics
+      unit_of_measurement: count
+      value_template: >-
+        {% if states.sensor.motion_detected_entity_counter_equipmentroom_statistics|lower != 'none' %}
+          {% if states.sensor.motion_detected_entity_counter_equipmentroom_statistics.state|int is number %}
+            {{ states.sensor.motion_detected_entity_counter_equipmentroom_statistics.state|float }}
+          {%- else -%}null{%- endif -%}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_counter_equipmentroom_min_value:
+      friendly_name: equipmentroom found min
+      entity_id:
+        - sensor.motion_detected_entity_counter_equipmentroom_statistics
+      unit_of_measurement: count
+      value_template: >-
+        {% if states.sensor.motion_detected_entity_counter_equipmentroom_statistics|lower != 'none' %}
+          {{ states.sensor.motion_detected_entity_counter_equipmentroom_statistics.attributes.min_value|int }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_counter_equipmentroom_max_value:
+      friendly_name: equipmentroom found max
+      entity_id:
+        - sensor.motion_detected_entity_counter_equipmentroom_statistics
+      unit_of_measurement: count
+      value_template: >-
+        {% if states.sensor.motion_detected_entity_counter_equipmentroom_statistics|lower != 'none' %}
+          {{ states.sensor.motion_detected_entity_counter_equipmentroom_statistics.attributes.max_value|int }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_counter_equipmentroom_stdev:
+      friendly_name: equipmentroom found stdev
+      entity_id:
+        - sensor.motion_detected_entity_counter_equipmentroom_statistics
+      unit_of_measurement: count
+      value_template: >
+        {% if states.sensor.motion_detected_entity_counter_equipmentroom_statistics|lower != 'none' %}
+          {{ states.sensor.motion_detected_entity_counter_equipmentroom_statistics.attributes.standard_deviation|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_counter_equipmentroom_change:
+      friendly_name: equipmentroom found change
+      entity_id:
+        - sensor.motion_detected_entity_counter_equipmentroom_statistics
+      unit_of_measurement: count
+      value_template: >
+        {% if states.sensor.motion_detected_entity_counter_equipmentroom_statistics|lower != 'none' %}
+          {{ states.sensor.motion_detected_entity_counter_equipmentroom_statistics.attributes.change|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_counter_equipmentroom_stdev_change:
+      friendly_name: equipmentroom found stdev change
+      entity_id:
+        - sensor.motion_detected_entity_counter_equipmentroom_stdev_statistics
+      unit_of_measurement: count
+      value_template: >
+        {% if states.sensor.motion_detected_entity_counter_equipmentroom_stdev_statistics|lower != 'none' %}
+          {{ states.sensor.motion_detected_entity_counter_equipmentroom_stdev_statistics.attributes.change|float }}
+        {%- else -%}null{%- endif -%}
+
+## ago
+- platform: template
+  sensors:
+    motion_detected_entity_ago_equipmentroom_mean:
+      friendly_name: equipmentroom found ago avg
+      entity_id:
+        - sensor.motion_detected_entity_ago_equipmentroom_statistics
+      unit_of_measurement: seconds
+      value_template: >-
+        {% if states.sensor.motion_detected_entity_ago_equipmentroom_statistics|lower != 'none' %}
+          {% if states.sensor.motion_detected_entity_ago_equipmentroom_statistics.state|int is number %}
+            {{ states.sensor.motion_detected_entity_ago_equipmentroom_statistics.state|float }}
+          {%- else -%}null{%- endif -%}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_ago_equipmentroom_min_value:
+      friendly_name: equipmentroom found ago min
+      entity_id:
+        - sensor.motion_detected_entity_ago_equipmentroom_statistics
+      unit_of_measurement: seconds
+      value_template: >-
+        {% if states.sensor.motion_detected_entity_ago_equipmentroom_statistics|lower != 'none' %}
+          {{ states.sensor.motion_detected_entity_ago_equipmentroom_statistics.attributes.min_value|int }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_ago_equipmentroom_max_value:
+      friendly_name: equipmentroom found ago max
+      entity_id:
+        - sensor.motion_detected_entity_ago_equipmentroom_statistics
+      unit_of_measurement: seconds
+      value_template: >-
+        {% if states.sensor.motion_detected_entity_ago_equipmentroom_statistics|lower != 'none' %}
+          {{ states.sensor.motion_detected_entity_ago_equipmentroom_statistics.attributes.max_value|int }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_ago_equipmentroom_stdev:
+      friendly_name: equipmentroom found ago stdev
+      entity_id:
+        - sensor.motion_detected_entity_ago_equipmentroom_statistics
+      unit_of_measurement: seconds
+      value_template: >
+        {% if states.sensor.motion_detected_entity_ago_equipmentroom_statistics|lower != 'none' %}
+          {{ states.sensor.motion_detected_entity_ago_equipmentroom_statistics.attributes.standard_deviation|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_ago_equipmentroom_change:
+      friendly_name: equipmentroom found ago change
+      entity_id:
+        - sensor.motion_detected_entity_ago_equipmentroom_statistics
+      unit_of_measurement: seconds
+      value_template: >
+        {% if states.sensor.motion_detected_entity_ago_equipmentroom_statistics|lower != 'none' %}
+          {{ states.sensor.motion_detected_entity_ago_equipmentroom_statistics.attributes.change|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_ago_equipmentroom_stdev_change:
+      friendly_name: equipmentroom found ago stdev change
+      entity_id:
+        - sensor.motion_detected_entity_ago_equipmentroom_stdev_statistics
+      unit_of_measurement: seconds
+      value_template: >
+        {% if states.sensor.motion_detected_entity_ago_equipmentroom_stdev_statistics|lower != 'none' %}
+          {{ states.sensor.motion_detected_entity_ago_equipmentroom_stdev_statistics.attributes.change|float }}
+        {%- else -%}null{%- endif -%}
+
+## percent
+- platform: template
+  sensors:
+    motion_detected_entity_percent_equipmentroom_mean:
+      friendly_name: equipmentroom found avg
+      entity_id:
+        - sensor.motion_detected_entity_percent_equipmentroom_statistics
+      unit_of_measurement: '%'
+      value_template: >-
+        {% if states('sensor.motion_detected_entity_percent_equipmentroom_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_entity_percent_equipmentroom_statistics.state|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_percent_equipmentroom_min_value:
+      friendly_name: equipmentroom found min
+      entity_id:
+        - sensor.motion_detected_entity_percent_equipmentroom_statistics
+      unit_of_measurement: '%'
+      value_template: >-
+        {% if states('sensor.motion_detected_entity_percent_equipmentroom_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_entity_percent_equipmentroom_statistics.attributes.min_value|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_percent_equipmentroom_max_value:
+      friendly_name: equipmentroom found max
+      entity_id:
+        - sensor.motion_detected_entity_percent_equipmentroom_statistics
+      unit_of_measurement: '%'
+      value_template: >-
+        {% if states('sensor.motion_detected_entity_percent_equipmentroom_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_entity_percent_equipmentroom_statistics.attributes.max_value|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_percent_equipmentroom_stdev:
+      friendly_name: equipmentroom found stdev
+      entity_id:
+        - sensor.motion_detected_entity_percent_equipmentroom_statistics
+      unit_of_measurement: '%'
+      value_template: >
+        {% if states('sensor.motion_detected_entity_percent_equipmentroom_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_entity_percent_equipmentroom_statistics.attributes.standard_deviation|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_percent_equipmentroom_change:
+      friendly_name: equipmentroom found change
+      entity_id:
+        - sensor.motion_detected_entity_percent_equipmentroom_statistics
+      unit_of_measurement: '%'
+      value_template: >
+        {% if states('sensor.motion_detected_entity_percent_equipmentroom_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_entity_percent_equipmentroom_statistics.attributes.change|float }}
+        {%- else -%}null{%- endif -%}
+
+## statistics
+
+# count
+- platform: statistics
+  name: motion_detected_entity_count_equipmentroom_statistics
+  entity_id: sensor.motion_detected_entity_count_equipmentroom
+  sampling_size: 1000
+  max_age:
+    hours: 72
+- platform: statistics
+  name: motion_detected_entity_count_equipmentroom_stdev_statistics
+  entity_id: sensor.motion_detected_entity_count_equipmentroom_stdev
+  sampling_size: 1000
+  max_age:
+    hours: 72
+
+# counter
+- platform: statistics
+  name: motion_detected_entity_counter_equipmentroom_statistics
+  entity_id: sensor.motion_detected_entity_counter_equipmentroom
+  sampling_size: 1000
+  max_age:
+    hours: 72
+- platform: statistics
+  name: motion_detected_entity_counter_equipmentroom_stdev_statistics
+  entity_id: sensor.motion_detected_entity_counter_equipmentroom_stdev
+  sampling_size: 1000
+  max_age:
+    hours: 72
+
+# ago
+- platform: statistics
+  name: motion_detected_entity_ago_equipmentroom_statistics
+  entity_id: sensor.motion_detected_entity_ago_equipmentroom
+  sampling_size: 1000
+  max_age:
+    hours: 72
+- platform: statistics
+  name: motion_detected_entity_ago_equipmentroom_stdev_statistics
+  entity_id: sensor.motion_detected_entity_ago_equipmentroom_stdev
+  sampling_size: 1000
+  max_age:
+    hours: 72
+
+# percent
+- platform: statistics
+  name: motion_detected_entity_percent_equipmentroom_statistics
+  entity_id: sensor.motion_detected_entity_percent_equipmentroom
+  sampling_size: 1000
+  max_age:
+    hours: 72
+- platform: statistics
+  name: motion_detected_entity_percent_equipmentroom_stdev_statistics
+  entity_id: sensor.motion_detected_entity_percent_equipmentroom_stdev
+  sampling_size: 1000
+  max_age:
+    hours: 72
+
+###
+# snapshot
+###
+
+- platform: template
+  sensors:
+    motion_end_snapshot_equipmentroom:
+      entity_id:
+        - sensor.motion_end_counter_equipmentroom
+      value_template: >-
+        {% set bu = states('sensor.motion_base_url') %}
+        {% if bu != 'unknown' %}
+          {{ bu + '/local/images/motion_end-equipmentroom.jpg' }}
+        {% else %}{{ states('sensor.motion_testsignal_picture') }}{% endif %}
+
+- platform: template
+  sensors:
+    motion_annotated_snapshot_equipmentroom:
+      entity_id:
+        - sensor.motion_annotated_counter_equipmentroom
+      value_template: >-
+        {% set bu = states('sensor.motion_base_url') %}
+        {% if bu != 'unknown' %}
+          {{ bu + '/local/images/motion_annotated-equipmentroom.jpg' }}
+        {% else %}{{ states('sensor.motion_testsignal_picture') }}{% endif %}
+
+- platform: template
+  sensors:
+    motion_detected_snapshot_equipmentroom:
+      entity_id:
+        - sensor.motion_detected_counter_equipmentroom
+      value_template: >-
+        {% set bu = states('sensor.motion_base_url') %}
+        {% if bu != 'unknown' %}
+          {{ bu + '/local/images/motion_detected-equipmentroom.jpg' }}
+        {% else %}{{ states('sensor.motion_testsignal_picture') }}{% endif %}
+
+- platform: template
+  sensors:
+    motion_detected_entity_snapshot_equipmentroom:
+      entity_id:
+        - sensor.motion_detected_entity_counter_equipmentroom
+      value_template: >-
+        {% set bu = states('sensor.motion_base_url') %}
+        {% if bu != 'unknown' %}
+          {{ bu + '/local/images/motion_detected_entity-equipmentroom.jpg' }}
+        {% else %}{{ states('sensor.motion_testsignal_picture') }}{% endif %}
+
+###
+## picture
+###
+
+- platform: template
+  sensors:
+    motion_end_picture_equipmentroom:
+      entity_id:
+        - sensor.motion_event_end_equipmentroom
+        - camera.motion_event_end_equipmentroom
+      value_template: >-
+        {% set bu = states('sensor.motion_base_url') %}
+        {% set ep = state_attr('camera.motion_event_end_equipmentroom','entity_picture') %}
+        {% if ep is not none and ep != 'unknown' and ep != 'null' and bu != 'unknown' %}
+          {% set p = bu + ep %}
+        {% else %}
+          {% set p = states('sensor.motion_testsignal_picture') %}
+        {% endif %}
+        {% if p is defined and p is not none and p != 'unknown' and p != 'null' %}
+          {{ p }}
+        {% else %}
+           {{ states('sensor.motion_nosignal_picture') }}
+        {% endif %}
+
+- platform: template
+  sensors:
+    motion_annotated_picture_equipmentroom:
+      entity_id:
+        - sensor.motion_event_annotated_equipmentroom
+        - camera.motion_event_annotated_equipmentroom
+      value_template: >-
+        {% set bu = states('sensor.motion_base_url') %}
+        {% set ep = state_attr('camera.motion_event_annotated_equipmentroom','entity_picture') %}
+        {% if ep is not none and ep != 'unknown' and ep != 'null' and bu != 'unknown' %}
+          {% set p = bu + ep %}
+        {% else %}
+          {% set p = states('sensor.motion_testsignal_picture') %}
+        {% endif %}
+        {% if p is defined and p is not none and p != 'unknown' and p != 'null' %}
+          {{ p }}
+        {% else %}
+           {{ states('sensor.motion_nosignal_picture') }}
+        {% endif %}
+
+- platform: template
+  sensors:
+    motion_detected_picture_equipmentroom:
+      friendly_name: equipmentroom detected picture
+      entity_id:
+        - sensor.motion_annotated_picture_equipmentroom
+        - sensor.motion_detected_counter_equipmentroom
+      value_template: >-
+        {% set n = states('sensor.motion_annotated_count_equipmentroom')|int %}
+        {% if n > 0 %}
+          {% set p = states('sensor.motion_annotated_picture_equipmentroom') %}
+        {% else %}
+          {% set p = states('sensor.motion_detected_picture_equipmentroom') %}
+        {% endif %}
+        {% if p is not none and p != 'unknown' and p != 'null' %}
+          {{ p }}
+        {% else %}
+          {{ states('sensor.motion_nosignal_picture') }}
+        {% endif %}
+
+- platform: template
+  sensors:
+    motion_detected_entity_picture_equipmentroom:
+      friendly_name: equipmentroom detected entity picture
+      entity_id:
+        - sensor.motion_detected_picture_equipmentroom
+        - sensor.motion_detected_entity_counter_equipmentroom
+      value_template: >-
+        {% set n = states('sensor.motion_annotated_entity_count_equipmentroom')|int %}
+        {% if n > 0 %}
+          {% set p = states('sensor.motion_annotated_picture_equipmentroom') %}
+        {% else %}
+          {% set p = states('sensor.motion_detected_entity_picture_equipmentroom') %}
+        {% endif %}
+        {% if p is not none and p != 'unknown' and p != 'null' %}
+          {{ p }}
+        {% else %}
+           {{ states('sensor.motion_nosignal_picture') }}
+        {% endif %}
+
+###
+# complete
+###
+
+- platform: template
+  sensors:
+    motion_complete_equipmentroom:
+      unit_of_measurement: seconds
+      friendly_name: equipmentroom complete
+      entity_id:
+        - camera.motion_event_annotated_equipmentroom
+        - sensor.motion_event_annotated_equipmentroom
+      value_template: >
+        {% set c = as_timestamp(states.camera.motion_event_annotated_equipmentroom.last_updated) %}
+        {% set s = as_timestamp(states.sensor.motion_event_annotated_equipmentroom.last_updated) %}
+        {{  c|float - s|float }}
+
+# complete statistics
+- platform: template
+  sensors:
+    motion_detected_entity_complete_equipmentroom_mean:
+      friendly_name: equipmentroom complete avg
+      entity_id:
+        - sensor.motion_detected_entity_complete_equipmentroom_statistics
+      unit_of_measurement: '%'
+      value_template: >-
+        {% if states('sensor.motion_detected_entity_complete_equipmentroom_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_entity_complete_equipmentroom_statistics.state|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_complete_equipmentroom_min_value:
+      friendly_name: equipmentroom complete min
+      entity_id:
+        - sensor.motion_detected_entity_complete_equipmentroom_statistics
+      unit_of_measurement: '%'
+      value_template: >-
+        {% if states('sensor.motion_detected_entity_complete_equipmentroom_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_entity_complete_equipmentroom_statistics.attributes.min_value|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_complete_equipmentroom_max_value:
+      friendly_name: equipmentroom complete max
+      entity_id:
+        - sensor.motion_detected_entity_complete_equipmentroom_statistics
+      unit_of_measurement: '%'
+      value_template: >-
+        {% if states('sensor.motion_detected_entity_complete_equipmentroom_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_entity_complete_equipmentroom_statistics.attributes.max_value|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_complete_equipmentroom_stdev:
+      friendly_name: equipmentroom complete stdev
+      entity_id:
+        - sensor.motion_detected_entity_complete_equipmentroom_statistics
+      unit_of_measurement: '%'
+      value_template: >
+        {% if states('sensor.motion_detected_entity_complete_equipmentroom_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_entity_complete_equipmentroom_statistics.attributes.standard_deviation|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_complete_equipmentroom_change:
+      friendly_name: equipmentroom complete change
+      entity_id:
+        - sensor.motion_detected_entity_complete_equipmentroom_statistics
+      unit_of_measurement: '%'
+      value_template: >
+        {% if states('sensor.motion_detected_entity_complete_equipmentroom_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_entity_complete_equipmentroom_statistics.attributes.change|float }}
+        {%- else -%}null{%- endif -%}
+
+# statistics
+- platform: statistics
+  name: motion_detected_entity_complete_equipmentroom_statistics
+  entity_id: sensor.motion_detected_entity_complete_equipmentroom
+  sampling_size: 1000
+  max_age:
+    hours: 72
+- platform: statistics
+  name: motion_detected_entity_complete_equipmentroom_stdev_statistics
+  entity_id: sensor.motion_detected_entity_complete_equipmentroom_stdev
+  sampling_size: 1000
+  max_age:
+    hours: 72
+
+###
+### variable detection; produce array of booleans
+###
+
+- platform: template
+  sensors:
+    motion_detected_person_equipmentroom:
+      entity_id:
+        - binary_sensor.motion_detected_equipmentroom
+        - sensor.motion_detected_ago_equipmentroom
+      value_template: >-
+        {% if states.sensor.motion_event_annotated_equipmentroom|lower != 'none'
+              and state_attr('sensor.motion_event_annotated_equipmentroom','detected')|lower != 'none'
+              and states.sensor.motion_event_annotated_equipmentroom.attributes.count|int > 0
+              and state_attr('input_select.motion_detect_person','options')|lower != 'none' %}
+          {% for detected in states.sensor.motion_event_annotated_equipmentroom.attributes.detected %}
+            {%- if loop.first -%}[{%- else -%},{%- endif -%}
+            {% if detected.entity in state_attr('input_select.motion_detect_person','options') %}{{ detected.count }}{% else %}0{% endif %}
+            {%- if loop.last -%}]{%- endif -%}
+          {% endfor %}
+        {% else %}null{% endif %}
+
+- platform: template
+  sensors:
+    motion_detected_vehicle_equipmentroom:
+      entity_id:
+        - binary_sensor.motion_detected_equipmentroom
+        - sensor.motion_detected_ago_equipmentroom
+      value_template: >-
+        {% if states.sensor.motion_event_annotated_equipmentroom|lower != 'none'
+              and state_attr('sensor.motion_event_annotated_equipmentroom','detected')|lower != 'none'
+              and states.sensor.motion_event_annotated_equipmentroom.attributes.count|int > 0
+              and state_attr('input_select.motion_detect_vehicle','options')|lower != 'none' %}
+          {% for detected in states.sensor.motion_event_annotated_equipmentroom.attributes.detected %}
+            {%- if loop.first -%}[{%- else -%},{%- endif -%}
+            {% if detected.entity in state_attr('input_select.motion_detect_vehicle','options') %}{{ detected.count }}{% else %}0{% endif %}
+            {%- if loop.last -%}]{%- endif -%}
+          {% endfor %}
+        {% else %}null{% endif %}
+
+- platform: template
+  sensors:
+    motion_detected_animal_equipmentroom:
+      entity_id:
+        - binary_sensor.motion_detected_equipmentroom
+        - sensor.motion_detected_ago_equipmentroom
+      value_template: >-
+        {% if states.sensor.motion_event_annotated_equipmentroom|lower != 'none'
+              and state_attr('sensor.motion_event_annotated_equipmentroom','detected')|lower != 'none'
+              and states.sensor.motion_event_annotated_equipmentroom.attributes.count|int > 0
+              and state_attr('input_select.motion_detect_animal','options')|lower != 'none' %}
+          {% for detected in states.sensor.motion_event_annotated_equipmentroom.attributes.detected %}
+            {%- if loop.first -%}[{%- else -%},{%- endif -%}
+            {% if detected.entity in state_attr('input_select.motion_detect_animal','options') %}{{ detected.count }}{% else %}0{% endif %}
+            {%- if loop.last -%}]{%- endif -%}
+          {% endfor %}
+        {% else %}null{% endif %}

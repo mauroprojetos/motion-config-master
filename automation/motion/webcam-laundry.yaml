@@ -1,0 +1,515 @@
+###
+### automation laundry
+###
+
+###
+# end
+###
+
+- id: motion_end_counter_laundry
+  alias: motion_end_counter_laundry
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: binary_sensor.motion_end_laundry
+  condition:
+    - condition: template
+      value_template: >-
+        {{ is_state('binary_sensor.motion_end_laundry','on') }}
+  action:
+    - service: counter.increment
+      entity_id: counter.motion_end_counter_laundry
+    - service: counter.increment
+      entity_id: counter.motion_end_counter
+
+- id: motion_end_snapshot_laundry
+  alias: motion_end_snapshot_laundry
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: sensor.motion_event_end_laundry
+  condition:
+    condition: and
+    conditions:
+      - condition: template
+        value_template: >-
+          {{ is_state('input_boolean.motion_snapshot_save','on') }}
+      - condition: template
+        value_template: >-
+          {{ state_attr('camera.motion_event_end_laundry','entity_picture') is not none }}
+  action:
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_end-laundry.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_event_end_laundry' }}
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_end.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_event_end_laundry' }}
+#    - delay:
+#        milliseconds: 100
+#    - service: mqtt.publish
+#      data:
+#        topic: 'motion-master/laundry/snapshot/end'
+#        payload_template: >-
+#          {{ '/config/www/images/motion_end-laundry.jpg' }}
+#        qos: 1
+#        retain: 0
+
+###
+# annotated
+###
+
+- id: motion_annotated_counter_laundry
+  alias: motion_annotated_counter_laundry
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: binary_sensor.motion_annotated_laundry
+  condition:
+    - condition: template
+      value_template: >-
+        {{ is_state('binary_sensor.motion_annotated_laundry','on') }}
+  action:
+    - service: counter.increment
+      entity_id: counter.motion_annotated_counter_laundry
+    - service: counter.increment
+      entity_id: counter.motion_annotated_counter
+
+- id: motion_annotated_snapshot_laundry
+  alias: motion_annotated_snapshot_laundry
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: camera.motion_event_annotated_laundry
+  condition:
+    condition: and
+    conditions:
+      - condition: template
+        value_template: >-
+          {{ is_state('input_boolean.motion_snapshot_save','on') }}
+      - condition: template
+        value_template: >-
+          {{ state_attr('camera.motion_event_annotated_laundry','entity_picture') is not none }}
+  action:
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_annotated-laundry.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_event_annotated_laundry' }}
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_annotated.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_event_annotated_laundry' }}
+#    - delay:
+#        milliseconds: 100
+#    - service: mqtt.publish
+#      data:
+#        topic: 'motion-master/laundry/snapshot/annotated'
+#        payload_template: >-
+#          {{ '/config/www/images/motion_annotated-laundry.jpg' }}
+#        qos: 1
+#        retain: 0
+
+###
+# detected
+###
+
+- id: motion_detected_counter_laundry
+  alias: motion_detected_counter_laundry
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: binary_sensor.motion_detected_laundry
+  condition:
+    - condition: template
+      value_template: >-
+        {{ is_state('binary_sensor.motion_detected_laundry','on') }}
+  action:
+    - service: counter.increment
+      entity_id: counter.motion_detected_counter_laundry
+    - service: counter.increment
+      entity_id: counter.motion_detected_counter
+
+- id: motion_detected_snapshot_laundry
+  alias: motion_detected_snapshot_laundry
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: sensor.motion_detected_counter_laundry
+  condition:
+    condition: and
+    conditions:
+      - condition: template
+        value_template: >-
+          {{ is_state('input_boolean.motion_snapshot_save','on') }}
+      - condition: template
+        value_template: >-
+          {{ states('sensor.motion_annotated_count_laundry')|int > 0 }}
+      - condition: template
+        value_template: >-
+          {{ state_attr('camera.motion_event_annotated_laundry','entity_picture') is not none }}
+  action:
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_detected-laundry.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_event_annotated_laundry' }}
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_detected.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_event_annotated_laundry' }}
+#    - delay:
+#        milliseconds: 100
+#    - service: mqtt.publish
+#      data:
+#        topic: 'motion-master/laundry/snapshot/detected'
+#        payload_template: >-
+#          {{ '/config/www/images/motion_detected-laundry.jpg' }}
+#        qos: 1
+#        retain: 0
+
+###
+# detected_entity
+###
+
+- id: motion_detected_entity_counter_laundry
+  alias: motion_detected_entity_counter_laundry
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: binary_sensor.motion_detected_entity_laundry
+  condition:
+    - condition: template
+      value_template: >-
+        {{ is_state('binary_sensor.motion_detected_entity_laundry','on') }}
+  action:
+    - service: counter.increment
+      entity_id: counter.motion_detected_entity_counter_laundry
+    - service: counter.increment
+      entity_id: counter.motion_detected_entity_counter
+
+- id: motion_detected_entity_snapshot_laundry
+  alias: motion_detected_entity_snapshot_laundry
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: sensor.motion_detected_entity_counter_laundry
+  condition:
+    condition: and
+    conditions:
+      - condition: template
+        value_template: >-
+          {{ is_state('input_boolean.motion_snapshot_save','on') }}
+      - condition: template
+        value_template: >-
+          {{ states('sensor.motion_annotated_entity_count_laundry')|int > 0 }}
+      - condition: template
+        value_template: >-
+          {{ state_attr('camera.motion_detected_entity_laundry','entity_picture') is not none }}
+  action:
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_detected_entity-laundry.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_event_annotated_laundry' }}
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_detected_entity.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_event_annotated_laundry' }}
+#    - delay:
+#        milliseconds: 100
+#    - service: mqtt.publish
+#      data:
+#        topic: 'motion-master/laundry/snapshot/detected_entity'
+#        payload_template: >-
+#          {{ '/config/www/images/motion_detected_entity-laundry.jpg' }}
+#        qos: 1
+#        retain: 0
+
+###
+# complete
+###
+
+- id: motion_complete_counter_laundry
+  alias: motion_complete_counter_laundry
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: binary_sensor.motion_complete_laundry
+  condition:
+    - condition: template
+      value_template: >-
+        {{ is_state('binary_sensor.motion_complete_laundry','on') }}
+  action:
+    - service: counter.increment
+      entity_id: counter.motion_complete_counter_laundry
+    - service: counter.increment
+      entity_id: counter.motion_complete_counter
+
+###
+# found
+###
+
+- id: motion_tracker_found_laundry
+  alias: motion_tracker_found_laundry
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: sensor.motion_status_camera_found_laundry
+  condition:
+    condition: and
+    conditions:
+      - condition: template
+        value_template: >
+          {{ is_state('input_boolean.motion_tracker_found','on') }}
+      - condition: template
+        value_template: >
+          {{ trigger.to_state.state != trigger.from_state.state }}
+  action:
+    - service: mqtt.publish
+      data_template:
+        topic: 'motion/tracker/webcam/laundry'
+        retain: true
+        payload_template: >-
+          { "topic":"motion/tracker/webcam/laundry", "payload":"home", "date":{{ (now().timestamp()|int) }} }
+
+- id: motion_reset_found_laundry
+  alias: motion_reset_found_laundry
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: sensor.motion_status_camera_found_laundry
+  condition:
+    condition: and
+    conditions:
+      - condition: template
+        value_template: >
+          {{ is_state('input_boolean.motion_reset_found_webcam','on') }}
+      - condition: template
+        value_template: >
+          {{ trigger.to_state.state != trigger.from_state.state }}
+  action:
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_end-laundry.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_testsignal' }}
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_annotated-laundry.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_testsignal' }}
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_detected-laundry.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_testsignal' }}
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_detected_entity-laundry.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_testsignal' }}
+
+###
+# lost
+###
+
+- id: motion_tracker_lost_laundry
+  alias: motion_tracker_lost_laundry
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: sensor.motion_status_camera_lost_laundry
+  condition:
+    condition: and
+    conditions:
+      - condition: template
+        value_template: >
+          {{ is_state('input_boolean.motion_tracker_lost','on') }}
+      - condition: template
+        value_template: >
+          {{ trigger.to_state.state != trigger.from_state.state }}
+  action:
+    - service: mqtt.publish
+      data_template:
+        topic: 'motion/tracker/webcam/laundry'
+        retain: true
+        payload_template: >-
+          { "topic":"motion/tracker/webcam/laundry", "payload":"not_home", "date":{{ (now().timestamp()|int) }} }
+
+- id: motion_reset_lost_laundry
+  alias: motion_reset_lost_laundry
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: sensor.motion_status_camera_lost_laundry
+  condition:
+    condition: and
+    conditions:
+      - condition: template
+        value_template: >
+          {{ is_state('input_boolean.motion_reset_lost_webcam','on') }}
+      - condition: template
+        value_template: >
+          {{ trigger.to_state.state != trigger.from_state.state }}
+  action:
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_end-laundry.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_nosignal' }}
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_annotated-laundry.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_nosignal' }}
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_detected-laundry.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_nosignal' }}
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_detected_entity-laundry.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_nosignal' }}
+
+###
+# notify lost and found
+###
+
+## found
+- id: motion_status_camera_notify_found_laundry
+  alias: motion_status_camera_notify_found_laundry
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: sensor.motion_status_camera_found_laundry
+  condition:
+    condition: and
+    conditions:
+      - condition: template
+        value_template: >
+          {{ is_state('input_boolean.motion_status_camera_notify','on') }}
+      - condition: template
+        value_template: >
+          {{ trigger.to_state.state != trigger.from_state.state and trigger.to_state|lower != 'none' and trigger.to_state.state|lower != 'unknown' }}
+  action:
+    - service: persistent_notification.create
+      data_template:
+        title: >
+          Camera laundry found
+        notification_id: >
+          laundry
+        message: >-
+          Camera laundry was {{ trigger.from_state.state }};
+          found at {{ now().timestamp()|int|timestamp_custom("%a %b %d @ %I:%M %p") | default(null) }}
+
+## lost
+- id: motion_status_camera_notify_lost_laundry
+  alias: motion_status_camera_notify_lost_laundry
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: sensor.motion_status_camera_lost_laundry
+  condition:
+    condition: and
+    conditions:
+      - condition: template
+        value_template: >
+          {{ is_state('input_boolean.motion_status_camera_notify','on') }}
+      - condition: template
+        value_template: >
+          {{ trigger.to_state.state != trigger.from_state.state and trigger.to_state|lower != 'none' and trigger.to_state.state|lower != 'unknown' }}
+  action:
+    - service: persistent_notification.create
+      data_template:
+        title: >
+          Camera laundry lost
+        notification_id: >
+          laundry
+        message: >-
+          Camera laundry was {{ trigger.from_state.state }};
+          lost at {{ now().timestamp()|int|timestamp_custom("%a %b %d @ %I:%M %p") | default(null) }}
+
+###
+# notify detected
+###
+
+- id: motion_detected_notify_laundry
+  alias: motion_detected_notify_laundry
+  initial_state: 'on'
+  trigger:
+    - platform: state
+      entity_id: sensor.motion_detected_counter_laundry
+  condition:
+    condition: template
+    value_template: >
+      {{ is_state('input_boolean.motion_detected_notify','on') and is_state('binary_sensor.motion_detected_laundry','on') }}
+  action:
+    - service: persistent_notification.create
+      data_template:
+        title: >-
+          Detected {{ states.sensor.motion_annotated_count_laundry.state }} {{ states.sensor.motion_detect_entity.state }}(s)
+          from {{ states.sensor.motion_event_annotated_laundry.attributes.event.camera }}
+        notification_id: >
+          detected-{{- states.sensor.motion_event_annotated_laundry.attributes.event.camera -}}
+        message: >-
+          Detected {{ states.sensor.motion_annotated_count_laundry.state }} {{ states.sensor.motion_detect_entity.state }}(s)
+          from {{ states.sensor.motion_event_annotated_laundry.attributes.event.camera }}
+          for {{ states.sensor.motion_event_annotated_laundry.attributes.event.elapsed }} seconds
+          ({{ states.sensor.motion_event_annotated_laundry.attributes.event.images|length }} frames)
+          at {{ states.sensor.motion_event_annotated_laundry.attributes.event.start|int|timestamp_custom("%a %b %d @ %I:%M %p") | default(null) }}
+
+
+###
+# notify detected_entity
+###
+
+- id: motion_detected_entity_notify_laundry
+  alias: motion_detected_entity_notify_laundry
+  initial_state: 'on'
+  trigger:
+    - platform: state
+      entity_id: sensor.motion_detected_entity_counter_laundry
+  condition:
+    condition: template
+    value_template: >
+      {{ is_state('input_boolean.motion_detected_entity_notify','on') and is_state('binary_sensor.motion_detected_entity_laundry','on') }}
+  action:
+    - service: persistent_notification.create
+      data_template:
+        title: >-
+          Detected {{ states.sensor.motion_annotated_count_laundry.state }} {{ states.sensor.motion_detect_entity.state }}(s)
+          from {{ states.sensor.motion_event_annotated_laundry.attributes.event.camera }}
+        notification_id: >
+          detected_entity-{{- states.sensor.motion_event_annotated_laundry.attributes.event.camera -}}
+        message: >-
+          Detected {{ states.sensor.motion_annotated_count_laundry.state }} {{ states.sensor.motion_detect_entity.state }}(s)
+          from {{ states.sensor.motion_event_annotated_laundry.attributes.event.camera }}
+          for {{ states.sensor.motion_event_annotated_laundry.attributes.event.elapsed }} seconds
+          ({{ states.sensor.motion_event_annotated_laundry.attributes.event.images|length }} frames)
+          at {{ states.sensor.motion_event_annotated_laundry.attributes.event.start|int|timestamp_custom("%a %b %d @ %I:%M %p") | default(null) }}
+

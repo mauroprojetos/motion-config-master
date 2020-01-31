@@ -1,0 +1,98 @@
+###
+### motion_woodshed BINARY_SENSOR
+###
+
+- platform: template
+  sensors:
+    motion_end_woodshed:
+      friendly_name: woodshed end
+      entity_id:
+        - sensor.motion_event_end_woodshed
+      value_template: >
+        {{ states('sensor.motion_event_end_woodshed')|lower == 'true' }}
+
+- platform: template
+  sensors:
+    motion_annotated_woodshed:
+      friendly_name: woodshed annotated
+      entity_id:
+        - sensor.motion_event_annotated_woodshed
+      value_template: >
+        {{ states('sensor.motion_event_annotated_woodshed')|lower == 'true' }}
+
+- platform: template
+  sensors:
+    motion_detected_woodshed:
+      friendly_name: woodshed detected
+      entity_id:
+        - sensor.motion_annotated_count_woodshed
+      value_template: >
+        {{ states('sensor.motion_annotated_count_woodshed')|int > 0 }}
+
+- platform: template
+  sensors:
+    motion_detected_entity_woodshed:
+      friendly_name: woodshed detected entity
+      entity_id:
+        - sensor.motion_annotated_entity_count_woodshed
+      value_template: >-
+        {{ states('sensor.motion_annotated_entity_count_woodshed')|int > 0 }}
+
+##
+
+- platform: template
+  sensors:
+    motion_complete_woodshed:
+      friendly_name: woodshed complete
+      entity_id:
+        - sensor.motion_complete_woodshed
+      value_template: >
+        {% set d = states('sensor.motion_complete_woodshed')|int %}
+        {{ d > 0 and d < states('input_number.motion_complete')|int }}
+
+##
+
+- platform: template
+  sensors:
+    motion_detected_person_woodshed:
+      entity_id:
+        - binary_sensor.motion_detected_woodshed
+        - sensor.motion_detected_ago_woodshed
+      value_template: >-
+        {% if states.sensor.motion_event_annotated_woodshed|lower != 'none'
+              and states.sensor.motion_detected_person_woodshed.state|lower != 'unknown'
+              and states.sensor.motion_detected_person_woodshed.state|lower != 'none'
+              and states.sensor.motion_detected_person_woodshed.state|from_json != 'null'
+              and states.sensor.motion_detected_person_woodshed.state|from_json is iterable %}
+          {{ states.sensor.motion_detected_person_woodshed.state|from_json|sum|int > 0 }}
+        {% else %}null{% endif %}
+
+- platform: template
+  sensors:
+    motion_detected_vehicle_woodshed:
+      entity_id:
+        - binary_sensor.motion_detected_woodshed
+        - sensor.motion_detected_ago_woodshed
+      value_template: >-
+        {% if states.sensor.motion_event_annotated_woodshed|lower != 'none'
+              and states.sensor.motion_detected_vehicle_woodshed.state|lower != 'none'
+              and states.sensor.motion_detected_vehicle_woodshed.state|lower != 'unknown'
+              and states.sensor.motion_detected_vehicle_woodshed.state|from_json != 'null'
+              and states.sensor.motion_detected_vehicle_woodshed.state|from_json is iterable %}
+          {{ states.sensor.motion_detected_vehicle_woodshed.state|from_json|sum|int > 0 }}
+        {% else %}null{% endif %}
+
+- platform: template
+  sensors:
+    motion_detected_animal_woodshed:
+      entity_id:
+        - binary_sensor.motion_detected_woodshed
+        - sensor.motion_detected_ago_woodshed
+      value_template: >-
+        {% if states.sensor.motion_event_annotated_woodshed|lower != 'none'
+              and states.sensor.motion_detected_animal_woodshed.state|lower != 'none'
+              and states.sensor.motion_detected_animal_woodshed.state|lower != 'unknown'
+              and states.sensor.motion_detected_animal_woodshed.state|from_json != 'null'
+              and states.sensor.motion_detected_animal_woodshed.state|from_json is iterable %}
+          {{ states.sensor.motion_detected_animal_woodshed.state|from_json|sum|int > 0 }}
+        {% else %}null{% endif %}

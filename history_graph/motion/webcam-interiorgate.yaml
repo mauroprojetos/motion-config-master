@@ -1,0 +1,14 @@
+motion_camera_interiorgate:
+  name: motion_camera_interiorgate
+  hours_to_show: 72
+  refresh: 30
+  entities:
+    - sensor.motion_annotated_ago_interiorgate
+    - sensor.motion_annotated_ago_interiorgate_mean
+    - sensor.motion_annotated_ago_interiorgate_stdev
+    - sensor.motion_detected_ago_interiorgate
+    - sensor.motion_detected_ago_interiorgate_mean
+    - sensor.motion_detected_ago_interiorgate_stdev
+    - sensor.motion_detected_entity_ago_interiorgate
+    - sensor.motion_detected_entity_ago_interiorgate_mean
+    - sensor.motion_detected_entity_ago_interiorgate_stdev

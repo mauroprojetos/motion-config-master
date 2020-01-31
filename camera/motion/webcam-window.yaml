@@ -1,0 +1,147 @@
+###
+### window cameras
+###
+
+- platform: mjpeg
+  name: motion_live_window
+  mjpeg_url: http://192.168.1.40:8090/1
+  verify_ssl: false
+  authentication: basic
+  username: username
+  password: password
+
+#- platform: mqtt
+#  name: motion_current_window
+#  topic: 'motion/+/window/image'
+#
+#- platform: mqtt
+#  name: motion_event_average_window
+#  topic: 'motion/+/window/image-average'
+#
+#- platform: mqtt
+#  name: motion_event_blend_window
+#  topic: 'motion/+/window/image-blend'
+#
+#- platform: mqtt
+#  name: motion_event_animated_mask_window
+#  topic: 'motion/+/window/image-animated-mask'
+#
+#- platform: mqtt
+#  name: motion_event_composite_window
+#  topic: 'motion/+/window/image-composite'
+#
+#- platform: mqtt
+#  name: motion_event_cropped_window
+#  topic: 'motion/+/window/image-cropped'
+
+- platform: mqtt
+  name: motion_event_animated_window
+  topic: 'motion/+/window/image-animated'
+
+- platform: mqtt
+  name: motion_event_end_window
+  topic: 'motion/+/window/image/end'
+
+- platform: mqtt
+  name: motion_event_annotated_window
+  topic: 'motion/+/window/image/end/+'
+
+###
+# picture
+###
+
+- platform: generic
+  name: motion_end_picture_window
+  verify_ssl: false
+  limit_refetch_to_url_change: true
+  still_image_url: >-
+    {% if states('input_boolean.motion_snapshot') == 'on' %}
+      {% set p = states('sensor.motion_end_snapshot_window') %}
+    {% else %}
+      {% set p = states('sensor.motion_end_picture_window') %}
+    {% endif %}
+    {% if p != 'unknown' and p != 'null' and p|length > 0 %}
+      {{ p }}
+    {% else %}{{ states('sensor.motion_nosignal_picture') }}{% endif %}
+
+- platform: generic
+  name: motion_annotated_picture_window
+  verify_ssl: false
+  limit_refetch_to_url_change: true
+  still_image_url: >-
+    {% if states('input_boolean.motion_snapshot') == 'on' %}
+      {% set p = states('sensor.motion_annotated_snapshot_window') %}
+    {% else %}
+      {% set p = states('sensor.motion_annotated_picture_window') %}
+    {% endif %}
+    {% if p != 'unknown' and p != 'null' and p|length > 0 %}
+      {{ p }}
+    {% else %}{{ states('sensor.motion_nosignal_picture') }}{% endif %}
+
+- platform: generic
+  name: motion_detected_picture_window
+  verify_ssl: false
+  limit_refetch_to_url_change: true
+  still_image_url: >-
+    {% if states('input_boolean.motion_snapshot') == 'on' %}
+      {% set p = states('sensor.motion_detected_snapshot_window') %}
+    {% else %}
+      {% set p = states('sensor.motion_detected_picture_window') %}
+    {% endif %}
+    {% if  p != 'unknown' and p != 'null' and p|length > 0 %}
+      {{ p }}
+    {% else %}{{ states('sensor.motion_nosignal_picture') }}{% endif %}
+
+- platform: generic
+  name: motion_detected_entity_picture_window
+  verify_ssl: false
+  limit_refetch_to_url_change: true
+  still_image_url: >-
+    {% if states('input_boolean.motion_snapshot') == 'on' %}
+      {% set p = states('sensor.motion_detected_entity_snapshot_window') %}
+    {% else %}
+      {% set p = states('sensor.motion_detected_entity_picture_window') %}
+    {% endif %}
+    {% if p != 'unknown' and p != 'null' and p|length > 0 %}
+      {{ p }}
+    {% else %}{{ states('sensor.motion_nosignal_picture') }}{% endif %}
+
+###
+# snapshot
+###
+
+- platform: generic
+  name: motion_end_snapshot_window
+  verify_ssl: false
+  still_image_url: >-
+    {% set p = states('sensor.motion_end_snapshot_window') %}
+    {% if p != 'unknown' and p != 'null' and p|length > 0 %}
+      {{ p }}
+    {% else %}{{ states('sensor.motion_nosignal_picture') }}{% endif %}
+
+- platform: generic
+  name: motion_annotated_snapshot_window
+  verify_ssl: false
+  still_image_url: >-
+    {% set p = states('sensor.motion_annotated_snapshot_window') %}
+    {% if p != 'unknown' and p != 'null' and p|length > 0 %}
+      {{ p }}
+    {% else %}{{ states('sensor.motion_nosignal_picture') }}{% endif %}
+
+- platform: generic
+  name: motion_detected_snapshot_window
+  verify_ssl: false
+  still_image_url: >-
+    {% set p = states('sensor.motion_detected_snapshot_window') %}
+    {% if  p != 'unknown' and p != 'null' and p|length > 0 %}
+      {{ p }}
+    {% else %}{{ states('sensor.motion_nosignal_picture') }}{% endif %}
+
+- platform: generic
+  name: motion_detected_entity_snapshot_window
+  verify_ssl: false
+  still_image_url: >-
+    {% set p = states('sensor.motion_detected_entity_snapshot_window') %}
+    {% if p != 'unknown' and p != 'null' and p|length > 0 %}
+      {{ p }}
+    {% else %}{{ states('sensor.motion_nosignal_picture') }}{% endif %}

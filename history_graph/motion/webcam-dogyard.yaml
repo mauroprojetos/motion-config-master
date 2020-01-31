@@ -1,0 +1,14 @@
+motion_camera_dogyard:
+  name: motion_camera_dogyard
+  hours_to_show: 72
+  refresh: 30
+  entities:
+    - sensor.motion_annotated_ago_dogyard
+    - sensor.motion_annotated_ago_dogyard_mean
+    - sensor.motion_annotated_ago_dogyard_stdev
+    - sensor.motion_detected_ago_dogyard
+    - sensor.motion_detected_ago_dogyard_mean
+    - sensor.motion_detected_ago_dogyard_stdev
+    - sensor.motion_detected_entity_ago_dogyard
+    - sensor.motion_detected_entity_ago_dogyard_mean
+    - sensor.motion_detected_entity_ago_dogyard_stdev

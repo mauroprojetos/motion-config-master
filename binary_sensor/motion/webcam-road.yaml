@@ -1,0 +1,98 @@
+###
+### motion_road BINARY_SENSOR
+###
+
+- platform: template
+  sensors:
+    motion_end_road:
+      friendly_name: road end
+      entity_id:
+        - sensor.motion_event_end_road
+      value_template: >
+        {{ states('sensor.motion_event_end_road')|lower == 'true' }}
+
+- platform: template
+  sensors:
+    motion_annotated_road:
+      friendly_name: road annotated
+      entity_id:
+        - sensor.motion_event_annotated_road
+      value_template: >
+        {{ states('sensor.motion_event_annotated_road')|lower == 'true' }}
+
+- platform: template
+  sensors:
+    motion_detected_road:
+      friendly_name: road detected
+      entity_id:
+        - sensor.motion_annotated_count_road
+      value_template: >
+        {{ states('sensor.motion_annotated_count_road')|int > 0 }}
+
+- platform: template
+  sensors:
+    motion_detected_entity_road:
+      friendly_name: road detected entity
+      entity_id:
+        - sensor.motion_annotated_entity_count_road
+      value_template: >-
+        {{ states('sensor.motion_annotated_entity_count_road')|int > 0 }}
+
+##
+
+- platform: template
+  sensors:
+    motion_complete_road:
+      friendly_name: road complete
+      entity_id:
+        - sensor.motion_complete_road
+      value_template: >
+        {% set d = states('sensor.motion_complete_road')|int %}
+        {{ d > 0 and d < states('input_number.motion_complete')|int }}
+
+##
+
+- platform: template
+  sensors:
+    motion_detected_person_road:
+      entity_id:
+        - binary_sensor.motion_detected_road
+        - sensor.motion_detected_ago_road
+      value_template: >-
+        {% if states.sensor.motion_event_annotated_road|lower != 'none'
+              and states.sensor.motion_detected_person_road.state|lower != 'unknown'
+              and states.sensor.motion_detected_person_road.state|lower != 'none'
+              and states.sensor.motion_detected_person_road.state|from_json != 'null'
+              and states.sensor.motion_detected_person_road.state|from_json is iterable %}
+          {{ states.sensor.motion_detected_person_road.state|from_json|sum|int > 0 }}
+        {% else %}null{% endif %}
+
+- platform: template
+  sensors:
+    motion_detected_vehicle_road:
+      entity_id:
+        - binary_sensor.motion_detected_road
+        - sensor.motion_detected_ago_road
+      value_template: >-
+        {% if states.sensor.motion_event_annotated_road|lower != 'none'
+              and states.sensor.motion_detected_vehicle_road.state|lower != 'none'
+              and states.sensor.motion_detected_vehicle_road.state|lower != 'unknown'
+              and states.sensor.motion_detected_vehicle_road.state|from_json != 'null'
+              and states.sensor.motion_detected_vehicle_road.state|from_json is iterable %}
+          {{ states.sensor.motion_detected_vehicle_road.state|from_json|sum|int > 0 }}
+        {% else %}null{% endif %}
+
+- platform: template
+  sensors:
+    motion_detected_animal_road:
+      entity_id:
+        - binary_sensor.motion_detected_road
+        - sensor.motion_detected_ago_road
+      value_template: >-
+        {% if states.sensor.motion_event_annotated_road|lower != 'none'
+              and states.sensor.motion_detected_animal_road.state|lower != 'none'
+              and states.sensor.motion_detected_animal_road.state|lower != 'unknown'
+              and states.sensor.motion_detected_animal_road.state|from_json != 'null'
+              and states.sensor.motion_detected_animal_road.state|from_json is iterable %}
+          {{ states.sensor.motion_detected_animal_road.state|from_json|sum|int > 0 }}
+        {% else %}null{% endif %}

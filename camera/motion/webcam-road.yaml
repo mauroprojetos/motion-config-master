@@ -1,0 +1,147 @@
+###
+### road cameras
+###
+
+- platform: mjpeg
+  name: motion_live_road
+  mjpeg_url: http://192.168.1.251:8090/3
+  verify_ssl: false
+  authentication: basic
+  username: username
+  password: password
+
+#- platform: mqtt
+#  name: motion_current_road
+#  topic: 'motion/+/road/image'
+#
+#- platform: mqtt
+#  name: motion_event_average_road
+#  topic: 'motion/+/road/image-average'
+#
+#- platform: mqtt
+#  name: motion_event_blend_road
+#  topic: 'motion/+/road/image-blend'
+#
+#- platform: mqtt
+#  name: motion_event_animated_mask_road
+#  topic: 'motion/+/road/image-animated-mask'
+#
+#- platform: mqtt
+#  name: motion_event_composite_road
+#  topic: 'motion/+/road/image-composite'
+#
+#- platform: mqtt
+#  name: motion_event_cropped_road
+#  topic: 'motion/+/road/image-cropped'
+
+- platform: mqtt
+  name: motion_event_animated_road
+  topic: 'motion/+/road/image-animated'
+
+- platform: mqtt
+  name: motion_event_end_road
+  topic: 'motion/+/road/image/end'
+
+- platform: mqtt
+  name: motion_event_annotated_road
+  topic: 'motion/+/road/image/end/+'
+
+###
+# picture
+###
+
+- platform: generic
+  name: motion_end_picture_road
+  verify_ssl: false
+  limit_refetch_to_url_change: true
+  still_image_url: >-
+    {% if states('input_boolean.motion_snapshot') == 'on' %}
+      {% set p = states('sensor.motion_end_snapshot_road') %}
+    {% else %}
+      {% set p = states('sensor.motion_end_picture_road') %}
+    {% endif %}
+    {% if p != 'unknown' and p != 'null' and p|length > 0 %}
+      {{ p }}
+    {% else %}{{ states('sensor.motion_nosignal_picture') }}{% endif %}
+
+- platform: generic
+  name: motion_annotated_picture_road
+  verify_ssl: false
+  limit_refetch_to_url_change: true
+  still_image_url: >-
+    {% if states('input_boolean.motion_snapshot') == 'on' %}
+      {% set p = states('sensor.motion_annotated_snapshot_road') %}
+    {% else %}
+      {% set p = states('sensor.motion_annotated_picture_road') %}
+    {% endif %}
+    {% if p != 'unknown' and p != 'null' and p|length > 0 %}
+      {{ p }}
+    {% else %}{{ states('sensor.motion_nosignal_picture') }}{% endif %}
+
+- platform: generic
+  name: motion_detected_picture_road
+  verify_ssl: false
+  limit_refetch_to_url_change: true
+  still_image_url: >-
+    {% if states('input_boolean.motion_snapshot') == 'on' %}
+      {% set p = states('sensor.motion_detected_snapshot_road') %}
+    {% else %}
+      {% set p = states('sensor.motion_detected_picture_road') %}
+    {% endif %}
+    {% if  p != 'unknown' and p != 'null' and p|length > 0 %}
+      {{ p }}
+    {% else %}{{ states('sensor.motion_nosignal_picture') }}{% endif %}
+
+- platform: generic
+  name: motion_detected_entity_picture_road
+  verify_ssl: false
+  limit_refetch_to_url_change: true
+  still_image_url: >-
+    {% if states('input_boolean.motion_snapshot') == 'on' %}
+      {% set p = states('sensor.motion_detected_entity_snapshot_road') %}
+    {% else %}
+      {% set p = states('sensor.motion_detected_entity_picture_road') %}
+    {% endif %}
+    {% if p != 'unknown' and p != 'null' and p|length > 0 %}
+      {{ p }}
+    {% else %}{{ states('sensor.motion_nosignal_picture') }}{% endif %}
+
+###
+# snapshot
+###
+
+- platform: generic
+  name: motion_end_snapshot_road
+  verify_ssl: false
+  still_image_url: >-
+    {% set p = states('sensor.motion_end_snapshot_road') %}
+    {% if p != 'unknown' and p != 'null' and p|length > 0 %}
+      {{ p }}
+    {% else %}{{ states('sensor.motion_nosignal_picture') }}{% endif %}
+
+- platform: generic
+  name: motion_annotated_snapshot_road
+  verify_ssl: false
+  still_image_url: >-
+    {% set p = states('sensor.motion_annotated_snapshot_road') %}
+    {% if p != 'unknown' and p != 'null' and p|length > 0 %}
+      {{ p }}
+    {% else %}{{ states('sensor.motion_nosignal_picture') }}{% endif %}
+
+- platform: generic
+  name: motion_detected_snapshot_road
+  verify_ssl: false
+  still_image_url: >-
+    {% set p = states('sensor.motion_detected_snapshot_road') %}
+    {% if  p != 'unknown' and p != 'null' and p|length > 0 %}
+      {{ p }}
+    {% else %}{{ states('sensor.motion_nosignal_picture') }}{% endif %}
+
+- platform: generic
+  name: motion_detected_entity_snapshot_road
+  verify_ssl: false
+  still_image_url: >-
+    {% set p = states('sensor.motion_detected_entity_snapshot_road') %}
+    {% if p != 'unknown' and p != 'null' and p|length > 0 %}
+      {{ p }}
+    {% else %}{{ states('sensor.motion_nosignal_picture') }}{% endif %}

@@ -1,0 +1,515 @@
+###
+### automation interiorgate
+###
+
+###
+# end
+###
+
+- id: motion_end_counter_interiorgate
+  alias: motion_end_counter_interiorgate
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: binary_sensor.motion_end_interiorgate
+  condition:
+    - condition: template
+      value_template: >-
+        {{ is_state('binary_sensor.motion_end_interiorgate','on') }}
+  action:
+    - service: counter.increment
+      entity_id: counter.motion_end_counter_interiorgate
+    - service: counter.increment
+      entity_id: counter.motion_end_counter
+
+- id: motion_end_snapshot_interiorgate
+  alias: motion_end_snapshot_interiorgate
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: sensor.motion_event_end_interiorgate
+  condition:
+    condition: and
+    conditions:
+      - condition: template
+        value_template: >-
+          {{ is_state('input_boolean.motion_snapshot_save','on') }}
+      - condition: template
+        value_template: >-
+          {{ state_attr('camera.motion_event_end_interiorgate','entity_picture') is not none }}
+  action:
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_end-interiorgate.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_event_end_interiorgate' }}
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_end.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_event_end_interiorgate' }}
+#    - delay:
+#        milliseconds: 100
+#    - service: mqtt.publish
+#      data:
+#        topic: 'motion-master/interiorgate/snapshot/end'
+#        payload_template: >-
+#          {{ '/config/www/images/motion_end-interiorgate.jpg' }}
+#        qos: 1
+#        retain: 0
+
+###
+# annotated
+###
+
+- id: motion_annotated_counter_interiorgate
+  alias: motion_annotated_counter_interiorgate
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: binary_sensor.motion_annotated_interiorgate
+  condition:
+    - condition: template
+      value_template: >-
+        {{ is_state('binary_sensor.motion_annotated_interiorgate','on') }}
+  action:
+    - service: counter.increment
+      entity_id: counter.motion_annotated_counter_interiorgate
+    - service: counter.increment
+      entity_id: counter.motion_annotated_counter
+
+- id: motion_annotated_snapshot_interiorgate
+  alias: motion_annotated_snapshot_interiorgate
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: camera.motion_event_annotated_interiorgate
+  condition:
+    condition: and
+    conditions:
+      - condition: template
+        value_template: >-
+          {{ is_state('input_boolean.motion_snapshot_save','on') }}
+      - condition: template
+        value_template: >-
+          {{ state_attr('camera.motion_event_annotated_interiorgate','entity_picture') is not none }}
+  action:
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_annotated-interiorgate.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_event_annotated_interiorgate' }}
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_annotated.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_event_annotated_interiorgate' }}
+#    - delay:
+#        milliseconds: 100
+#    - service: mqtt.publish
+#      data:
+#        topic: 'motion-master/interiorgate/snapshot/annotated'
+#        payload_template: >-
+#          {{ '/config/www/images/motion_annotated-interiorgate.jpg' }}
+#        qos: 1
+#        retain: 0
+
+###
+# detected
+###
+
+- id: motion_detected_counter_interiorgate
+  alias: motion_detected_counter_interiorgate
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: binary_sensor.motion_detected_interiorgate
+  condition:
+    - condition: template
+      value_template: >-
+        {{ is_state('binary_sensor.motion_detected_interiorgate','on') }}
+  action:
+    - service: counter.increment
+      entity_id: counter.motion_detected_counter_interiorgate
+    - service: counter.increment
+      entity_id: counter.motion_detected_counter
+
+- id: motion_detected_snapshot_interiorgate
+  alias: motion_detected_snapshot_interiorgate
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: sensor.motion_detected_counter_interiorgate
+  condition:
+    condition: and
+    conditions:
+      - condition: template
+        value_template: >-
+          {{ is_state('input_boolean.motion_snapshot_save','on') }}
+      - condition: template
+        value_template: >-
+          {{ states('sensor.motion_annotated_count_interiorgate')|int > 0 }}
+      - condition: template
+        value_template: >-
+          {{ state_attr('camera.motion_event_annotated_interiorgate','entity_picture') is not none }}
+  action:
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_detected-interiorgate.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_event_annotated_interiorgate' }}
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_detected.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_event_annotated_interiorgate' }}
+#    - delay:
+#        milliseconds: 100
+#    - service: mqtt.publish
+#      data:
+#        topic: 'motion-master/interiorgate/snapshot/detected'
+#        payload_template: >-
+#          {{ '/config/www/images/motion_detected-interiorgate.jpg' }}
+#        qos: 1
+#        retain: 0
+
+###
+# detected_entity
+###
+
+- id: motion_detected_entity_counter_interiorgate
+  alias: motion_detected_entity_counter_interiorgate
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: binary_sensor.motion_detected_entity_interiorgate
+  condition:
+    - condition: template
+      value_template: >-
+        {{ is_state('binary_sensor.motion_detected_entity_interiorgate','on') }}
+  action:
+    - service: counter.increment
+      entity_id: counter.motion_detected_entity_counter_interiorgate
+    - service: counter.increment
+      entity_id: counter.motion_detected_entity_counter
+
+- id: motion_detected_entity_snapshot_interiorgate
+  alias: motion_detected_entity_snapshot_interiorgate
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: sensor.motion_detected_entity_counter_interiorgate
+  condition:
+    condition: and
+    conditions:
+      - condition: template
+        value_template: >-
+          {{ is_state('input_boolean.motion_snapshot_save','on') }}
+      - condition: template
+        value_template: >-
+          {{ states('sensor.motion_annotated_entity_count_interiorgate')|int > 0 }}
+      - condition: template
+        value_template: >-
+          {{ state_attr('camera.motion_detected_entity_interiorgate','entity_picture') is not none }}
+  action:
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_detected_entity-interiorgate.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_event_annotated_interiorgate' }}
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_detected_entity.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_event_annotated_interiorgate' }}
+#    - delay:
+#        milliseconds: 100
+#    - service: mqtt.publish
+#      data:
+#        topic: 'motion-master/interiorgate/snapshot/detected_entity'
+#        payload_template: >-
+#          {{ '/config/www/images/motion_detected_entity-interiorgate.jpg' }}
+#        qos: 1
+#        retain: 0
+
+###
+# complete
+###
+
+- id: motion_complete_counter_interiorgate
+  alias: motion_complete_counter_interiorgate
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: binary_sensor.motion_complete_interiorgate
+  condition:
+    - condition: template
+      value_template: >-
+        {{ is_state('binary_sensor.motion_complete_interiorgate','on') }}
+  action:
+    - service: counter.increment
+      entity_id: counter.motion_complete_counter_interiorgate
+    - service: counter.increment
+      entity_id: counter.motion_complete_counter
+
+###
+# found
+###
+
+- id: motion_tracker_found_interiorgate
+  alias: motion_tracker_found_interiorgate
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: sensor.motion_status_camera_found_interiorgate
+  condition:
+    condition: and
+    conditions:
+      - condition: template
+        value_template: >
+          {{ is_state('input_boolean.motion_tracker_found','on') }}
+      - condition: template
+        value_template: >
+          {{ trigger.to_state.state != trigger.from_state.state }}
+  action:
+    - service: mqtt.publish
+      data_template:
+        topic: 'motion/tracker/webcam/interiorgate'
+        retain: true
+        payload_template: >-
+          { "topic":"motion/tracker/webcam/interiorgate", "payload":"home", "date":{{ (now().timestamp()|int) }} }
+
+- id: motion_reset_found_interiorgate
+  alias: motion_reset_found_interiorgate
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: sensor.motion_status_camera_found_interiorgate
+  condition:
+    condition: and
+    conditions:
+      - condition: template
+        value_template: >
+          {{ is_state('input_boolean.motion_reset_found_webcam','on') }}
+      - condition: template
+        value_template: >
+          {{ trigger.to_state.state != trigger.from_state.state }}
+  action:
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_end-interiorgate.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_testsignal' }}
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_annotated-interiorgate.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_testsignal' }}
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_detected-interiorgate.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_testsignal' }}
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_detected_entity-interiorgate.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_testsignal' }}
+
+###
+# lost
+###
+
+- id: motion_tracker_lost_interiorgate
+  alias: motion_tracker_lost_interiorgate
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: sensor.motion_status_camera_lost_interiorgate
+  condition:
+    condition: and
+    conditions:
+      - condition: template
+        value_template: >
+          {{ is_state('input_boolean.motion_tracker_lost','on') }}
+      - condition: template
+        value_template: >
+          {{ trigger.to_state.state != trigger.from_state.state }}
+  action:
+    - service: mqtt.publish
+      data_template:
+        topic: 'motion/tracker/webcam/interiorgate'
+        retain: true
+        payload_template: >-
+          { "topic":"motion/tracker/webcam/interiorgate", "payload":"not_home", "date":{{ (now().timestamp()|int) }} }
+
+- id: motion_reset_lost_interiorgate
+  alias: motion_reset_lost_interiorgate
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: sensor.motion_status_camera_lost_interiorgate
+  condition:
+    condition: and
+    conditions:
+      - condition: template
+        value_template: >
+          {{ is_state('input_boolean.motion_reset_lost_webcam','on') }}
+      - condition: template
+        value_template: >
+          {{ trigger.to_state.state != trigger.from_state.state }}
+  action:
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_end-interiorgate.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_nosignal' }}
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_annotated-interiorgate.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_nosignal' }}
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_detected-interiorgate.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_nosignal' }}
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_detected_entity-interiorgate.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_nosignal' }}
+
+###
+# notify lost and found
+###
+
+## found
+- id: motion_status_camera_notify_found_interiorgate
+  alias: motion_status_camera_notify_found_interiorgate
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: sensor.motion_status_camera_found_interiorgate
+  condition:
+    condition: and
+    conditions:
+      - condition: template
+        value_template: >
+          {{ is_state('input_boolean.motion_status_camera_notify','on') }}
+      - condition: template
+        value_template: >
+          {{ trigger.to_state.state != trigger.from_state.state and trigger.to_state|lower != 'none' and trigger.to_state.state|lower != 'unknown' }}
+  action:
+    - service: persistent_notification.create
+      data_template:
+        title: >
+          Camera interiorgate found
+        notification_id: >
+          interiorgate
+        message: >-
+          Camera interiorgate was {{ trigger.from_state.state }};
+          found at {{ now().timestamp()|int|timestamp_custom("%a %b %d @ %I:%M %p") | default(null) }}
+
+## lost
+- id: motion_status_camera_notify_lost_interiorgate
+  alias: motion_status_camera_notify_lost_interiorgate
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: sensor.motion_status_camera_lost_interiorgate
+  condition:
+    condition: and
+    conditions:
+      - condition: template
+        value_template: >
+          {{ is_state('input_boolean.motion_status_camera_notify','on') }}
+      - condition: template
+        value_template: >
+          {{ trigger.to_state.state != trigger.from_state.state and trigger.to_state|lower != 'none' and trigger.to_state.state|lower != 'unknown' }}
+  action:
+    - service: persistent_notification.create
+      data_template:
+        title: >
+          Camera interiorgate lost
+        notification_id: >
+          interiorgate
+        message: >-
+          Camera interiorgate was {{ trigger.from_state.state }};
+          lost at {{ now().timestamp()|int|timestamp_custom("%a %b %d @ %I:%M %p") | default(null) }}
+
+###
+# notify detected
+###
+
+- id: motion_detected_notify_interiorgate
+  alias: motion_detected_notify_interiorgate
+  initial_state: 'on'
+  trigger:
+    - platform: state
+      entity_id: sensor.motion_detected_counter_interiorgate
+  condition:
+    condition: template
+    value_template: >
+      {{ is_state('input_boolean.motion_detected_notify','on') and is_state('binary_sensor.motion_detected_interiorgate','on') }}
+  action:
+    - service: persistent_notification.create
+      data_template:
+        title: >-
+          Detected {{ states.sensor.motion_annotated_count_interiorgate.state }} {{ states.sensor.motion_detect_entity.state }}(s)
+          from {{ states.sensor.motion_event_annotated_interiorgate.attributes.event.camera }}
+        notification_id: >
+          detected-{{- states.sensor.motion_event_annotated_interiorgate.attributes.event.camera -}}
+        message: >-
+          Detected {{ states.sensor.motion_annotated_count_interiorgate.state }} {{ states.sensor.motion_detect_entity.state }}(s)
+          from {{ states.sensor.motion_event_annotated_interiorgate.attributes.event.camera }}
+          for {{ states.sensor.motion_event_annotated_interiorgate.attributes.event.elapsed }} seconds
+          ({{ states.sensor.motion_event_annotated_interiorgate.attributes.event.images|length }} frames)
+          at {{ states.sensor.motion_event_annotated_interiorgate.attributes.event.start|int|timestamp_custom("%a %b %d @ %I:%M %p") | default(null) }}
+
+
+###
+# notify detected_entity
+###
+
+- id: motion_detected_entity_notify_interiorgate
+  alias: motion_detected_entity_notify_interiorgate
+  initial_state: 'on'
+  trigger:
+    - platform: state
+      entity_id: sensor.motion_detected_entity_counter_interiorgate
+  condition:
+    condition: template
+    value_template: >
+      {{ is_state('input_boolean.motion_detected_entity_notify','on') and is_state('binary_sensor.motion_detected_entity_interiorgate','on') }}
+  action:
+    - service: persistent_notification.create
+      data_template:
+        title: >-
+          Detected {{ states.sensor.motion_annotated_count_interiorgate.state }} {{ states.sensor.motion_detect_entity.state }}(s)
+          from {{ states.sensor.motion_event_annotated_interiorgate.attributes.event.camera }}
+        notification_id: >
+          detected_entity-{{- states.sensor.motion_event_annotated_interiorgate.attributes.event.camera -}}
+        message: >-
+          Detected {{ states.sensor.motion_annotated_count_interiorgate.state }} {{ states.sensor.motion_detect_entity.state }}(s)
+          from {{ states.sensor.motion_event_annotated_interiorgate.attributes.event.camera }}
+          for {{ states.sensor.motion_event_annotated_interiorgate.attributes.event.elapsed }} seconds
+          ({{ states.sensor.motion_event_annotated_interiorgate.attributes.event.images|length }} frames)
+          at {{ states.sensor.motion_event_annotated_interiorgate.attributes.event.start|int|timestamp_custom("%a %b %d @ %I:%M %p") | default(null) }}
+

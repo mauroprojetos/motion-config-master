@@ -1,0 +1,62 @@
+###
+# group/webcam-interiorgate.yaml
+###
+
+motion_interiorgate:
+  name: Status interiorgate
+  view: true
+  icon: mdi:gate-arrow-right
+  control: hidden
+  entities:
+    - camera.motion_live_interiorgate
+    - camera.motion_event_annotated_interiorgate
+    - camera.motion_event_end_interiorgate
+    - camera.motion_event_animated_interiorgate
+    - camera.motion_event_animated_mask_interiorgate
+    - camera.motion_event_composite_interiorgate
+    - group.motion_interiorgate_brief
+    - group.motion_interiorgate_summary
+
+
+motion_interiorgate_brief:
+  name: motion_interiorgate_brief
+  control: hidden
+  entities:
+    - camera.motion_detected_entity_picture_interiorgate
+    - camera.motion_detected_picture_interiorgate
+    - camera.motion_annotated_picture_interiorgate
+    - camera.motion_end_picture_interiorgate
+    - sensor.motion_detected_entity_status_interiorgate
+    - sensor.motion_detected_status_interiorgate
+    - sensor.motion_annotated_status_interiorgate
+    - sensor.motion_end_status_interiorgate
+    - sensor.motion_annotated_delay_interiorgate_mean
+    - sensor.motion_status_camera_found_when_interiorgate
+    - sensor.motion_status_camera_lost_when_interiorgate
+
+motion_interiorgate_summary:
+  name: motion_interiorgate_summary
+  control: hidden
+  entities:
+    - binary_sensor.motion_detected_entity_interiorgate
+    - sensor.motion_detected_entity_count_interiorgate
+    - sensor.motion_detected_entity_counter_interiorgate
+    - binary_sensor.motion_detected_interiorgate
+    - sensor.motion_detected_count_interiorgate
+    - sensor.motion_detected_counter_interiorgate
+    - binary_sensor.motion_annotated_interiorgate
+    - sensor.motion_annotated_count_interiorgate
+    - sensor.motion_annotated_entity_count_interiorgate
+    - sensor.motion_annotated_counter_interiorgate
+    - binary_sensor.motion_end_interiorgate
+    - sensor.motion_end_counter_interiorgate
+    - sensor.motion_annotated_delay_interiorgate
+    - sensor.motion_annotated_ago_interiorgate
+    - sensor.motion_end_ago_interiorgate
+    - sensor.motion_annotated_percent_interiorgate
+    - sensor.motion_annotated_count_interiorgate
+    - sensor.motion_annotated_entity_count_interiorgate
+    - sensor.motion_annotated_list_interiorgate
+    - counter.motion_complete_counter_interiorgate
+    - sensor.motion_complete_interiorgate
+    - binary_sensor.motion_complete_interiorgate

@@ -1,0 +1,33 @@
+###
+### detected_entity_sideyard COUNTER
+###
+
+motion_end_counter_sideyard:
+  name: motion_end_counter_sideyard
+  initial: 0
+  step: 1
+  icon: mdi:counter
+
+motion_annotated_counter_sideyard:
+  name: motion_annotated_counter_sideyard
+  initial: 0
+  step: 1
+  icon: mdi:counter
+
+motion_detected_counter_sideyard:
+  name: motion_detected_counter_sideyard
+  initial: 0
+  step: 1
+  icon: mdi:counter
+
+motion_detected_entity_counter_sideyard:
+  name: motion_detected_entity_counter_sideyard
+  initial: 0
+  step: 1
+  icon: mdi:counter
+
+motion_complete_counter_sideyard:
+  name: motion_complete_counter_sideyard
+  initial: 0
+  step: 1
+  icon: mdi:counter

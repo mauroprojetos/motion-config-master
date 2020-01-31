@@ -1,0 +1,62 @@
+###
+# group/webcam-backyard.yaml
+###
+
+motion_backyard:
+  name: Status backyard
+  view: true
+  icon: mdi:texture-box
+  control: hidden
+  entities:
+    - camera.motion_live_backyard
+    - camera.motion_event_annotated_backyard
+    - camera.motion_event_end_backyard
+    - camera.motion_event_animated_backyard
+    - camera.motion_event_animated_mask_backyard
+    - camera.motion_event_composite_backyard
+    - group.motion_backyard_brief
+    - group.motion_backyard_summary
+
+
+motion_backyard_brief:
+  name: motion_backyard_brief
+  control: hidden
+  entities:
+    - camera.motion_detected_entity_picture_backyard
+    - camera.motion_detected_picture_backyard
+    - camera.motion_annotated_picture_backyard
+    - camera.motion_end_picture_backyard
+    - sensor.motion_detected_entity_status_backyard
+    - sensor.motion_detected_status_backyard
+    - sensor.motion_annotated_status_backyard
+    - sensor.motion_end_status_backyard
+    - sensor.motion_annotated_delay_backyard_mean
+    - sensor.motion_status_camera_found_when_backyard
+    - sensor.motion_status_camera_lost_when_backyard
+
+motion_backyard_summary:
+  name: motion_backyard_summary
+  control: hidden
+  entities:
+    - binary_sensor.motion_detected_entity_backyard
+    - sensor.motion_detected_entity_count_backyard
+    - sensor.motion_detected_entity_counter_backyard
+    - binary_sensor.motion_detected_backyard
+    - sensor.motion_detected_count_backyard
+    - sensor.motion_detected_counter_backyard
+    - binary_sensor.motion_annotated_backyard
+    - sensor.motion_annotated_count_backyard
+    - sensor.motion_annotated_entity_count_backyard
+    - sensor.motion_annotated_counter_backyard
+    - binary_sensor.motion_end_backyard
+    - sensor.motion_end_counter_backyard
+    - sensor.motion_annotated_delay_backyard
+    - sensor.motion_annotated_ago_backyard
+    - sensor.motion_end_ago_backyard
+    - sensor.motion_annotated_percent_backyard
+    - sensor.motion_annotated_count_backyard
+    - sensor.motion_annotated_entity_count_backyard
+    - sensor.motion_annotated_list_backyard
+    - counter.motion_complete_counter_backyard
+    - sensor.motion_complete_backyard
+    - binary_sensor.motion_complete_backyard

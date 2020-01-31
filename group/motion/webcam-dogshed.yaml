@@ -1,0 +1,62 @@
+###
+# group/webcam-dogshed.yaml
+###
+
+motion_dogshed:
+  name: Status dogshed
+  view: true
+  icon: mdi:dog
+  control: hidden
+  entities:
+    - camera.motion_live_dogshed
+    - camera.motion_event_annotated_dogshed
+    - camera.motion_event_end_dogshed
+    - camera.motion_event_animated_dogshed
+    - camera.motion_event_animated_mask_dogshed
+    - camera.motion_event_composite_dogshed
+    - group.motion_dogshed_brief
+    - group.motion_dogshed_summary
+
+
+motion_dogshed_brief:
+  name: motion_dogshed_brief
+  control: hidden
+  entities:
+    - camera.motion_detected_entity_picture_dogshed
+    - camera.motion_detected_picture_dogshed
+    - camera.motion_annotated_picture_dogshed
+    - camera.motion_end_picture_dogshed
+    - sensor.motion_detected_entity_status_dogshed
+    - sensor.motion_detected_status_dogshed
+    - sensor.motion_annotated_status_dogshed
+    - sensor.motion_end_status_dogshed
+    - sensor.motion_annotated_delay_dogshed_mean
+    - sensor.motion_status_camera_found_when_dogshed
+    - sensor.motion_status_camera_lost_when_dogshed
+
+motion_dogshed_summary:
+  name: motion_dogshed_summary
+  control: hidden
+  entities:
+    - binary_sensor.motion_detected_entity_dogshed
+    - sensor.motion_detected_entity_count_dogshed
+    - sensor.motion_detected_entity_counter_dogshed
+    - binary_sensor.motion_detected_dogshed
+    - sensor.motion_detected_count_dogshed
+    - sensor.motion_detected_counter_dogshed
+    - binary_sensor.motion_annotated_dogshed
+    - sensor.motion_annotated_count_dogshed
+    - sensor.motion_annotated_entity_count_dogshed
+    - sensor.motion_annotated_counter_dogshed
+    - binary_sensor.motion_end_dogshed
+    - sensor.motion_end_counter_dogshed
+    - sensor.motion_annotated_delay_dogshed
+    - sensor.motion_annotated_ago_dogshed
+    - sensor.motion_end_ago_dogshed
+    - sensor.motion_annotated_percent_dogshed
+    - sensor.motion_annotated_count_dogshed
+    - sensor.motion_annotated_entity_count_dogshed
+    - sensor.motion_annotated_list_dogshed
+    - counter.motion_complete_counter_dogshed
+    - sensor.motion_complete_dogshed
+    - binary_sensor.motion_complete_dogshed

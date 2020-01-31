@@ -1,0 +1,98 @@
+###
+### motion_pondview BINARY_SENSOR
+###
+
+- platform: template
+  sensors:
+    motion_end_pondview:
+      friendly_name: pondview end
+      entity_id:
+        - sensor.motion_event_end_pondview
+      value_template: >
+        {{ states('sensor.motion_event_end_pondview')|lower == 'true' }}
+
+- platform: template
+  sensors:
+    motion_annotated_pondview:
+      friendly_name: pondview annotated
+      entity_id:
+        - sensor.motion_event_annotated_pondview
+      value_template: >
+        {{ states('sensor.motion_event_annotated_pondview')|lower == 'true' }}
+
+- platform: template
+  sensors:
+    motion_detected_pondview:
+      friendly_name: pondview detected
+      entity_id:
+        - sensor.motion_annotated_count_pondview
+      value_template: >
+        {{ states('sensor.motion_annotated_count_pondview')|int > 0 }}
+
+- platform: template
+  sensors:
+    motion_detected_entity_pondview:
+      friendly_name: pondview detected entity
+      entity_id:
+        - sensor.motion_annotated_entity_count_pondview
+      value_template: >-
+        {{ states('sensor.motion_annotated_entity_count_pondview')|int > 0 }}
+
+##
+
+- platform: template
+  sensors:
+    motion_complete_pondview:
+      friendly_name: pondview complete
+      entity_id:
+        - sensor.motion_complete_pondview
+      value_template: >
+        {% set d = states('sensor.motion_complete_pondview')|int %}
+        {{ d > 0 and d < states('input_number.motion_complete')|int }}
+
+##
+
+- platform: template
+  sensors:
+    motion_detected_person_pondview:
+      entity_id:
+        - binary_sensor.motion_detected_pondview
+        - sensor.motion_detected_ago_pondview
+      value_template: >-
+        {% if states.sensor.motion_event_annotated_pondview|lower != 'none'
+              and states.sensor.motion_detected_person_pondview.state|lower != 'unknown'
+              and states.sensor.motion_detected_person_pondview.state|lower != 'none'
+              and states.sensor.motion_detected_person_pondview.state|from_json != 'null'
+              and states.sensor.motion_detected_person_pondview.state|from_json is iterable %}
+          {{ states.sensor.motion_detected_person_pondview.state|from_json|sum|int > 0 }}
+        {% else %}null{% endif %}
+
+- platform: template
+  sensors:
+    motion_detected_vehicle_pondview:
+      entity_id:
+        - binary_sensor.motion_detected_pondview
+        - sensor.motion_detected_ago_pondview
+      value_template: >-
+        {% if states.sensor.motion_event_annotated_pondview|lower != 'none'
+              and states.sensor.motion_detected_vehicle_pondview.state|lower != 'none'
+              and states.sensor.motion_detected_vehicle_pondview.state|lower != 'unknown'
+              and states.sensor.motion_detected_vehicle_pondview.state|from_json != 'null'
+              and states.sensor.motion_detected_vehicle_pondview.state|from_json is iterable %}
+          {{ states.sensor.motion_detected_vehicle_pondview.state|from_json|sum|int > 0 }}
+        {% else %}null{% endif %}
+
+- platform: template
+  sensors:
+    motion_detected_animal_pondview:
+      entity_id:
+        - binary_sensor.motion_detected_pondview
+        - sensor.motion_detected_ago_pondview
+      value_template: >-
+        {% if states.sensor.motion_event_annotated_pondview|lower != 'none'
+              and states.sensor.motion_detected_animal_pondview.state|lower != 'none'
+              and states.sensor.motion_detected_animal_pondview.state|lower != 'unknown'
+              and states.sensor.motion_detected_animal_pondview.state|from_json != 'null'
+              and states.sensor.motion_detected_animal_pondview.state|from_json is iterable %}
+          {{ states.sensor.motion_detected_animal_pondview.state|from_json|sum|int > 0 }}
+        {% else %}null{% endif %}

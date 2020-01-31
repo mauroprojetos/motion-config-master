@@ -1,0 +1,100 @@
+###
+### highlow BINARY_SENSOR (low, high, low_persistent, high_persistent)
+###
+### Example:
+###  - PKG="motion"
+###  - SENSOR="annotated"
+###  - ITEM="count"
+###  + Produces:
+###	> binary_sensor.motion_annotated_count_count_low
+###	> binary_sensor.motion_annotated_count_count_high
+###	> binary_sensor.motion_annotated_count_count_low_persistent
+###	> binary_sensor.motion_annotated_count_count_high_persistent
+###
+### External dependencies:
+###  - sensor.motion_annotated_$(ITEM} (platform: template)
+###  - sensor.motion_annotated_$(ITEM}_statistics (platform: statistics)
+###
+### Control dependencies:
+###  - input_number.motion_annotated_$(ITEM}_deviation
+###
+
+## highlow
+- platform: template
+  sensors:
+    # low
+    motion_annotated_count_low:
+      entity_id:
+        - sensor.motion_annotated_count
+        - sensor.motion_annotated_count_statistics
+        - input_number.motion_annotated_count_deviation
+      value_template: >-
+        {% if states.sensor.motion_annotated_count|lower != 'none'
+              and states.sensor.motion_annotated_count_statistics|lower != 'none'
+              and states.input_number.motion_annotated_count_deviation|lower != 'none'
+              and states.sensor.motion_annotated_count.state|float is number
+              and states.input_number.motion_annotated_count_deviation.state|float is number
+              and states.sensor.motion_annotated_count_statistics.attributes.standard_deviation|float is number
+              and states.sensor.motion_annotated_count_statistics.attributes.standard_deviation|float > 0 %}
+          {{ (((states.sensor.motion_annotated_count_statistics.state|float) - (states.sensor.motion_annotated_count.state|float)) / (states.sensor.motion_annotated_count_statistics.attributes.standard_deviation|float) > (states.input_number.motion_annotated_count_deviation.state|float)) }}
+        {%- else -%}false{%- endif -%}
+      icon_template: >
+          mdi:emoticon-sad
+    # high
+    motion_annotated_count_high:
+      entity_id:
+        - sensor.motion_annotated_count
+        - sensor.motion_annotated_count_statistics
+        - input_number.motion_annotated_count_deviation
+      value_template: >-
+        {% if states.sensor.motion_annotated_count|lower != 'none'
+              and states.input_number.motion_annotated_count_deviation|lower != 'none'
+              and states.sensor.motion_annotated_count_statistics|lower != 'none'
+              and states.sensor.motion_annotated_count.state|float is number
+              and states.input_number.motion_annotated_count_deviation.state|float is number
+              and states.sensor.motion_annotated_count_statistics.attributes.standard_deviation|float is number
+              and states.sensor.motion_annotated_count_statistics.attributes.standard_deviation|float > 0 %}
+          {{ (((states.sensor.motion_annotated_count.state|float) - (states.sensor.motion_annotated_count_statistics.state|float)) / (states.sensor.motion_annotated_count_statistics.attributes.standard_deviation|float)) > (states.input_number.motion_annotated_count_deviation.state|float) }}
+        {%- else -%}false{%- endif -%}
+      icon_template: >-
+          mdi:emoticon-happy
+    # low_persistent
+    motion_annotated_count_low_persistent:
+      entity_id:
+        - sensor.motion_annotated_count
+        - sensor.motion_annotated_count_statistics
+        - sensor.motion_annotated_count_stdev_statistics
+        - input_number.motion_annotated_count_deviation
+      value_template: >-
+        {% if states.sensor.motion_annotated_count|lower != 'none' 
+              and states.sensor.motion_annotated_count_statistics|lower != 'none'
+              and states.input_number.motion_annotated_count_deviation|lower != 'none'
+              and states.sensor.motion_annotated_count_stdev_statistics|lower != 'none' 
+              and states.sensor.motion_annotated_count.state|float is number
+              and states.sensor.motion_annotated_count_statistics.state|float is number
+              and states.input_number.motion_annotated_count_deviation.state|float is number
+              and states.sensor.motion_annotated_count_stdev_statistics.state|float is number
+              and states.sensor.motion_annotated_count_stdev_statistics.state|float > 0 %}
+            {{ (((states.sensor.motion_annotated_count_statistics.state|float) - (states.sensor.motion_annotated_count.state|float)) / (states.sensor.motion_annotated_count_stdev_statistics.state|float) > (states.input_number.motion_annotated_count_deviation.state|float)) }}
+        {%- else -%}false{%- endif -%}
+      icon_template: >
+          mdi:emoticon-sad
+    motion_annotated_count_high_persistent:
+      entity_id:
+        - sensor.motion_annotated_count
+        - sensor.motion_annotated_count_stdev_statistics
+        - input_number.motion_annotated_count_deviation
+      value_template: >-
+        {% if states.sensor.motion_annotated_count|lower != 'none' 
+              and states.sensor.motion_annotated_count_statistics|lower != 'none'
+              and states.input_number.motion_annotated_count_deviation|lower != 'none'
+              and states.sensor.motion_annotated_count_stdev_statistics|lower != 'none' 
+              and states.sensor.motion_annotated_count.state|float is number
+              and states.sensor.motion_annotated_count_statistics.state|float is number
+              and states.input_number.motion_annotated_count_deviation.state|float is number
+              and states.sensor.motion_annotated_count_stdev_statistics.state|float is number
+              and states.sensor.motion_annotated_count_stdev_statistics.state|float > 0 %}
+          {{ (((states.sensor.motion_annotated_count.state|float) - (states.sensor.motion_annotated_count_statistics.state|float)) / (states.sensor.motion_annotated_count_stdev_statistics.state|float)) > (states.input_number.motion_annotated_count_deviation.state|float) }}
+        {%- else -%}false{%- endif -%}
+      icon_template: >-
+          mdi:emoticon-happy

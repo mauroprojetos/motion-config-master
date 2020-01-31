@@ -1,0 +1,147 @@
+###
+### livingroom cameras
+###
+
+- platform: mjpeg
+  name: motion_live_livingroom
+  mjpeg_url: http://192.168.1.164/img/video.mjpeg
+  verify_ssl: false
+  authentication: basic
+  username: !secret netcam-username
+  password: !secret netcam-password
+
+#- platform: mqtt
+#  name: motion_current_livingroom
+#  topic: 'motion/+/livingroom/image'
+#
+#- platform: mqtt
+#  name: motion_event_average_livingroom
+#  topic: 'motion/+/livingroom/image-average'
+#
+#- platform: mqtt
+#  name: motion_event_blend_livingroom
+#  topic: 'motion/+/livingroom/image-blend'
+#
+#- platform: mqtt
+#  name: motion_event_animated_mask_livingroom
+#  topic: 'motion/+/livingroom/image-animated-mask'
+#
+#- platform: mqtt
+#  name: motion_event_composite_livingroom
+#  topic: 'motion/+/livingroom/image-composite'
+#
+#- platform: mqtt
+#  name: motion_event_cropped_livingroom
+#  topic: 'motion/+/livingroom/image-cropped'
+
+- platform: mqtt
+  name: motion_event_animated_livingroom
+  topic: 'motion/+/livingroom/image-animated'
+
+- platform: mqtt
+  name: motion_event_end_livingroom
+  topic: 'motion/+/livingroom/image/end'
+
+- platform: mqtt
+  name: motion_event_annotated_livingroom
+  topic: 'motion/+/livingroom/image/end/+'
+
+###
+# picture
+###
+
+- platform: generic
+  name: motion_end_picture_livingroom
+  verify_ssl: false
+  limit_refetch_to_url_change: true
+  still_image_url: >-
+    {% if states('input_boolean.motion_snapshot') == 'on' %}
+      {% set p = states('sensor.motion_end_snapshot_livingroom') %}
+    {% else %}
+      {% set p = states('sensor.motion_end_picture_livingroom') %}
+    {% endif %}
+    {% if p != 'unknown' and p != 'null' and p|length > 0 %}
+      {{ p }}
+    {% else %}{{ states('sensor.motion_nosignal_picture') }}{% endif %}
+
+- platform: generic
+  name: motion_annotated_picture_livingroom
+  verify_ssl: false
+  limit_refetch_to_url_change: true
+  still_image_url: >-
+    {% if states('input_boolean.motion_snapshot') == 'on' %}
+      {% set p = states('sensor.motion_annotated_snapshot_livingroom') %}
+    {% else %}
+      {% set p = states('sensor.motion_annotated_picture_livingroom') %}
+    {% endif %}
+    {% if p != 'unknown' and p != 'null' and p|length > 0 %}
+      {{ p }}
+    {% else %}{{ states('sensor.motion_nosignal_picture') }}{% endif %}
+
+- platform: generic
+  name: motion_detected_picture_livingroom
+  verify_ssl: false
+  limit_refetch_to_url_change: true
+  still_image_url: >-
+    {% if states('input_boolean.motion_snapshot') == 'on' %}
+      {% set p = states('sensor.motion_detected_snapshot_livingroom') %}
+    {% else %}
+      {% set p = states('sensor.motion_detected_picture_livingroom') %}
+    {% endif %}
+    {% if  p != 'unknown' and p != 'null' and p|length > 0 %}
+      {{ p }}
+    {% else %}{{ states('sensor.motion_nosignal_picture') }}{% endif %}
+
+- platform: generic
+  name: motion_detected_entity_picture_livingroom
+  verify_ssl: false
+  limit_refetch_to_url_change: true
+  still_image_url: >-
+    {% if states('input_boolean.motion_snapshot') == 'on' %}
+      {% set p = states('sensor.motion_detected_entity_snapshot_livingroom') %}
+    {% else %}
+      {% set p = states('sensor.motion_detected_entity_picture_livingroom') %}
+    {% endif %}
+    {% if p != 'unknown' and p != 'null' and p|length > 0 %}
+      {{ p }}
+    {% else %}{{ states('sensor.motion_nosignal_picture') }}{% endif %}
+
+###
+# snapshot
+###
+
+- platform: generic
+  name: motion_end_snapshot_livingroom
+  verify_ssl: false
+  still_image_url: >-
+    {% set p = states('sensor.motion_end_snapshot_livingroom') %}
+    {% if p != 'unknown' and p != 'null' and p|length > 0 %}
+      {{ p }}
+    {% else %}{{ states('sensor.motion_nosignal_picture') }}{% endif %}
+
+- platform: generic
+  name: motion_annotated_snapshot_livingroom
+  verify_ssl: false
+  still_image_url: >-
+    {% set p = states('sensor.motion_annotated_snapshot_livingroom') %}
+    {% if p != 'unknown' and p != 'null' and p|length > 0 %}
+      {{ p }}
+    {% else %}{{ states('sensor.motion_nosignal_picture') }}{% endif %}
+
+- platform: generic
+  name: motion_detected_snapshot_livingroom
+  verify_ssl: false
+  still_image_url: >-
+    {% set p = states('sensor.motion_detected_snapshot_livingroom') %}
+    {% if  p != 'unknown' and p != 'null' and p|length > 0 %}
+      {{ p }}
+    {% else %}{{ states('sensor.motion_nosignal_picture') }}{% endif %}
+
+- platform: generic
+  name: motion_detected_entity_snapshot_livingroom
+  verify_ssl: false
+  still_image_url: >-
+    {% set p = states('sensor.motion_detected_entity_snapshot_livingroom') %}
+    {% if p != 'unknown' and p != 'null' and p|length > 0 %}
+      {{ p }}
+    {% else %}{{ states('sensor.motion_nosignal_picture') }}{% endif %}

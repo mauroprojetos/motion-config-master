@@ -1,0 +1,33 @@
+###
+### detected_entity_dogyard COUNTER
+###
+
+motion_end_counter_dogyard:
+  name: motion_end_counter_dogyard
+  initial: 0
+  step: 1
+  icon: mdi:counter
+
+motion_annotated_counter_dogyard:
+  name: motion_annotated_counter_dogyard
+  initial: 0
+  step: 1
+  icon: mdi:counter
+
+motion_detected_counter_dogyard:
+  name: motion_detected_counter_dogyard
+  initial: 0
+  step: 1
+  icon: mdi:counter
+
+motion_detected_entity_counter_dogyard:
+  name: motion_detected_entity_counter_dogyard
+  initial: 0
+  step: 1
+  icon: mdi:counter
+
+motion_complete_counter_dogyard:
+  name: motion_complete_counter_dogyard
+  initial: 0
+  step: 1
+  icon: mdi:counter

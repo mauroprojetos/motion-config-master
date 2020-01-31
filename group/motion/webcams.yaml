@@ -1,0 +1,442 @@
+#
+motion_annotated_ago:
+  name: motion_annotated_ago
+  control: hidden
+  entities:
+    - sensor.motion_annotated_ago_woodshed
+    - sensor.motion_annotated_ago_livingroom
+    - sensor.motion_annotated_ago_equipmentroom
+    - sensor.motion_annotated_ago_fireplace
+    - sensor.motion_annotated_ago_dogyard
+    - sensor.motion_annotated_ago_dogshedmiddle
+    - sensor.motion_annotated_ago_sideyard
+    - sensor.motion_annotated_ago_dogshedfront
+    - sensor.motion_annotated_ago_dogshed
+    - sensor.motion_annotated_ago_laundry
+    - sensor.motion_annotated_ago_foyer
+    - sensor.motion_annotated_ago_frontwalk
+    - sensor.motion_annotated_ago_diningroom
+    - sensor.motion_annotated_ago_backyard
+    - sensor.motion_annotated_ago_poolcam
+    - sensor.motion_annotated_ago_interiorgate
+    - sensor.motion_annotated_ago_road
+    - sensor.motion_annotated_ago_window
+    - sensor.motion_annotated_ago_shed
+    - sensor.motion_annotated_ago_dogpond
+    - sensor.motion_annotated_ago_pondview
+#
+motion_annotated_counter:
+  name: motion_annotated_counter
+  control: hidden
+  entities:
+    - sensor.motion_annotated_counter_woodshed
+    - sensor.motion_annotated_counter_livingroom
+    - sensor.motion_annotated_counter_equipmentroom
+    - sensor.motion_annotated_counter_fireplace
+    - sensor.motion_annotated_counter_dogyard
+    - sensor.motion_annotated_counter_dogshedmiddle
+    - sensor.motion_annotated_counter_sideyard
+    - sensor.motion_annotated_counter_dogshedfront
+    - sensor.motion_annotated_counter_dogshed
+    - sensor.motion_annotated_counter_laundry
+    - sensor.motion_annotated_counter_foyer
+    - sensor.motion_annotated_counter_frontwalk
+    - sensor.motion_annotated_counter_diningroom
+    - sensor.motion_annotated_counter_backyard
+    - sensor.motion_annotated_counter_poolcam
+    - sensor.motion_annotated_counter_interiorgate
+    - sensor.motion_annotated_counter_road
+    - sensor.motion_annotated_counter_window
+    - sensor.motion_annotated_counter_shed
+    - sensor.motion_annotated_counter_dogpond
+    - sensor.motion_annotated_counter_pondview
+#
+motion_annotated_percent:
+  name: motion_annotated_percent
+  control: hidden
+  entities:
+    - sensor.motion_annotated_percent_woodshed
+    - sensor.motion_annotated_percent_livingroom
+    - sensor.motion_annotated_percent_equipmentroom
+    - sensor.motion_annotated_percent_fireplace
+    - sensor.motion_annotated_percent_dogyard
+    - sensor.motion_annotated_percent_dogshedmiddle
+    - sensor.motion_annotated_percent_sideyard
+    - sensor.motion_annotated_percent_dogshedfront
+    - sensor.motion_annotated_percent_dogshed
+    - sensor.motion_annotated_percent_laundry
+    - sensor.motion_annotated_percent_foyer
+    - sensor.motion_annotated_percent_frontwalk
+    - sensor.motion_annotated_percent_diningroom
+    - sensor.motion_annotated_percent_backyard
+    - sensor.motion_annotated_percent_poolcam
+    - sensor.motion_annotated_percent_interiorgate
+    - sensor.motion_annotated_percent_road
+    - sensor.motion_annotated_percent_window
+    - sensor.motion_annotated_percent_shed
+    - sensor.motion_annotated_percent_dogpond
+    - sensor.motion_annotated_percent_pondview
+#
+motion_detected_ago:
+  name: motion_detected_ago
+  control: hidden
+  entities:
+    - sensor.motion_detected_ago_woodshed
+    - sensor.motion_detected_ago_livingroom
+    - sensor.motion_detected_ago_equipmentroom
+    - sensor.motion_detected_ago_fireplace
+    - sensor.motion_detected_ago_dogyard
+    - sensor.motion_detected_ago_dogshedmiddle
+    - sensor.motion_detected_ago_sideyard
+    - sensor.motion_detected_ago_dogshedfront
+    - sensor.motion_detected_ago_dogshed
+    - sensor.motion_detected_ago_laundry
+    - sensor.motion_detected_ago_foyer
+    - sensor.motion_detected_ago_frontwalk
+    - sensor.motion_detected_ago_diningroom
+    - sensor.motion_detected_ago_backyard
+    - sensor.motion_detected_ago_poolcam
+    - sensor.motion_detected_ago_interiorgate
+    - sensor.motion_detected_ago_road
+    - sensor.motion_detected_ago_window
+    - sensor.motion_detected_ago_shed
+    - sensor.motion_detected_ago_dogpond
+    - sensor.motion_detected_ago_pondview
+#
+motion_detected_counter:
+  name: motion_detected_counter
+  control: hidden
+  entities:
+    - sensor.motion_detected_counter_woodshed
+    - sensor.motion_detected_counter_livingroom
+    - sensor.motion_detected_counter_equipmentroom
+    - sensor.motion_detected_counter_fireplace
+    - sensor.motion_detected_counter_dogyard
+    - sensor.motion_detected_counter_dogshedmiddle
+    - sensor.motion_detected_counter_sideyard
+    - sensor.motion_detected_counter_dogshedfront
+    - sensor.motion_detected_counter_dogshed
+    - sensor.motion_detected_counter_laundry
+    - sensor.motion_detected_counter_foyer
+    - sensor.motion_detected_counter_frontwalk
+    - sensor.motion_detected_counter_diningroom
+    - sensor.motion_detected_counter_backyard
+    - sensor.motion_detected_counter_poolcam
+    - sensor.motion_detected_counter_interiorgate
+    - sensor.motion_detected_counter_road
+    - sensor.motion_detected_counter_window
+    - sensor.motion_detected_counter_shed
+    - sensor.motion_detected_counter_dogpond
+    - sensor.motion_detected_counter_pondview
+#
+motion_detected_entity_ago:
+  name: motion_detected_entity_ago
+  control: hidden
+  entities:
+    - sensor.motion_detected_entity_ago_woodshed
+    - sensor.motion_detected_entity_ago_livingroom
+    - sensor.motion_detected_entity_ago_equipmentroom
+    - sensor.motion_detected_entity_ago_fireplace
+    - sensor.motion_detected_entity_ago_dogyard
+    - sensor.motion_detected_entity_ago_dogshedmiddle
+    - sensor.motion_detected_entity_ago_sideyard
+    - sensor.motion_detected_entity_ago_dogshedfront
+    - sensor.motion_detected_entity_ago_dogshed
+    - sensor.motion_detected_entity_ago_laundry
+    - sensor.motion_detected_entity_ago_foyer
+    - sensor.motion_detected_entity_ago_frontwalk
+    - sensor.motion_detected_entity_ago_diningroom
+    - sensor.motion_detected_entity_ago_backyard
+    - sensor.motion_detected_entity_ago_poolcam
+    - sensor.motion_detected_entity_ago_interiorgate
+    - sensor.motion_detected_entity_ago_road
+    - sensor.motion_detected_entity_ago_window
+    - sensor.motion_detected_entity_ago_shed
+    - sensor.motion_detected_entity_ago_dogpond
+    - sensor.motion_detected_entity_ago_pondview
+#
+motion_detected_entity_counter:
+  name: motion_detected_entity_counter
+  control: hidden
+  entities:
+    - sensor.motion_detected_entity_counter_woodshed
+    - sensor.motion_detected_entity_counter_livingroom
+    - sensor.motion_detected_entity_counter_equipmentroom
+    - sensor.motion_detected_entity_counter_fireplace
+    - sensor.motion_detected_entity_counter_dogyard
+    - sensor.motion_detected_entity_counter_dogshedmiddle
+    - sensor.motion_detected_entity_counter_sideyard
+    - sensor.motion_detected_entity_counter_dogshedfront
+    - sensor.motion_detected_entity_counter_dogshed
+    - sensor.motion_detected_entity_counter_laundry
+    - sensor.motion_detected_entity_counter_foyer
+    - sensor.motion_detected_entity_counter_frontwalk
+    - sensor.motion_detected_entity_counter_diningroom
+    - sensor.motion_detected_entity_counter_backyard
+    - sensor.motion_detected_entity_counter_poolcam
+    - sensor.motion_detected_entity_counter_interiorgate
+    - sensor.motion_detected_entity_counter_road
+    - sensor.motion_detected_entity_counter_window
+    - sensor.motion_detected_entity_counter_shed
+    - sensor.motion_detected_entity_counter_dogpond
+    - sensor.motion_detected_entity_counter_pondview
+#
+motion_end:
+  name: motion_end
+  control: hidden
+  entities:
+    - binary_sensor.motion_end_woodshed
+    - binary_sensor.motion_end_livingroom
+    - binary_sensor.motion_end_equipmentroom
+    - binary_sensor.motion_end_fireplace
+    - binary_sensor.motion_end_dogyard
+    - binary_sensor.motion_end_dogshedmiddle
+    - binary_sensor.motion_end_sideyard
+    - binary_sensor.motion_end_dogshedfront
+    - binary_sensor.motion_end_dogshed
+    - binary_sensor.motion_end_laundry
+    - binary_sensor.motion_end_foyer
+    - binary_sensor.motion_end_frontwalk
+    - binary_sensor.motion_end_diningroom
+    - binary_sensor.motion_end_backyard
+    - binary_sensor.motion_end_poolcam
+    - binary_sensor.motion_end_interiorgate
+    - binary_sensor.motion_end_road
+    - binary_sensor.motion_end_window
+    - binary_sensor.motion_end_shed
+    - binary_sensor.motion_end_dogpond
+    - binary_sensor.motion_end_pondview
+#
+motion_annotated:
+  name: motion_annotated
+  control: hidden
+  entities:
+    - binary_sensor.motion_annotated_woodshed
+    - binary_sensor.motion_annotated_livingroom
+    - binary_sensor.motion_annotated_equipmentroom
+    - binary_sensor.motion_annotated_fireplace
+    - binary_sensor.motion_annotated_dogyard
+    - binary_sensor.motion_annotated_dogshedmiddle
+    - binary_sensor.motion_annotated_sideyard
+    - binary_sensor.motion_annotated_dogshedfront
+    - binary_sensor.motion_annotated_dogshed
+    - binary_sensor.motion_annotated_laundry
+    - binary_sensor.motion_annotated_foyer
+    - binary_sensor.motion_annotated_frontwalk
+    - binary_sensor.motion_annotated_diningroom
+    - binary_sensor.motion_annotated_backyard
+    - binary_sensor.motion_annotated_poolcam
+    - binary_sensor.motion_annotated_interiorgate
+    - binary_sensor.motion_annotated_road
+    - binary_sensor.motion_annotated_window
+    - binary_sensor.motion_annotated_shed
+    - binary_sensor.motion_annotated_dogpond
+    - binary_sensor.motion_annotated_pondview
+#
+motion_detected:
+  name: motion_detected
+  control: hidden
+  entities:
+    - binary_sensor.motion_detected_woodshed
+    - binary_sensor.motion_detected_livingroom
+    - binary_sensor.motion_detected_equipmentroom
+    - binary_sensor.motion_detected_fireplace
+    - binary_sensor.motion_detected_dogyard
+    - binary_sensor.motion_detected_dogshedmiddle
+    - binary_sensor.motion_detected_sideyard
+    - binary_sensor.motion_detected_dogshedfront
+    - binary_sensor.motion_detected_dogshed
+    - binary_sensor.motion_detected_laundry
+    - binary_sensor.motion_detected_foyer
+    - binary_sensor.motion_detected_frontwalk
+    - binary_sensor.motion_detected_diningroom
+    - binary_sensor.motion_detected_backyard
+    - binary_sensor.motion_detected_poolcam
+    - binary_sensor.motion_detected_interiorgate
+    - binary_sensor.motion_detected_road
+    - binary_sensor.motion_detected_window
+    - binary_sensor.motion_detected_shed
+    - binary_sensor.motion_detected_dogpond
+    - binary_sensor.motion_detected_pondview
+#
+motion_detected_entity:
+  name: motion_detected_entity
+  control: hidden
+  entities:
+    - binary_sensor.motion_detected_entity_woodshed
+    - binary_sensor.motion_detected_entity_livingroom
+    - binary_sensor.motion_detected_entity_equipmentroom
+    - binary_sensor.motion_detected_entity_fireplace
+    - binary_sensor.motion_detected_entity_dogyard
+    - binary_sensor.motion_detected_entity_dogshedmiddle
+    - binary_sensor.motion_detected_entity_sideyard
+    - binary_sensor.motion_detected_entity_dogshedfront
+    - binary_sensor.motion_detected_entity_dogshed
+    - binary_sensor.motion_detected_entity_laundry
+    - binary_sensor.motion_detected_entity_foyer
+    - binary_sensor.motion_detected_entity_frontwalk
+    - binary_sensor.motion_detected_entity_diningroom
+    - binary_sensor.motion_detected_entity_backyard
+    - binary_sensor.motion_detected_entity_poolcam
+    - binary_sensor.motion_detected_entity_interiorgate
+    - binary_sensor.motion_detected_entity_road
+    - binary_sensor.motion_detected_entity_window
+    - binary_sensor.motion_detected_entity_shed
+    - binary_sensor.motion_detected_entity_dogpond
+    - binary_sensor.motion_detected_entity_pondview
+#
+motion_end_images:
+  name: motion_end_images
+  control: hidden
+  entities:
+    - camera.motion_end_snapshot_woodshed
+    - camera.motion_end_snapshot_livingroom
+    - camera.motion_end_snapshot_equipmentroom
+    - camera.motion_end_snapshot_fireplace
+    - camera.motion_end_snapshot_dogyard
+    - camera.motion_end_snapshot_dogshedmiddle
+    - camera.motion_end_snapshot_sideyard
+    - camera.motion_end_snapshot_dogshedfront
+    - camera.motion_end_snapshot_dogshed
+    - camera.motion_end_snapshot_laundry
+    - camera.motion_end_snapshot_foyer
+    - camera.motion_end_snapshot_frontwalk
+    - camera.motion_end_snapshot_diningroom
+    - camera.motion_end_snapshot_backyard
+    - camera.motion_end_snapshot_poolcam
+    - camera.motion_end_snapshot_interiorgate
+    - camera.motion_end_snapshot_road
+    - camera.motion_end_snapshot_window
+    - camera.motion_end_snapshot_shed
+    - camera.motion_end_snapshot_dogpond
+    - camera.motion_end_snapshot_pondview
+#
+motion_annotated_images:
+  name: motion_annotated_images
+  control: hidden
+  entities:
+    - camera.motion_annotated_snapshot_woodshed
+    - camera.motion_annotated_snapshot_livingroom
+    - camera.motion_annotated_snapshot_equipmentroom
+    - camera.motion_annotated_snapshot_fireplace
+    - camera.motion_annotated_snapshot_dogyard
+    - camera.motion_annotated_snapshot_dogshedmiddle
+    - camera.motion_annotated_snapshot_sideyard
+    - camera.motion_annotated_snapshot_dogshedfront
+    - camera.motion_annotated_snapshot_dogshed
+    - camera.motion_annotated_snapshot_laundry
+    - camera.motion_annotated_snapshot_foyer
+    - camera.motion_annotated_snapshot_frontwalk
+    - camera.motion_annotated_snapshot_diningroom
+    - camera.motion_annotated_snapshot_backyard
+    - camera.motion_annotated_snapshot_poolcam
+    - camera.motion_annotated_snapshot_interiorgate
+    - camera.motion_annotated_snapshot_road
+    - camera.motion_annotated_snapshot_window
+    - camera.motion_annotated_snapshot_shed
+    - camera.motion_annotated_snapshot_dogpond
+    - camera.motion_annotated_snapshot_pondview
+#
+motion_detected_images:
+  name: motion_detected_images
+  control: hidden
+  entities:
+    - camera.motion_detected_snapshot_woodshed
+    - camera.motion_detected_snapshot_livingroom
+    - camera.motion_detected_snapshot_equipmentroom
+    - camera.motion_detected_snapshot_fireplace
+    - camera.motion_detected_snapshot_dogyard
+    - camera.motion_detected_snapshot_dogshedmiddle
+    - camera.motion_detected_snapshot_sideyard
+    - camera.motion_detected_snapshot_dogshedfront
+    - camera.motion_detected_snapshot_dogshed
+    - camera.motion_detected_snapshot_laundry
+    - camera.motion_detected_snapshot_foyer
+    - camera.motion_detected_snapshot_frontwalk
+    - camera.motion_detected_snapshot_diningroom
+    - camera.motion_detected_snapshot_backyard
+    - camera.motion_detected_snapshot_poolcam
+    - camera.motion_detected_snapshot_interiorgate
+    - camera.motion_detected_snapshot_road
+    - camera.motion_detected_snapshot_window
+    - camera.motion_detected_snapshot_shed
+    - camera.motion_detected_snapshot_dogpond
+    - camera.motion_detected_snapshot_pondview
+#
+motion_detected_entity_images:
+  name: motion_detected_entity_images
+  control: hidden
+  entities:
+    - camera.motion_detected_entity_snapshot_woodshed
+    - camera.motion_detected_entity_snapshot_livingroom
+    - camera.motion_detected_entity_snapshot_equipmentroom
+    - camera.motion_detected_entity_snapshot_fireplace
+    - camera.motion_detected_entity_snapshot_dogyard
+    - camera.motion_detected_entity_snapshot_dogshedmiddle
+    - camera.motion_detected_entity_snapshot_sideyard
+    - camera.motion_detected_entity_snapshot_dogshedfront
+    - camera.motion_detected_entity_snapshot_dogshed
+    - camera.motion_detected_entity_snapshot_laundry
+    - camera.motion_detected_entity_snapshot_foyer
+    - camera.motion_detected_entity_snapshot_frontwalk
+    - camera.motion_detected_entity_snapshot_diningroom
+    - camera.motion_detected_entity_snapshot_backyard
+    - camera.motion_detected_entity_snapshot_poolcam
+    - camera.motion_detected_entity_snapshot_interiorgate
+    - camera.motion_detected_entity_snapshot_road
+    - camera.motion_detected_entity_snapshot_window
+    - camera.motion_detected_entity_snapshot_shed
+    - camera.motion_detected_entity_snapshot_dogpond
+    - camera.motion_detected_entity_snapshot_pondview
+#
+motion_event_animated_images:
+  name: motion_event_animated_images
+  control: hidden
+  entities:
+    - camera.motion_event_animated_woodshed
+    - camera.motion_event_animated_livingroom
+    - camera.motion_event_animated_equipmentroom
+    - camera.motion_event_animated_fireplace
+    - camera.motion_event_animated_dogyard
+    - camera.motion_event_animated_dogshedmiddle
+    - camera.motion_event_animated_sideyard
+    - camera.motion_event_animated_dogshedfront
+    - camera.motion_event_animated_dogshed
+    - camera.motion_event_animated_laundry
+    - camera.motion_event_animated_foyer
+    - camera.motion_event_animated_frontwalk
+    - camera.motion_event_animated_diningroom
+    - camera.motion_event_animated_backyard
+    - camera.motion_event_animated_poolcam
+    - camera.motion_event_animated_interiorgate
+    - camera.motion_event_animated_road
+    - camera.motion_event_animated_window
+    - camera.motion_event_animated_shed
+    - camera.motion_event_animated_dogpond
+    - camera.motion_event_animated_pondview
+#
+motion_live_images:
+  name: motion_live_images
+  control: hidden
+  entities:
+    - camera.motion_live_woodshed
+    - camera.motion_live_livingroom
+    - camera.motion_live_equipmentroom
+    - camera.motion_live_fireplace
+    - camera.motion_live_dogyard
+    - camera.motion_live_dogshedmiddle
+    - camera.motion_live_sideyard
+    - camera.motion_live_dogshedfront
+    - camera.motion_live_dogshed
+    - camera.motion_live_laundry
+    - camera.motion_live_foyer
+    - camera.motion_live_frontwalk
+    - camera.motion_live_diningroom
+    - camera.motion_live_backyard
+    - camera.motion_live_poolcam
+    - camera.motion_live_interiorgate
+    - camera.motion_live_road
+    - camera.motion_live_window
+    - camera.motion_live_shed
+    - camera.motion_live_dogpond
+    - camera.motion_live_pondview

@@ -1,0 +1,515 @@
+###
+### automation ${MOTION_CAMERA}
+###
+
+###
+# end
+###
+
+- id: motion_end_counter_${MOTION_CAMERA}
+  alias: motion_end_counter_${MOTION_CAMERA}
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: binary_sensor.motion_end_${MOTION_CAMERA}
+  condition:
+    - condition: template
+      value_template: >-
+        {{ is_state('binary_sensor.motion_end_${MOTION_CAMERA}','on') }}
+  action:
+    - service: counter.increment
+      entity_id: counter.motion_end_counter_${MOTION_CAMERA}
+    - service: counter.increment
+      entity_id: counter.motion_end_counter
+
+- id: motion_end_snapshot_${MOTION_CAMERA}
+  alias: motion_end_snapshot_${MOTION_CAMERA}
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: sensor.motion_event_end_${MOTION_CAMERA}
+  condition:
+    condition: and
+    conditions:
+      - condition: template
+        value_template: >-
+          {{ is_state('input_boolean.motion_snapshot_save','on') }}
+      - condition: template
+        value_template: >-
+          {{ state_attr('camera.motion_event_end_${MOTION_CAMERA}','entity_picture') is not none }}
+  action:
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_end-${MOTION_CAMERA}.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_event_end_${MOTION_CAMERA}' }}
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_end.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_event_end_${MOTION_CAMERA}' }}
+#    - delay:
+#        milliseconds: 100
+#    - service: mqtt.publish
+#      data:
+#        topic: '${MOTION_DEVICE}/${MOTION_CAMERA}/snapshot/end'
+#        payload_template: >-
+#          {{ '/config/www/images/motion_end-${MOTION_CAMERA}.jpg' }}
+#        qos: 1
+#        retain: 0
+
+###
+# annotated
+###
+
+- id: motion_annotated_counter_${MOTION_CAMERA}
+  alias: motion_annotated_counter_${MOTION_CAMERA}
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: binary_sensor.motion_annotated_${MOTION_CAMERA}
+  condition:
+    - condition: template
+      value_template: >-
+        {{ is_state('binary_sensor.motion_annotated_${MOTION_CAMERA}','on') }}
+  action:
+    - service: counter.increment
+      entity_id: counter.motion_annotated_counter_${MOTION_CAMERA}
+    - service: counter.increment
+      entity_id: counter.motion_annotated_counter
+
+- id: motion_annotated_snapshot_${MOTION_CAMERA}
+  alias: motion_annotated_snapshot_${MOTION_CAMERA}
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: camera.motion_event_annotated_${MOTION_CAMERA}
+  condition:
+    condition: and
+    conditions:
+      - condition: template
+        value_template: >-
+          {{ is_state('input_boolean.motion_snapshot_save','on') }}
+      - condition: template
+        value_template: >-
+          {{ state_attr('camera.motion_event_annotated_${MOTION_CAMERA}','entity_picture') is not none }}
+  action:
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_annotated-${MOTION_CAMERA}.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_event_annotated_${MOTION_CAMERA}' }}
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_annotated.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_event_annotated_${MOTION_CAMERA}' }}
+#    - delay:
+#        milliseconds: 100
+#    - service: mqtt.publish
+#      data:
+#        topic: '${MOTION_DEVICE}/${MOTION_CAMERA}/snapshot/annotated'
+#        payload_template: >-
+#          {{ '/config/www/images/motion_annotated-${MOTION_CAMERA}.jpg' }}
+#        qos: 1
+#        retain: 0
+
+###
+# detected
+###
+
+- id: motion_detected_counter_${MOTION_CAMERA}
+  alias: motion_detected_counter_${MOTION_CAMERA}
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: binary_sensor.motion_detected_${MOTION_CAMERA}
+  condition:
+    - condition: template
+      value_template: >-
+        {{ is_state('binary_sensor.motion_detected_${MOTION_CAMERA}','on') }}
+  action:
+    - service: counter.increment
+      entity_id: counter.motion_detected_counter_${MOTION_CAMERA}
+    - service: counter.increment
+      entity_id: counter.motion_detected_counter
+
+- id: motion_detected_snapshot_${MOTION_CAMERA}
+  alias: motion_detected_snapshot_${MOTION_CAMERA}
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: sensor.motion_detected_counter_${MOTION_CAMERA}
+  condition:
+    condition: and
+    conditions:
+      - condition: template
+        value_template: >-
+          {{ is_state('input_boolean.motion_snapshot_save','on') }}
+      - condition: template
+        value_template: >-
+          {{ states('sensor.motion_annotated_count_${MOTION_CAMERA}')|int > 0 }}
+      - condition: template
+        value_template: >-
+          {{ state_attr('camera.motion_event_annotated_${MOTION_CAMERA}','entity_picture') is not none }}
+  action:
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_detected-${MOTION_CAMERA}.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_event_annotated_${MOTION_CAMERA}' }}
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_detected.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_event_annotated_${MOTION_CAMERA}' }}
+#    - delay:
+#        milliseconds: 100
+#    - service: mqtt.publish
+#      data:
+#        topic: '${MOTION_DEVICE}/${MOTION_CAMERA}/snapshot/detected'
+#        payload_template: >-
+#          {{ '/config/www/images/motion_detected-${MOTION_CAMERA}.jpg' }}
+#        qos: 1
+#        retain: 0
+
+###
+# detected_entity
+###
+
+- id: motion_detected_entity_counter_${MOTION_CAMERA}
+  alias: motion_detected_entity_counter_${MOTION_CAMERA}
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: binary_sensor.motion_detected_entity_${MOTION_CAMERA}
+  condition:
+    - condition: template
+      value_template: >-
+        {{ is_state('binary_sensor.motion_detected_entity_${MOTION_CAMERA}','on') }}
+  action:
+    - service: counter.increment
+      entity_id: counter.motion_detected_entity_counter_${MOTION_CAMERA}
+    - service: counter.increment
+      entity_id: counter.motion_detected_entity_counter
+
+- id: motion_detected_entity_snapshot_${MOTION_CAMERA}
+  alias: motion_detected_entity_snapshot_${MOTION_CAMERA}
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: sensor.motion_detected_entity_counter_${MOTION_CAMERA}
+  condition:
+    condition: and
+    conditions:
+      - condition: template
+        value_template: >-
+          {{ is_state('input_boolean.motion_snapshot_save','on') }}
+      - condition: template
+        value_template: >-
+          {{ states('sensor.motion_annotated_entity_count_${MOTION_CAMERA}')|int > 0 }}
+      - condition: template
+        value_template: >-
+          {{ state_attr('camera.motion_detected_entity_${MOTION_CAMERA}','entity_picture') is not none }}
+  action:
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_detected_entity-${MOTION_CAMERA}.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_event_annotated_${MOTION_CAMERA}' }}
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_detected_entity.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_event_annotated_${MOTION_CAMERA}' }}
+#    - delay:
+#        milliseconds: 100
+#    - service: mqtt.publish
+#      data:
+#        topic: '${MOTION_DEVICE}/${MOTION_CAMERA}/snapshot/detected_entity'
+#        payload_template: >-
+#          {{ '/config/www/images/motion_detected_entity-${MOTION_CAMERA}.jpg' }}
+#        qos: 1
+#        retain: 0
+
+###
+# complete
+###
+
+- id: motion_complete_counter_${MOTION_CAMERA}
+  alias: motion_complete_counter_${MOTION_CAMERA}
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: binary_sensor.motion_complete_${MOTION_CAMERA}
+  condition:
+    - condition: template
+      value_template: >-
+        {{ is_state('binary_sensor.motion_complete_${MOTION_CAMERA}','on') }}
+  action:
+    - service: counter.increment
+      entity_id: counter.motion_complete_counter_${MOTION_CAMERA}
+    - service: counter.increment
+      entity_id: counter.motion_complete_counter
+
+###
+# found
+###
+
+- id: motion_tracker_found_${MOTION_CAMERA}
+  alias: motion_tracker_found_${MOTION_CAMERA}
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: sensor.motion_status_camera_found_${MOTION_CAMERA}
+  condition:
+    condition: and
+    conditions:
+      - condition: template
+        value_template: >
+          {{ is_state('input_boolean.motion_tracker_found','on') }}
+      - condition: template
+        value_template: >
+          {{ trigger.to_state.state != trigger.from_state.state }}
+  action:
+    - service: mqtt.publish
+      data_template:
+        topic: 'motion/tracker/webcam/${MOTION_CAMERA}'
+        retain: true
+        payload_template: >-
+          { "topic":"motion/tracker/webcam/${MOTION_CAMERA}", "payload":"home", "date":{{ (now().timestamp()|int) }} }
+
+- id: motion_reset_found_${MOTION_CAMERA}
+  alias: motion_reset_found_${MOTION_CAMERA}
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: sensor.motion_status_camera_found_${MOTION_CAMERA}
+  condition:
+    condition: and
+    conditions:
+      - condition: template
+        value_template: >
+          {{ is_state('input_boolean.motion_reset_found_webcam','on') }}
+      - condition: template
+        value_template: >
+          {{ trigger.to_state.state != trigger.from_state.state }}
+  action:
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_end-${MOTION_CAMERA}.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_testsignal' }}
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_annotated-${MOTION_CAMERA}.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_testsignal' }}
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_detected-${MOTION_CAMERA}.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_testsignal' }}
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_detected_entity-${MOTION_CAMERA}.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_testsignal' }}
+
+###
+# lost
+###
+
+- id: motion_tracker_lost_${MOTION_CAMERA}
+  alias: motion_tracker_lost_${MOTION_CAMERA}
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: sensor.motion_status_camera_lost_${MOTION_CAMERA}
+  condition:
+    condition: and
+    conditions:
+      - condition: template
+        value_template: >
+          {{ is_state('input_boolean.motion_tracker_lost','on') }}
+      - condition: template
+        value_template: >
+          {{ trigger.to_state.state != trigger.from_state.state }}
+  action:
+    - service: mqtt.publish
+      data_template:
+        topic: 'motion/tracker/webcam/${MOTION_CAMERA}'
+        retain: true
+        payload_template: >-
+          { "topic":"motion/tracker/webcam/${MOTION_CAMERA}", "payload":"not_home", "date":{{ (now().timestamp()|int) }} }
+
+- id: motion_reset_lost_${MOTION_CAMERA}
+  alias: motion_reset_lost_${MOTION_CAMERA}
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: sensor.motion_status_camera_lost_${MOTION_CAMERA}
+  condition:
+    condition: and
+    conditions:
+      - condition: template
+        value_template: >
+          {{ is_state('input_boolean.motion_reset_lost_webcam','on') }}
+      - condition: template
+        value_template: >
+          {{ trigger.to_state.state != trigger.from_state.state }}
+  action:
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_end-${MOTION_CAMERA}.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_nosignal' }}
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_annotated-${MOTION_CAMERA}.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_nosignal' }}
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_detected-${MOTION_CAMERA}.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_nosignal' }}
+    - service: camera.snapshot
+      data_template:
+        filename: >-
+          {{ '/config/www/images/motion_detected_entity-${MOTION_CAMERA}.jpg' }}
+        entity_id: >-
+          {{ 'camera.motion_nosignal' }}
+
+###
+# notify lost and found
+###
+
+## found
+- id: motion_status_camera_notify_found_${MOTION_CAMERA}
+  alias: motion_status_camera_notify_found_${MOTION_CAMERA}
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: sensor.motion_status_camera_found_${MOTION_CAMERA}
+  condition:
+    condition: and
+    conditions:
+      - condition: template
+        value_template: >
+          {{ is_state('input_boolean.motion_status_camera_notify','on') }}
+      - condition: template
+        value_template: >
+          {{ trigger.to_state.state != trigger.from_state.state and trigger.to_state|lower != 'none' and trigger.to_state.state|lower != 'unknown' }}
+  action:
+    - service: persistent_notification.create
+      data_template:
+        title: >
+          Camera ${MOTION_CAMERA} found
+        notification_id: >
+          ${MOTION_CAMERA}
+        message: >-
+          Camera ${MOTION_CAMERA} was {{ trigger.from_state.state }};
+          found at {{ now().timestamp()|int|timestamp_custom("%a %b %d @ %I:%M %p") | default(null) }}
+
+## lost
+- id: motion_status_camera_notify_lost_${MOTION_CAMERA}
+  alias: motion_status_camera_notify_lost_${MOTION_CAMERA}
+  initial_state: on
+  trigger:
+    platform: state
+    entity_id: sensor.motion_status_camera_lost_${MOTION_CAMERA}
+  condition:
+    condition: and
+    conditions:
+      - condition: template
+        value_template: >
+          {{ is_state('input_boolean.motion_status_camera_notify','on') }}
+      - condition: template
+        value_template: >
+          {{ trigger.to_state.state != trigger.from_state.state and trigger.to_state|lower != 'none' and trigger.to_state.state|lower != 'unknown' }}
+  action:
+    - service: persistent_notification.create
+      data_template:
+        title: >
+          Camera ${MOTION_CAMERA} lost
+        notification_id: >
+          ${MOTION_CAMERA}
+        message: >-
+          Camera ${MOTION_CAMERA} was {{ trigger.from_state.state }};
+          lost at {{ now().timestamp()|int|timestamp_custom("%a %b %d @ %I:%M %p") | default(null) }}
+
+###
+# notify detected
+###
+
+- id: motion_detected_notify_${MOTION_CAMERA}
+  alias: motion_detected_notify_${MOTION_CAMERA}
+  initial_state: 'on'
+  trigger:
+    - platform: state
+      entity_id: sensor.motion_detected_counter_${MOTION_CAMERA}
+  condition:
+    condition: template
+    value_template: >
+      {{ is_state('input_boolean.motion_detected_notify','on') and is_state('binary_sensor.motion_detected_${MOTION_CAMERA}','on') }}
+  action:
+    - service: persistent_notification.create
+      data_template:
+        title: >-
+          Detected {{ states.sensor.motion_annotated_count_${MOTION_CAMERA}.state }} {{ states.sensor.motion_detect_entity.state }}(s)
+          from {{ states.sensor.motion_event_annotated_${MOTION_CAMERA}.attributes.event.camera }}
+        notification_id: >
+          detected-{{- states.sensor.motion_event_annotated_${MOTION_CAMERA}.attributes.event.camera -}}
+        message: >-
+          Detected {{ states.sensor.motion_annotated_count_${MOTION_CAMERA}.state }} {{ states.sensor.motion_detect_entity.state }}(s)
+          from {{ states.sensor.motion_event_annotated_${MOTION_CAMERA}.attributes.event.camera }}
+          for {{ states.sensor.motion_event_annotated_${MOTION_CAMERA}.attributes.event.elapsed }} seconds
+          ({{ states.sensor.motion_event_annotated_${MOTION_CAMERA}.attributes.event.images|length }} frames)
+          at {{ states.sensor.motion_event_annotated_${MOTION_CAMERA}.attributes.event.start|int|timestamp_custom("%a %b %d @ %I:%M %p") | default(null) }}
+
+
+###
+# notify detected_entity
+###
+
+- id: motion_detected_entity_notify_${MOTION_CAMERA}
+  alias: motion_detected_entity_notify_${MOTION_CAMERA}
+  initial_state: 'on'
+  trigger:
+    - platform: state
+      entity_id: sensor.motion_detected_entity_counter_${MOTION_CAMERA}
+  condition:
+    condition: template
+    value_template: >
+      {{ is_state('input_boolean.motion_detected_entity_notify','on') and is_state('binary_sensor.motion_detected_entity_${MOTION_CAMERA}','on') }}
+  action:
+    - service: persistent_notification.create
+      data_template:
+        title: >-
+          Detected {{ states.sensor.motion_annotated_count_${MOTION_CAMERA}.state }} {{ states.sensor.motion_detect_entity.state }}(s)
+          from {{ states.sensor.motion_event_annotated_${MOTION_CAMERA}.attributes.event.camera }}
+        notification_id: >
+          detected_entity-{{- states.sensor.motion_event_annotated_${MOTION_CAMERA}.attributes.event.camera -}}
+        message: >-
+          Detected {{ states.sensor.motion_annotated_count_${MOTION_CAMERA}.state }} {{ states.sensor.motion_detect_entity.state }}(s)
+          from {{ states.sensor.motion_event_annotated_${MOTION_CAMERA}.attributes.event.camera }}
+          for {{ states.sensor.motion_event_annotated_${MOTION_CAMERA}.attributes.event.elapsed }} seconds
+          ({{ states.sensor.motion_event_annotated_${MOTION_CAMERA}.attributes.event.images|length }} frames)
+          at {{ states.sensor.motion_event_annotated_${MOTION_CAMERA}.attributes.event.start|int|timestamp_custom("%a %b %d @ %I:%M %p") | default(null) }}
+

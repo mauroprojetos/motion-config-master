@@ -1,0 +1,62 @@
+###
+# group/webcam-shed.yaml
+###
+
+motion_shed:
+  name: Status shed
+  view: true
+  icon: mdi:window-shutter-open
+  control: hidden
+  entities:
+    - camera.motion_live_shed
+    - camera.motion_event_annotated_shed
+    - camera.motion_event_end_shed
+    - camera.motion_event_animated_shed
+    - camera.motion_event_animated_mask_shed
+    - camera.motion_event_composite_shed
+    - group.motion_shed_brief
+    - group.motion_shed_summary
+
+
+motion_shed_brief:
+  name: motion_shed_brief
+  control: hidden
+  entities:
+    - camera.motion_detected_entity_picture_shed
+    - camera.motion_detected_picture_shed
+    - camera.motion_annotated_picture_shed
+    - camera.motion_end_picture_shed
+    - sensor.motion_detected_entity_status_shed
+    - sensor.motion_detected_status_shed
+    - sensor.motion_annotated_status_shed
+    - sensor.motion_end_status_shed
+    - sensor.motion_annotated_delay_shed_mean
+    - sensor.motion_status_camera_found_when_shed
+    - sensor.motion_status_camera_lost_when_shed
+
+motion_shed_summary:
+  name: motion_shed_summary
+  control: hidden
+  entities:
+    - binary_sensor.motion_detected_entity_shed
+    - sensor.motion_detected_entity_count_shed
+    - sensor.motion_detected_entity_counter_shed
+    - binary_sensor.motion_detected_shed
+    - sensor.motion_detected_count_shed
+    - sensor.motion_detected_counter_shed
+    - binary_sensor.motion_annotated_shed
+    - sensor.motion_annotated_count_shed
+    - sensor.motion_annotated_entity_count_shed
+    - sensor.motion_annotated_counter_shed
+    - binary_sensor.motion_end_shed
+    - sensor.motion_end_counter_shed
+    - sensor.motion_annotated_delay_shed
+    - sensor.motion_annotated_ago_shed
+    - sensor.motion_end_ago_shed
+    - sensor.motion_annotated_percent_shed
+    - sensor.motion_annotated_count_shed
+    - sensor.motion_annotated_entity_count_shed
+    - sensor.motion_annotated_list_shed
+    - counter.motion_complete_counter_shed
+    - sensor.motion_complete_shed
+    - binary_sensor.motion_complete_shed

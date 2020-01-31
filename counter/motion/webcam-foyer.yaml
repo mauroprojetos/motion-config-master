@@ -1,0 +1,33 @@
+###
+### detected_entity_foyer COUNTER
+###
+
+motion_end_counter_foyer:
+  name: motion_end_counter_foyer
+  initial: 0
+  step: 1
+  icon: mdi:counter
+
+motion_annotated_counter_foyer:
+  name: motion_annotated_counter_foyer
+  initial: 0
+  step: 1
+  icon: mdi:counter
+
+motion_detected_counter_foyer:
+  name: motion_detected_counter_foyer
+  initial: 0
+  step: 1
+  icon: mdi:counter
+
+motion_detected_entity_counter_foyer:
+  name: motion_detected_entity_counter_foyer
+  initial: 0
+  step: 1
+  icon: mdi:counter
+
+motion_complete_counter_foyer:
+  name: motion_complete_counter_foyer
+  initial: 0
+  step: 1
+  icon: mdi:counter

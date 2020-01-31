@@ -1,0 +1,98 @@
+###
+### motion_fireplace BINARY_SENSOR
+###
+
+- platform: template
+  sensors:
+    motion_end_fireplace:
+      friendly_name: fireplace end
+      entity_id:
+        - sensor.motion_event_end_fireplace
+      value_template: >
+        {{ states('sensor.motion_event_end_fireplace')|lower == 'true' }}
+
+- platform: template
+  sensors:
+    motion_annotated_fireplace:
+      friendly_name: fireplace annotated
+      entity_id:
+        - sensor.motion_event_annotated_fireplace
+      value_template: >
+        {{ states('sensor.motion_event_annotated_fireplace')|lower == 'true' }}
+
+- platform: template
+  sensors:
+    motion_detected_fireplace:
+      friendly_name: fireplace detected
+      entity_id:
+        - sensor.motion_annotated_count_fireplace
+      value_template: >
+        {{ states('sensor.motion_annotated_count_fireplace')|int > 0 }}
+
+- platform: template
+  sensors:
+    motion_detected_entity_fireplace:
+      friendly_name: fireplace detected entity
+      entity_id:
+        - sensor.motion_annotated_entity_count_fireplace
+      value_template: >-
+        {{ states('sensor.motion_annotated_entity_count_fireplace')|int > 0 }}
+
+##
+
+- platform: template
+  sensors:
+    motion_complete_fireplace:
+      friendly_name: fireplace complete
+      entity_id:
+        - sensor.motion_complete_fireplace
+      value_template: >
+        {% set d = states('sensor.motion_complete_fireplace')|int %}
+        {{ d > 0 and d < states('input_number.motion_complete')|int }}
+
+##
+
+- platform: template
+  sensors:
+    motion_detected_person_fireplace:
+      entity_id:
+        - binary_sensor.motion_detected_fireplace
+        - sensor.motion_detected_ago_fireplace
+      value_template: >-
+        {% if states.sensor.motion_event_annotated_fireplace|lower != 'none'
+              and states.sensor.motion_detected_person_fireplace.state|lower != 'unknown'
+              and states.sensor.motion_detected_person_fireplace.state|lower != 'none'
+              and states.sensor.motion_detected_person_fireplace.state|from_json != 'null'
+              and states.sensor.motion_detected_person_fireplace.state|from_json is iterable %}
+          {{ states.sensor.motion_detected_person_fireplace.state|from_json|sum|int > 0 }}
+        {% else %}null{% endif %}
+
+- platform: template
+  sensors:
+    motion_detected_vehicle_fireplace:
+      entity_id:
+        - binary_sensor.motion_detected_fireplace
+        - sensor.motion_detected_ago_fireplace
+      value_template: >-
+        {% if states.sensor.motion_event_annotated_fireplace|lower != 'none'
+              and states.sensor.motion_detected_vehicle_fireplace.state|lower != 'none'
+              and states.sensor.motion_detected_vehicle_fireplace.state|lower != 'unknown'
+              and states.sensor.motion_detected_vehicle_fireplace.state|from_json != 'null'
+              and states.sensor.motion_detected_vehicle_fireplace.state|from_json is iterable %}
+          {{ states.sensor.motion_detected_vehicle_fireplace.state|from_json|sum|int > 0 }}
+        {% else %}null{% endif %}
+
+- platform: template
+  sensors:
+    motion_detected_animal_fireplace:
+      entity_id:
+        - binary_sensor.motion_detected_fireplace
+        - sensor.motion_detected_ago_fireplace
+      value_template: >-
+        {% if states.sensor.motion_event_annotated_fireplace|lower != 'none'
+              and states.sensor.motion_detected_animal_fireplace.state|lower != 'none'
+              and states.sensor.motion_detected_animal_fireplace.state|lower != 'unknown'
+              and states.sensor.motion_detected_animal_fireplace.state|from_json != 'null'
+              and states.sensor.motion_detected_animal_fireplace.state|from_json is iterable %}
+          {{ states.sensor.motion_detected_animal_fireplace.state|from_json|sum|int > 0 }}
+        {% else %}null{% endif %}

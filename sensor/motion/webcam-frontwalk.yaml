@@ -1,0 +1,1547 @@
+###
+### frontwalk sensors
+###
+
+###
+# found
+###
+
+- platform: mqtt
+  name: motion_status_camera_found_frontwalk
+  state_topic: 'motion/+/frontwalk/status/found'
+  expire_after: 86400
+  force_update: true
+  json_attributes:
+    - device
+    - camera
+    - date
+    - status
+  value_template: >
+    {% if value_json is defined %}True{% else %}False{% endif %}
+
+## dates
+- platform: template
+  sensors:
+    motion_status_camera_found_date_frontwalk:
+      entity_id:
+        - sensor.motion_status_camera_found_frontwalk
+      unit_of_measurement: seconds
+      value_template: >-
+        {% if state_attr('sensor.motion_status_camera_found_frontwalk','date')|lower != 'none'
+              and states.sensor.motion_status_camera_found_frontwalk.attributes.date|int > 0 %}
+          {{ states.sensor.motion_status_camera_found_frontwalk.attributes.date|int }}
+        {% else %}{{ now().timestamp()|int }}{% endif %}
+
+- platform: template
+  sensors:
+    motion_status_camera_found_when_frontwalk:
+      friendly_name: frontwalk found
+      entity_id:
+        - sensor.motion_status_camera_found_date_frontwalk
+      value_template: >-
+        {% if states.sensor.motion_status_camera_found_date_frontwalk|lower != 'none'
+              and states.sensor.motion_status_camera_found_date_frontwalk.state|int > 0 %}
+          {{ states.sensor.motion_status_camera_found_date_frontwalk.state|int|timestamp_custom("%a %b %d ~ %I:%M %p") }}
+        {% else %}null{% endif %} 
+
+###
+# lost
+###
+
+- platform: mqtt
+  name: motion_status_camera_lost_frontwalk
+  state_topic: 'motion/+/frontwalk/status/lost'
+  expire_after: 86400
+  force_update: true
+  json_attributes:
+    - device
+    - camera
+    - date
+    - status
+  value_template: >
+    {% if value_json is defined %}True{% else %}False{% endif %}
+
+## dates
+- platform: template
+  sensors:
+    motion_status_camera_lost_date_frontwalk:
+      entity_id:
+        - sensor.motion_status_camera_lost_frontwalk
+      unit_of_measurement: seconds
+      value_template: >-
+        {% if state_attr('sensor.motion_status_camera_lost_frontwalk','date')|lower != 'none'
+              and states.sensor.motion_status_camera_lost_frontwalk.attributes.date|int > 0 %}
+          {{ states.sensor.motion_status_camera_lost_frontwalk.attributes.date|int }}
+        {% else %}{{ now().timestamp()|int }}{% endif %}
+
+- platform: template
+  sensors:
+    motion_status_camera_lost_when_frontwalk:
+      friendly_name: frontwalk lost
+      entity_id:
+        - sensor.motion_status_camera_lost_date_frontwalk
+      value_template: >-
+        {% if states.sensor.motion_status_camera_lost_date_frontwalk|lower != 'none'
+              and states.sensor.motion_status_camera_lost_date_frontwalk.state|int > 0 %}
+          {{ states.sensor.motion_status_camera_lost_date_frontwalk.state|int|timestamp_custom("%a %b %d ~ %I:%M %p") }}
+        {% else %}null{% endif %} 
+
+###
+# start event
+###
+
+- platform: mqtt
+  name: motion_event_start_frontwalk
+  qos: 1
+  state_topic: 'motion/+/frontwalk/event/start'
+  expire_after: 30
+  force_update: true
+  json_attributes:
+    - device
+    - camera
+    - event
+    - start
+  value_template: >
+    {% if value_json is defined %}True{% else %}False{% endif %}
+
+###
+# image event
+###
+
+- platform: mqtt
+  name: motion_event_image_frontwalk
+  qos: 1
+  state_topic: 'motion/+/frontwalk/event/image'
+  expire_after: 1
+  force_update: true
+  json_attributes:
+    - device
+    - camera
+    - type
+    - date
+    - seqno
+    - event
+    - id
+    - center
+    - width
+    - height
+    - size
+    - noise
+  value_template: >
+    {% if value_json is defined %}True{% else %}False{% endif %}
+
+###
+# end event
+###
+
+- platform: mqtt
+  name: motion_event_end_frontwalk
+  qos: 2
+  state_topic: 'motion/+/frontwalk/event/end'
+  expire_after: 60
+  force_update: True
+  json_attributes:
+    - device
+    - camera
+    - event
+    - start
+    - end
+    - elapsed
+    - date
+  value_template: >
+    {% if value_json is defined %}True{% else %}False{% endif %}
+
+## status
+- platform: template
+  sensors:
+    motion_end_status_frontwalk:
+      friendly_name: frontwalk motion
+      entity_id:
+        - sensor.motion_end_counter_frontwalk
+        - sensor.motion_end_ago_frontwalk
+      value_template: >-
+        {% set elapsed = states('sensor.motion_end_elapsed_frontwalk')|int %}
+        {% set ago = states('sensor.motion_end_ago_frontwalk')|int %}
+        {% if elapsed > 0 %} {{ elapsed }} {% else %} zero {% endif %} second(s);
+        {{ ago }} second(s) ago
+
+## counting
+- platform: template
+  sensors:
+    motion_end_counter_frontwalk:
+      friendly_name: frontwalk end counter
+      entity_id:
+        - counter.motion_end_counter_frontwalk
+      unit_of_measurement: count
+      value_template: >-
+        {% if states.counter.motion_end_counter_frontwalk|lower != 'none' %}
+          {{ states.counter.motion_end_counter_frontwalk.state|int }}
+        {%- else -%}null{%- endif -%}
+
+## timing
+- platform: template
+  sensors:
+    motion_end_date_frontwalk:
+      entity_id:
+        - sensor.motion_end_counter_frontwalk
+      unit_of_measurement: seconds
+      value_template: >-
+        {% if states.sensor.motion_event_end_frontwalk|lower != 'none' and state_attr('sensor.motion_event_end_frontwalk','end')|lower != 'none' %}
+          {% set date = states.sensor.motion_event_end_frontwalk.attributes.end|int %}
+          {% if date > 0 %}{{ date }}{% else %}null{% endif %}
+        {% else %}null{% endif %}
+
+- platform: template
+  sensors:
+    motion_end_when_frontwalk:
+      friendly_name: frontwalk end
+      entity_id:
+        - sensor.motion_end_date_frontwalk
+      value_template: >-
+        {% set date = states('sensor.motion_end_date_frontwalk')|int %}
+        {% if date > 0 %} {{ date|timestamp_custom("%a %b %d ~ %I:%M %p") }} {% else %}never{% endif %}
+
+- platform: template
+  sensors:
+    motion_end_ago_frontwalk:
+      friendly_name: frontwalk end ago
+      entity_id:
+        - sensor.motion_end_date_frontwalk
+        - sensor.time
+      unit_of_measurement: seconds
+      value_template: >
+        {% set s = states('sensor.motion_end_date_frontwalk')|int %}
+        {% if s >  0 %}
+          {% set s = now().timestamp()|int - s %}
+          {% if s <  86400 %}{{ s }}{%- else -%}null{%- endif -%}
+        {%- else -%}null{%- endif -%}
+
+## elapsed
+- platform: template
+  sensors:
+    motion_end_elapsed_frontwalk:
+      entity_id:
+        - sensor.motion_end_counter_frontwalk
+      value_template: >
+        {% if states.sensor.motion_event_end_frontwalk|lower != 'none'
+              and state_attr('sensor.motion_event_end_frontwalk','elapsed')|lower != 'none' %}
+          {{ states.sensor.motion_event_end_frontwalk.attributes.elapsed }}
+        {% else %} null {% endif %}
+
+###
+## annotated
+###
+
+## event_annotated
+- platform: mqtt
+  name: motion_event_annotated_frontwalk
+  state_topic: 'motion/+/frontwalk/event/end/+'
+  expire_after: 60
+  force_update: true
+  json_attributes:
+    - timestamp
+    - date
+    - time
+    - count
+    - event
+    - info
+    - detected
+  value_template: >
+    {% if value_json is defined %}True{% else %}False{% endif %}
+
+## status
+- platform: template
+  sensors:
+    motion_annotated_status_frontwalk:
+      friendly_name: frontwalk annotated
+      entity_id:
+        - sensor.motion_annotated_counter_frontwalk
+        - sensor.motion_annotated_ago_frontwalk
+      value_template: >-
+        {% set count = states('sensor.motion_annotated_count_frontwalk')|int %}
+        {% set saw = states('sensor.motion_annotated_list_frontwalk') %}
+        {% set ago = states('sensor.motion_annotated_ago_frontwalk')|int %}
+        {% set delay = states('sensor.motion_annotated_delay_frontwalk')|int %}
+        {% set when = states('sensor.motion_annotated_when_frontwalk') %}
+        {% if count > 0 %}{{ count }} entity(s): {{ saw -}};{% else %}nothing;{% endif %}
+        {{ when }}; delay: {{ delay }}; {{ ago }} second(s) ago
+
+## count
+- platform: template
+  sensors:
+    motion_annotated_count_frontwalk:
+      friendly_name: frontwalk annotated count
+      entity_id:
+        - counter.motion_annotated_counter_frontwalk
+      unit_of_measurement: entities
+      value_template: >
+        {% if state_attr('sensor.motion_event_annotated_frontwalk','count') is not none %}
+          {{ state_attr('sensor.motion_event_annotated_frontwalk','count')|int }}
+        {% else %}null{% endif %}
+
+## entity_count_loop
+- platform: template
+  sensors:
+    motion_annotated_entity_count_loop_frontwalk:
+      entity_id:
+        - sensor.motion_annotated_count_frontwalk
+      unit_of_measurement: entities
+      value_template: >-
+        {% set camera = 'frontwalk' %}
+        {% set count = states('sensor.motion_annotated_count_' + camera)|int %}
+        {% if count > 0 %}
+          {% set s = states('sensor.motion_detect_entity') %}
+          {% for detected in state_attr('sensor.motion_event_annotated_' + camera,'detected') %}
+            {% if detected.entity == s or s == 'all' %}
+              {{ detected.count|int }}
+            {% endif %}
+          {% endfor %}
+        {% else %}null{% endif %}
+
+## entity_count
+- platform: template
+  sensors:
+    motion_annotated_entity_count_frontwalk:
+      friendly_name: frontwalk annotated entity count
+      entity_id:
+        - sensor.motion_annotated_entity_count_loop_frontwalk
+      unit_of_measurement: entities
+      value_template: >-
+        {{ states('sensor.motion_annotated_entity_count_loop_frontwalk')|int }}
+
+## annotated_list
+- platform: template
+  sensors:
+    motion_annotated_list_frontwalk:
+      friendly_name: frontwalk annotated entity list
+      entity_id:
+        - counter.motion_annotated_counter_frontwalk
+      value_template: >-
+        {% set camera = 'frontwalk' %}
+        {% set count = state_attr('sensor.motion_event_annotated_' + camera,'count') %}
+        {% set array = state_attr('sensor.motion_event_annotated_' + camera,'detected') %}
+        {% if count > 0 and array is not none %}
+          {% for detected in array %}
+            {%- if loop.first -%}{%- else -%},{%- endif -%}
+            {{- detected.entity -}}
+          {% endfor %}
+        {% else %}null{% endif %}
+
+## counter
+- platform: template
+  sensors:
+    motion_annotated_counter_frontwalk:
+      friendly_name: frontwalk annotated counter
+      entity_id:
+        - sensor.motion_annotated_entity_count_frontwalk
+      unit_of_measurement: count
+      value_template: >
+        {% if states('counter.motion_annotated_counter_frontwalk') != 'unknown' %}
+          {{ states('counter.motion_annotated_counter_frontwalk')|int }}
+        {%- else -%}null{%- endif -%}
+
+## date
+- platform: template
+  sensors:
+    # date
+    motion_annotated_date_frontwalk:
+      entity_id:
+        - sensor.motion_annotated_count_frontwalk
+      unit_of_measurement: seconds
+      value_template: >-
+        {% if  state_attr('sensor.motion_event_annotated_frontwalk','event') is not none %}
+          {% set date = states.sensor.motion_event_annotated_frontwalk.attributes.event.end|int %}
+          {% if date > 0 %}{{ date }}{% else %}null{% endif %}
+        {% else %}null{% endif %}
+
+## when
+- platform: template
+  sensors:
+    motion_annotated_when_frontwalk:
+      friendly_name: frontwalk annotated
+      entity_id:
+        - sensor.motion_annotated_date_frontwalk
+      value_template: >-
+        {% set date = states('sensor.motion_annotated_date_frontwalk')|int %}
+        {% if date > 0 %} {{ date|timestamp_custom("%a %b %d ~ %I:%M %p") }} {% else %}never{% endif %}
+
+## ago
+- platform: template
+  sensors:
+    motion_annotated_ago_frontwalk:
+      friendly_name: frontwalk annotated ago
+      entity_id:
+        - sensor.motion_annotated_date_frontwalk
+        - sensor.time
+      unit_of_measurement: seconds
+      value_template: >
+        {% set s = states('sensor.motion_annotated_date_frontwalk')|int %}
+        {% if s >  0 %}
+          {% set s = now().timestamp()|int - s %}
+          {% if s <  86400 %}{{ s }}{%- else -%}null{%- endif -%}
+        {%- else -%}null{%- endif -%}
+
+## percent
+- platform: template
+  sensors:
+    motion_annotated_percent_frontwalk:
+      friendly_name: frontwalk annotated percent
+      entity_id:
+        - sensor.motion_end_counter_frontwalk
+        - sensor.motion_annotated_counter_frontwalk
+      unit_of_measurement: '%'
+      value_template: >-
+        {% if states('sensor.motion_annotated_counter_frontwalk')|int > 0 and states('sensor.motion_end_counter_frontwalk')|int > 0 %}
+          {{  ( states.sensor.motion_annotated_counter_frontwalk.state|int / states.sensor.motion_end_counter_frontwalk.state|int ) * 100.0 }}
+        {%- else -%}null{%- endif -%}
+
+## delay 
+- platform: template
+  sensors:
+    motion_annotated_delay_frontwalk:
+      friendly_name: frontwalk delay 
+      entity_id:
+        - sensor.motion_annotated_date_frontwalk
+      unit_of_measurement: seconds
+      value_template: >
+        {{ now().timestamp()|int - states('sensor.motion_annotated_date_frontwalk')|int }}
+
+###
+# statistics
+###
+
+## ago
+- platform: template
+  sensors:
+    motion_annotated_ago_frontwalk_mean:
+      friendly_name: frontwalk annotated ago avg
+      entity_id:
+        - sensor.motion_annotated_ago_frontwalk_statistics
+      unit_of_measurement: seconds
+      value_template: >-
+        {% if states.sensor.motion_annotated_ago_frontwalk_statistics|lower != 'none' %}
+          {{ states.sensor.motion_annotated_ago_frontwalk_statistics.state|float }}
+        {%- else -%}null{%- endif -%}
+    motion_annotated_ago_frontwalk_min_value:
+      friendly_name: frontwalk annotated min
+      entity_id:
+        - sensor.motion_annotated_ago_frontwalk_statistics
+      unit_of_measurement: seconds
+      value_template: >-
+        {% if states.sensor.motion_annotated_ago_frontwalk_statistics|lower != 'none' %}
+          {{ states.sensor.motion_annotated_ago_frontwalk_statistics.attributes.min_value|int }}
+        {%- else -%}null{%- endif -%}
+    motion_annotated_ago_frontwalk_max_value:
+      friendly_name: frontwalk annotated max
+      entity_id:
+        - sensor.motion_annotated_ago_frontwalk_statistics
+      unit_of_measurement: seconds
+      value_template: >-
+        {% if states.sensor.motion_annotated_ago_frontwalk_statistics|lower != 'none' %}
+          {{ states.sensor.motion_annotated_ago_frontwalk_statistics.attributes.max_value|int }}
+        {%- else -%}null{%- endif -%}
+    motion_annotated_ago_frontwalk_stdev:
+      friendly_name: frontwalk annotated stdev
+      entity_id:
+        - sensor.motion_annotated_ago_frontwalk_statistics
+      unit_of_measurement: seconds
+      value_template: >
+        {% if states.sensor.motion_annotated_ago_frontwalk_statistics|lower != 'none' %}
+          {{ states.sensor.motion_annotated_ago_frontwalk_statistics.attributes.standard_deviation|float }}
+        {%- else -%}null{%- endif -%}
+    motion_annotated_ago_frontwalk_change:
+      friendly_name: frontwalk annotated change
+      entity_id:
+        - sensor.motion_annotated_ago_frontwalk_statistics
+      unit_of_measurement: seconds
+      value_template: >
+        {% if states.sensor.motion_annotated_ago_frontwalk_statistics|lower != 'none' %}
+          {{ states.sensor.motion_annotated_ago_frontwalk_statistics.attributes.change|float }}
+        {%- else -%}null{%- endif -%}
+
+## percent
+- platform: template
+  sensors:
+    motion_annotated_percent_frontwalk_mean:
+      friendly_name: frontwalk annotated percent avg
+      entity_id:
+        - sensor.motion_annotated_percent_frontwalk_statistics
+      unit_of_measurement: '%'
+      value_template: >-
+        {% if states('sensor.motion_annotated_percent_frontwalk_statistics') != 'unknown' %}
+          {{ states.sensor.motion_annotated_percent_frontwalk_statistics.state|float }}
+        {%- else -%}null{%- endif -%}
+    motion_annotated_percent_frontwalk_min_value:
+      friendly_name: frontwalk annotated percent min
+      entity_id:
+        - sensor.motion_annotated_percent_frontwalk_statistics
+      unit_of_measurement: '%'
+      value_template: >-
+        {% if states('sensor.motion_annotated_percent_frontwalk_statistics') != 'unknown' %}
+          {{ states.sensor.motion_annotated_percent_frontwalk_statistics.attributes.min_value|float }}
+        {%- else -%}null{%- endif -%}
+    motion_annotated_percent_frontwalk_max_value:
+      friendly_name: frontwalk annotated percent max
+      entity_id:
+        - sensor.motion_annotated_percent_frontwalk_statistics
+      unit_of_measurement: '%'
+      value_template: >-
+        {% if states('sensor.motion_annotated_percent_frontwalk_statistics') != 'unknown' %}
+          {{ states.sensor.motion_annotated_percent_frontwalk_statistics.attributes.max_value|float }}
+        {%- else -%}null{%- endif -%}
+    motion_annotated_percent_frontwalk_stdev:
+      friendly_name: frontwalk annotated percent stdev
+      entity_id:
+        - sensor.motion_annotated_percent_frontwalk_statistics
+      unit_of_measurement: '%'
+      value_template: >
+        {% if states('sensor.motion_annotated_percent_frontwalk_statistics') != 'unknown' %}
+          {{ states.sensor.motion_annotated_percent_frontwalk_statistics.attributes.standard_deviation|float }}
+        {%- else -%}null{%- endif -%}
+    motion_annotated_percent_frontwalk_change:
+      friendly_name: frontwalk annotated percent change
+      entity_id:
+        - sensor.motion_annotated_percent_frontwalk_statistics
+      unit_of_measurement: '%'
+      value_template: >
+        {% if states('sensor.motion_annotated_percent_frontwalk_statistics') != 'unknown' %}
+          {{ states.sensor.motion_annotated_percent_frontwalk_statistics.attributes.change|float }}
+        {%- else -%}null{%- endif -%}
+
+## delay 
+- platform: template
+  sensors:
+    motion_annotated_delay_frontwalk_mean:
+      friendly_name: frontwalk delay avg
+      entity_id:
+        - sensor.motion_annotated_delay_frontwalk_statistics
+      unit_of_measurement: seconds
+      value_template: >-
+        {% if states('sensor.motion_annotated_delay_frontwalk_statistics') != 'unknown' %}
+          {{ states.sensor.motion_annotated_delay_frontwalk_statistics.state|float }}
+        {%- else -%}null{%- endif -%}
+    motion_annotated_delay_frontwalk_min_value:
+      friendly_name: frontwalk delay min
+      entity_id:
+        - sensor.motion_annotated_delay_frontwalk_statistics
+      unit_of_measurement: seconds
+      value_template: >-
+        {% if states('sensor.motion_annotated_delay_frontwalk_statistics') != 'unknown' %}
+          {{ states.sensor.motion_annotated_delay_frontwalk_statistics.attributes.min_value|int }}
+        {%- else -%}null{%- endif -%}
+    motion_annotated_delay_frontwalk_max_value:
+      friendly_name: frontwalk delay max
+      entity_id:
+        - sensor.motion_annotated_delay_frontwalk_statistics
+      unit_of_measurement: seconds
+      value_template: >-
+        {% if states('sensor.motion_annotated_delay_frontwalk_statistics') != 'unknown' %}
+          {{ states.sensor.motion_annotated_delay_frontwalk_statistics.attributes.max_value|int }}
+        {%- else -%}null{%- endif -%}
+    motion_annotated_delay_frontwalk_stdev:
+      friendly_name: frontwalk delay stdev
+      entity_id:
+        - sensor.motion_annotated_delay_frontwalk_statistics
+      unit_of_measurement: seconds
+      value_template: >
+        {% if states('sensor.motion_annotated_delay_frontwalk_statistics') != 'unknown' %}
+          {{ states.sensor.motion_annotated_delay_frontwalk_statistics.attributes.standard_deviation|float }}
+        {%- else -%}null{%- endif -%}
+    motion_annotated_delay_frontwalk_change:
+      friendly_name: frontwalk delay change
+      entity_id:
+        - sensor.motion_annotated_delay_frontwalk_statistics
+      unit_of_measurement: seconds
+      value_template: >
+        {% if states('sensor.motion_annotated_delay_frontwalk_statistics') != 'unknown' %}
+          {{ states.sensor.motion_annotated_delay_frontwalk_statistics.attributes.change|float }}
+        {%- else -%}null{%- endif -%}
+
+## statistics
+
+# ago
+- platform: statistics
+  name: motion_annotated_ago_frontwalk_statistics
+  entity_id: sensor.motion_annotated_ago_frontwalk
+  sampling_size: 1000
+  max_age:
+    hours: 72
+- platform: statistics
+  name: motion_annotated_ago_frontwalk_stdev_statistics
+  entity_id: sensor.motion_annotated_ago_frontwalk_stdev
+  sampling_size: 1000
+  max_age:
+    hours: 72
+
+# percent
+- platform: statistics
+  name: motion_annotated_percent_frontwalk_statistics
+  entity_id: sensor.motion_annotated_percent_frontwalk
+  sampling_size: 1000
+  max_age:
+    hours: 72
+- platform: statistics
+  name: motion_annotated_percent_frontwalk_stdev_statistics
+  entity_id: sensor.motion_annotated_percent_frontwalk_stdev
+  sampling_size: 1000
+  max_age:
+    hours: 72
+
+# delay
+- platform: statistics
+  name: motion_annotated_delay_frontwalk_statistics
+  entity_id: sensor.motion_annotated_delay_frontwalk
+  sampling_size: 1000
+  max_age:
+    hours: 72
+- platform: statistics
+  name: motion_annotated_delay_frontwalk_stdev_statistics
+  entity_id: sensor.motion_annotated_delay_frontwalk_stdev
+  sampling_size: 1000
+  max_age:
+    hours: 72
+
+###
+## detected
+###
+
+## status
+- platform: template
+  sensors:
+    motion_detected_status_frontwalk:
+      friendly_name: frontwalk Seen
+      entity_id:
+        - sensor.motion_detected_when_frontwalk
+      value_template: >-
+        {% set when = states('sensor.motion_detected_when_frontwalk') %}
+        {% set count = states('sensor.motion_detected_count_frontwalk')|int %}
+        {% set what = states('sensor.motion_detected_list_frontwalk') %}
+        {{ count }} entities: {{ what -}}; {{ when }}
+
+## count
+- platform: template
+  sensors:
+    # count
+    motion_detected_count_frontwalk:
+      friendly_name: frontwalk detected count
+      entity_id:
+        - binary_sensor.motion_detected_frontwalk
+      unit_of_measurement: entities
+      value_template: >-
+        {{ states('sensor.motion_annotated_count_frontwalk')|int }}
+
+## counter
+- platform: template
+  sensors:
+    motion_detected_counter_frontwalk:
+      friendly_name: frontwalk detected counter
+      entity_id:
+        - sensor.motion_detected_count_frontwalk
+      unit_of_measurement: count
+      value_template: >
+        {% if states('counter.motion_detected_counter_frontwalk') != 'unknown' %}
+          {{ states('counter.motion_detected_counter_frontwalk')|int }}
+        {%- else -%}null{%- endif -%}
+
+## date
+- platform: template
+  sensors:
+    motion_detected_date_frontwalk:
+      friendly_name: frontwalk detected date
+      entity_id:
+        - sensor.motion_detected_counter_frontwalk
+      unit_of_measurement: seconds
+      value_template: >-
+        {% set date = states('sensor.motion_annotated_date_frontwalk')|int %}
+        {% if date > 0 %}{{ date }}{% else %}null{% endif %}
+
+## when
+- platform: template
+  sensors:
+    motion_detected_when_frontwalk:
+      friendly_name: frontwalk detected at
+      entity_id:
+        - sensor.motion_detected_date_frontwalk
+      value_template: >-
+        {% set date = states('sensor.motion_detected_date_frontwalk')|int %}
+        {% if date > 0 %} {{ date|timestamp_custom("%a %b %d ~ %I:%M %p") }} {% else %}never{% endif %}
+
+## ago
+- platform: template
+  sensors:
+    motion_detected_ago_frontwalk:
+      friendly_name: frontwalk seen ago
+      entity_id:
+        - sensor.motion_detected_date_frontwalk
+        - sensor.time
+      unit_of_measurement: seconds
+      value_template: >
+        {% set s = states('sensor.motion_detected_date_frontwalk')|int %}
+        {% if s >  0 %}
+          {% set s = now().timestamp()|int - s %}
+          {% if s <  86400 %}{{ s }}{%- else -%}null{%- endif -%}
+        {%- else -%}null{%- endif -%}
+
+## list
+- platform: template
+  sensors:
+    motion_detected_list_frontwalk:
+      friendly_name: frontwalk entity list
+      entity_id:
+        - sensor.motion_detected_count_frontwalk
+      value_template: >-
+        {{ states('sensor.motion_annotated_list_frontwalk') }}
+
+## percent
+- platform: template
+  sensors:
+    motion_detected_percent_frontwalk:
+      friendly_name: frontwalk seen
+      entity_id:
+        - sensor.motion_annotated_counter_frontwalk
+        - sensor.motion_detected_counter_frontwalk
+      unit_of_measurement: '%'
+      value_template: >-
+        {% if states('sensor.motion_detected_counter_frontwalk')|int > 0 and states('sensor.motion_annotated_counter_frontwalk')|int > 0 %}
+          {{  ( states.sensor.motion_detected_counter_frontwalk.state|int / states.sensor.motion_annotated_counter_frontwalk.state|int ) * 100.0 }}
+        {%- else -%}null{%- endif -%}
+
+###
+## statistics
+###
+
+## ago
+- platform: template
+  sensors:
+    motion_detected_ago_frontwalk_mean:
+      friendly_name: frontwalk seen ago avg
+      entity_id:
+        - sensor.motion_detected_ago_frontwalk_statistics
+      unit_of_measurement: seconds
+      value_template: >-
+        {% if states.sensor.motion_detected_ago_frontwalk_statistics|lower != 'none' %}
+          {% if states.sensor.motion_detected_ago_frontwalk_statistics.state|int is number %}
+            {{ states.sensor.motion_detected_ago_frontwalk_statistics.state|float }}
+          {%- else -%}null{%- endif -%}
+        {%- else -%}null{%- endif -%}
+    motion_detected_ago_frontwalk_min_value:
+      friendly_name: frontwalk seen ago min
+      entity_id:
+        - sensor.motion_detected_ago_frontwalk_statistics
+      unit_of_measurement: seconds
+      value_template: >-
+        {% if states.sensor.motion_detected_ago_frontwalk_statistics|lower != 'none' %}
+          {{ states.sensor.motion_detected_ago_frontwalk_statistics.attributes.min_value|int }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_ago_frontwalk_max_value:
+      friendly_name: frontwalk seen ago max
+      entity_id:
+        - sensor.motion_detected_ago_frontwalk_statistics
+      unit_of_measurement: seconds
+      value_template: >-
+        {% if states.sensor.motion_detected_ago_frontwalk_statistics|lower != 'none' %}
+          {{ states.sensor.motion_detected_ago_frontwalk_statistics.attributes.max_value|int }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_ago_frontwalk_stdev:
+      friendly_name: frontwalk seen ago stdev
+      entity_id:
+        - sensor.motion_detected_ago_frontwalk_statistics
+      unit_of_measurement: seconds
+      value_template: >
+        {% if states.sensor.motion_detected_ago_frontwalk_statistics|lower != 'none' %}
+          {{ states.sensor.motion_detected_ago_frontwalk_statistics.attributes.standard_deviation|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_ago_frontwalk_change:
+      friendly_name: frontwalk ago change
+      entity_id:
+        - sensor.motion_detected_ago_frontwalk_statistics
+      unit_of_measurement: seconds
+      value_template: >
+        {% if states.sensor.motion_detected_ago_frontwalk_statistics|lower != 'none' %}
+          {{ states.sensor.motion_detected_ago_frontwalk_statistics.attributes.change|float }}
+        {%- else -%}null{%- endif -%}
+
+## count
+- platform: template
+  sensors:
+    motion_detected_count_mean_frontwalk:
+      friendly_name: frontwalk seen avg
+      entity_id:
+        - sensor.motion_detected_count_frontwalk_statistics
+      unit_of_measurement: entities
+      value_template: >-
+        {% if states('sensor.motion_detected_count_frontwalk_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_count_frontwalk_statistics.state|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_count_frontwalk_min_value:
+      friendly_name: frontwalk seen min
+      entity_id:
+        - sensor.motion_detected_count_frontwalk_statistics
+      unit_of_measurement: entities
+      value_template: >-
+        {% if states('sensor.motion_detected_count_frontwalk_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_count_frontwalk_statistics.attributes.min_value|int }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_count_frontwalk_max_value:
+      friendly_name: frontwalk seen max
+      entity_id:
+        - sensor.motion_detected_count_frontwalk_statistics
+      unit_of_measurement: entities
+      value_template: >-
+        {% if states('sensor.motion_detected_count_frontwalk_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_count_frontwalk_statistics.attributes.max_value|int }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_count_frontwalk_stdev:
+      friendly_name: frontwalk seen stdev
+      entity_id:
+        - sensor.motion_detected_count_frontwalk_statistics
+      unit_of_measurement: entities
+      value_template: >
+        {% if states('sensor.motion_detected_count_frontwalk_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_count_frontwalk_statistics.attributes.standard_deviation|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_count_frontwalk_change:
+      friendly_name: frontwalk seen change
+      entity_id:
+        - sensor.motion_detected_count_frontwalk_statistics
+      unit_of_measurement: entities
+      value_template: >
+        {% if states('sensor.motion_detected_count_frontwalk_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_count_frontwalk_statistics.attributes.change|float }}
+        {%- else -%}null{%- endif -%}
+
+## percent
+- platform: template
+  sensors:
+    motion_detected_percent_frontwalk_mean:
+      friendly_name: frontwalk seen avg
+      entity_id:
+        - sensor.motion_detected_percent_frontwalk_statistics
+      unit_of_measurement: '%'
+      value_template: >-
+        {% if states('sensor.motion_detected_percent_frontwalk_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_percent_frontwalk_statistics.state|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_percent_frontwalk_min_value:
+      friendly_name: frontwalk seen min
+      entity_id:
+        - sensor.motion_detected_percent_frontwalk_statistics
+      unit_of_measurement: '%'
+      value_template: >-
+        {% if states('sensor.motion_detected_percent_frontwalk_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_percent_frontwalk_statistics.attributes.min_value|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_percent_frontwalk_max_value:
+      friendly_name: frontwalk seen max
+      entity_id:
+        - sensor.motion_detected_percent_frontwalk_statistics
+      unit_of_measurement: '%'
+      value_template: >-
+        {% if states('sensor.motion_detected_percent_frontwalk_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_percent_frontwalk_statistics.attributes.max_value|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_percent_frontwalk_stdev:
+      friendly_name: frontwalk seen stdev
+      entity_id:
+        - sensor.motion_detected_percent_frontwalk_statistics
+      unit_of_measurement: '%'
+      value_template: >
+        {% if states('sensor.motion_detected_percent_frontwalk_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_percent_frontwalk_statistics.attributes.standard_deviation|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_percent_frontwalk_change:
+      friendly_name: frontwalk seen change
+      entity_id:
+        - sensor.motion_detected_percent_frontwalk_statistics
+      unit_of_measurement: '%'
+      value_template: >
+        {% if states('sensor.motion_detected_percent_frontwalk_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_percent_frontwalk_statistics.attributes.change|float }}
+        {%- else -%}null{%- endif -%}
+
+## statistics
+
+# ago
+- platform: statistics
+  name: motion_detected_ago_frontwalk_statistics
+  entity_id: sensor.motion_detected_ago_frontwalk
+  sampling_size: 1000
+  max_age:
+    hours: 72
+- platform: statistics
+  name: motion_detected_ago_frontwalk_stdev_statistics
+  entity_id: sensor.motion_detected_ago_frontwalk_stdev
+  sampling_size: 1000
+  max_age:
+    hours: 72
+
+# count
+- platform: statistics
+  name: motion_detected_count_frontwalk_statistics
+  entity_id: sensor.motion_detected_count_frontwalk
+  sampling_size: 1000
+  max_age:
+    hours: 72
+- platform: statistics
+  name: motion_detected_count_frontwalk_stdev_statistics
+  entity_id: sensor.motion_detected_count_frontwalk_stdev
+  sampling_size: 1000
+  max_age:
+    hours: 72
+
+# percent
+- platform: statistics
+  name: motion_detected_percent_frontwalk_statistics
+  entity_id: sensor.motion_detected_percent_frontwalk
+  sampling_size: 1000
+  max_age:
+    hours: 72
+- platform: statistics
+  name: motion_detected_percent_frontwalk_stdev_statistics
+  entity_id: sensor.motion_detected_percent_frontwalk_stdev
+  sampling_size: 1000
+  max_age:
+    hours: 72
+
+###
+## detected_entity
+###
+
+## status
+- platform: template
+  sensors:
+    motion_detected_entity_status_frontwalk:
+      friendly_name: frontwalk found
+      entity_id:
+        - sensor.motion_detected_entity_when_frontwalk
+      value_template: >-
+        {% set count = states('sensor.motion_detected_entity_count_frontwalk')|int %}
+        {% set what = states('sensor.motion_detect_entity') %}
+        {% set when = states('sensor.motion_detected_entity_when_frontwalk') %}
+        {{ count }} {{ what -}}(s); {{ when }}
+
+## count
+- platform: template
+  sensors:
+    motion_detected_entity_count_frontwalk:
+      friendly_name: frontwalk found
+      unit_of_measurement: entities
+      entity_id:
+        - binary_sensor.motion_detected_entity_frontwalk
+      value_template: >-
+        {{ states('sensor.motion_annotated_entity_count_frontwalk')|int }}
+
+## counter
+- platform: template
+  sensors:
+    motion_detected_entity_counter_frontwalk:
+      friendly_name: frontwalk found counter
+      entity_id:
+        - sensor.motion_detected_entity_when_frontwalk
+      unit_of_measurement: count
+      value_template: >
+        {% if states('counter.motion_detected_entity_counter_frontwalk') != 'unknown' %}
+          {{ states('counter.motion_detected_entity_counter_frontwalk')|int }}
+        {%- else -%}null{%- endif -%}
+
+## date
+- platform: template
+  sensors:
+    motion_detected_entity_date_frontwalk:
+      entity_id:
+        - sensor.motion_detected_entity_count_frontwalk
+      unit_of_measurement: seconds
+      value_template: >-
+        {% set date = states('sensor.motion_annotated_date_frontwalk')|int %}
+        {% if date > 0 %}{{ date }}{% else %}null{% endif %}
+
+## when - human readable
+- platform: template
+  sensors:
+    motion_detected_entity_when_frontwalk:
+      friendly_name: frontwalk identified at
+      entity_id:
+        - sensor.motion_detected_entity_date_frontwalk
+      value_template: >-
+        {% set date = states('sensor.motion_detected_entity_date_frontwalk')|int %}
+        {% if date > 0 %}{{ date|timestamp_custom("%a %b %d ~ %I:%M %p") }}{% else %}never{% endif %}
+
+## ago
+- platform: template
+  sensors:
+    motion_detected_entity_ago_frontwalk:
+      friendly_name: frontwalk found ago
+      entity_id:
+        - sensor.motion_detected_entity_date_frontwalk
+        - sensor.time
+      unit_of_measurement: seconds
+      value_template: >
+        {% set s = states('sensor.motion_detected_entity_date_frontwalk')|int %}
+        {% if s >  0 %}
+          {% set s = now().timestamp()|int - s %}
+          {% if s <  86400 %}{{ s }}{% else %}null{% endif %}
+        {%- else -%}null{%- endif -%}
+
+## percent
+- platform: template
+  sensors:
+    motion_detected_entity_percent_frontwalk:
+      friendly_name: frontwalk found
+      entity_id:
+        - sensor.motion_annotated_counter_frontwalk
+        - sensor.motion_detected_entity_counter_frontwalk
+      unit_of_measurement: '%'
+      value_template: >-
+        {% if states('sensor.motion_detected_entity_counter_frontwalk')|int > 0 and states('sensor.motion_annotated_counter_frontwalk')|int > 0 %}
+          {{ states('sensor.motion_detected_entity_counter_frontwalk')|int / states('sensor.motion_annotated_counter_frontwalk')|int * 100.0 }}
+        {%- else -%}null{%- endif -%}
+
+###
+# statistics
+###
+
+## count
+- platform: template
+  sensors:
+    motion_detected_entity_count_mean_frontwalk:
+      friendly_name: frontwalk found avg
+      entity_id:
+        - sensor.motion_detected_entity_count_frontwalk_statistics
+      unit_of_measurement: entities
+      value_template: >-
+        {% if states('sensor.motion_detected_entity_count_frontwalk_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_entity_count_frontwalk_statistics.state|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_count_frontwalk_min_value:
+      friendly_name: frontwalk found min
+      entity_id:
+        - sensor.motion_detected_entity_count_frontwalk_statistics
+      unit_of_measurement: entities
+      value_template: >-
+        {% if states('sensor.motion_detected_entity_count_frontwalk_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_entity_count_frontwalk_statistics.attributes.min_value|int }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_count_frontwalk_max_value:
+      friendly_name: frontwalk found max
+      entity_id:
+        - sensor.motion_detected_entity_count_frontwalk_statistics
+      unit_of_measurement: entities
+      value_template: >-
+        {% if states('sensor.motion_detected_entity_count_frontwalk_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_entity_count_frontwalk_statistics.attributes.max_value|int }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_count_frontwalk_stdev:
+      friendly_name: frontwalk found stdev
+      entity_id:
+        - sensor.motion_detected_entity_count_frontwalk_statistics
+      unit_of_measurement: entities
+      value_template: >
+        {% if states('sensor.motion_detected_entity_count_frontwalk_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_entity_count_frontwalk_statistics.attributes.standard_deviation|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_count_frontwalk_change:
+      friendly_name: frontwalk found change
+      entity_id:
+        - sensor.motion_detected_entity_count_frontwalk_statistics
+      unit_of_measurement: entities
+      value_template: >
+        {% if states('sensor.motion_detected_entity_count_frontwalk_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_entity_count_frontwalk_statistics.attributes.change|float }}
+        {%- else -%}null{%- endif -%}
+
+## counter
+- platform: template
+  sensors:
+    motion_detected_entity_counter_frontwalk_mean:
+      friendly_name: frontwalk found avg
+      entity_id:
+        - sensor.motion_detected_entity_counter_frontwalk_statistics
+      unit_of_measurement: count
+      value_template: >-
+        {% if states.sensor.motion_detected_entity_counter_frontwalk_statistics|lower != 'none' %}
+          {% if states.sensor.motion_detected_entity_counter_frontwalk_statistics.state|int is number %}
+            {{ states.sensor.motion_detected_entity_counter_frontwalk_statistics.state|float }}
+          {%- else -%}null{%- endif -%}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_counter_frontwalk_min_value:
+      friendly_name: frontwalk found min
+      entity_id:
+        - sensor.motion_detected_entity_counter_frontwalk_statistics
+      unit_of_measurement: count
+      value_template: >-
+        {% if states.sensor.motion_detected_entity_counter_frontwalk_statistics|lower != 'none' %}
+          {{ states.sensor.motion_detected_entity_counter_frontwalk_statistics.attributes.min_value|int }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_counter_frontwalk_max_value:
+      friendly_name: frontwalk found max
+      entity_id:
+        - sensor.motion_detected_entity_counter_frontwalk_statistics
+      unit_of_measurement: count
+      value_template: >-
+        {% if states.sensor.motion_detected_entity_counter_frontwalk_statistics|lower != 'none' %}
+          {{ states.sensor.motion_detected_entity_counter_frontwalk_statistics.attributes.max_value|int }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_counter_frontwalk_stdev:
+      friendly_name: frontwalk found stdev
+      entity_id:
+        - sensor.motion_detected_entity_counter_frontwalk_statistics
+      unit_of_measurement: count
+      value_template: >
+        {% if states.sensor.motion_detected_entity_counter_frontwalk_statistics|lower != 'none' %}
+          {{ states.sensor.motion_detected_entity_counter_frontwalk_statistics.attributes.standard_deviation|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_counter_frontwalk_change:
+      friendly_name: frontwalk found change
+      entity_id:
+        - sensor.motion_detected_entity_counter_frontwalk_statistics
+      unit_of_measurement: count
+      value_template: >
+        {% if states.sensor.motion_detected_entity_counter_frontwalk_statistics|lower != 'none' %}
+          {{ states.sensor.motion_detected_entity_counter_frontwalk_statistics.attributes.change|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_counter_frontwalk_stdev_change:
+      friendly_name: frontwalk found stdev change
+      entity_id:
+        - sensor.motion_detected_entity_counter_frontwalk_stdev_statistics
+      unit_of_measurement: count
+      value_template: >
+        {% if states.sensor.motion_detected_entity_counter_frontwalk_stdev_statistics|lower != 'none' %}
+          {{ states.sensor.motion_detected_entity_counter_frontwalk_stdev_statistics.attributes.change|float }}
+        {%- else -%}null{%- endif -%}
+
+## ago
+- platform: template
+  sensors:
+    motion_detected_entity_ago_frontwalk_mean:
+      friendly_name: frontwalk found ago avg
+      entity_id:
+        - sensor.motion_detected_entity_ago_frontwalk_statistics
+      unit_of_measurement: seconds
+      value_template: >-
+        {% if states.sensor.motion_detected_entity_ago_frontwalk_statistics|lower != 'none' %}
+          {% if states.sensor.motion_detected_entity_ago_frontwalk_statistics.state|int is number %}
+            {{ states.sensor.motion_detected_entity_ago_frontwalk_statistics.state|float }}
+          {%- else -%}null{%- endif -%}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_ago_frontwalk_min_value:
+      friendly_name: frontwalk found ago min
+      entity_id:
+        - sensor.motion_detected_entity_ago_frontwalk_statistics
+      unit_of_measurement: seconds
+      value_template: >-
+        {% if states.sensor.motion_detected_entity_ago_frontwalk_statistics|lower != 'none' %}
+          {{ states.sensor.motion_detected_entity_ago_frontwalk_statistics.attributes.min_value|int }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_ago_frontwalk_max_value:
+      friendly_name: frontwalk found ago max
+      entity_id:
+        - sensor.motion_detected_entity_ago_frontwalk_statistics
+      unit_of_measurement: seconds
+      value_template: >-
+        {% if states.sensor.motion_detected_entity_ago_frontwalk_statistics|lower != 'none' %}
+          {{ states.sensor.motion_detected_entity_ago_frontwalk_statistics.attributes.max_value|int }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_ago_frontwalk_stdev:
+      friendly_name: frontwalk found ago stdev
+      entity_id:
+        - sensor.motion_detected_entity_ago_frontwalk_statistics
+      unit_of_measurement: seconds
+      value_template: >
+        {% if states.sensor.motion_detected_entity_ago_frontwalk_statistics|lower != 'none' %}
+          {{ states.sensor.motion_detected_entity_ago_frontwalk_statistics.attributes.standard_deviation|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_ago_frontwalk_change:
+      friendly_name: frontwalk found ago change
+      entity_id:
+        - sensor.motion_detected_entity_ago_frontwalk_statistics
+      unit_of_measurement: seconds
+      value_template: >
+        {% if states.sensor.motion_detected_entity_ago_frontwalk_statistics|lower != 'none' %}
+          {{ states.sensor.motion_detected_entity_ago_frontwalk_statistics.attributes.change|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_ago_frontwalk_stdev_change:
+      friendly_name: frontwalk found ago stdev change
+      entity_id:
+        - sensor.motion_detected_entity_ago_frontwalk_stdev_statistics
+      unit_of_measurement: seconds
+      value_template: >
+        {% if states.sensor.motion_detected_entity_ago_frontwalk_stdev_statistics|lower != 'none' %}
+          {{ states.sensor.motion_detected_entity_ago_frontwalk_stdev_statistics.attributes.change|float }}
+        {%- else -%}null{%- endif -%}
+
+## percent
+- platform: template
+  sensors:
+    motion_detected_entity_percent_frontwalk_mean:
+      friendly_name: frontwalk found avg
+      entity_id:
+        - sensor.motion_detected_entity_percent_frontwalk_statistics
+      unit_of_measurement: '%'
+      value_template: >-
+        {% if states('sensor.motion_detected_entity_percent_frontwalk_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_entity_percent_frontwalk_statistics.state|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_percent_frontwalk_min_value:
+      friendly_name: frontwalk found min
+      entity_id:
+        - sensor.motion_detected_entity_percent_frontwalk_statistics
+      unit_of_measurement: '%'
+      value_template: >-
+        {% if states('sensor.motion_detected_entity_percent_frontwalk_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_entity_percent_frontwalk_statistics.attributes.min_value|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_percent_frontwalk_max_value:
+      friendly_name: frontwalk found max
+      entity_id:
+        - sensor.motion_detected_entity_percent_frontwalk_statistics
+      unit_of_measurement: '%'
+      value_template: >-
+        {% if states('sensor.motion_detected_entity_percent_frontwalk_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_entity_percent_frontwalk_statistics.attributes.max_value|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_percent_frontwalk_stdev:
+      friendly_name: frontwalk found stdev
+      entity_id:
+        - sensor.motion_detected_entity_percent_frontwalk_statistics
+      unit_of_measurement: '%'
+      value_template: >
+        {% if states('sensor.motion_detected_entity_percent_frontwalk_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_entity_percent_frontwalk_statistics.attributes.standard_deviation|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_percent_frontwalk_change:
+      friendly_name: frontwalk found change
+      entity_id:
+        - sensor.motion_detected_entity_percent_frontwalk_statistics
+      unit_of_measurement: '%'
+      value_template: >
+        {% if states('sensor.motion_detected_entity_percent_frontwalk_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_entity_percent_frontwalk_statistics.attributes.change|float }}
+        {%- else -%}null{%- endif -%}
+
+## statistics
+
+# count
+- platform: statistics
+  name: motion_detected_entity_count_frontwalk_statistics
+  entity_id: sensor.motion_detected_entity_count_frontwalk
+  sampling_size: 1000
+  max_age:
+    hours: 72
+- platform: statistics
+  name: motion_detected_entity_count_frontwalk_stdev_statistics
+  entity_id: sensor.motion_detected_entity_count_frontwalk_stdev
+  sampling_size: 1000
+  max_age:
+    hours: 72
+
+# counter
+- platform: statistics
+  name: motion_detected_entity_counter_frontwalk_statistics
+  entity_id: sensor.motion_detected_entity_counter_frontwalk
+  sampling_size: 1000
+  max_age:
+    hours: 72
+- platform: statistics
+  name: motion_detected_entity_counter_frontwalk_stdev_statistics
+  entity_id: sensor.motion_detected_entity_counter_frontwalk_stdev
+  sampling_size: 1000
+  max_age:
+    hours: 72
+
+# ago
+- platform: statistics
+  name: motion_detected_entity_ago_frontwalk_statistics
+  entity_id: sensor.motion_detected_entity_ago_frontwalk
+  sampling_size: 1000
+  max_age:
+    hours: 72
+- platform: statistics
+  name: motion_detected_entity_ago_frontwalk_stdev_statistics
+  entity_id: sensor.motion_detected_entity_ago_frontwalk_stdev
+  sampling_size: 1000
+  max_age:
+    hours: 72
+
+# percent
+- platform: statistics
+  name: motion_detected_entity_percent_frontwalk_statistics
+  entity_id: sensor.motion_detected_entity_percent_frontwalk
+  sampling_size: 1000
+  max_age:
+    hours: 72
+- platform: statistics
+  name: motion_detected_entity_percent_frontwalk_stdev_statistics
+  entity_id: sensor.motion_detected_entity_percent_frontwalk_stdev
+  sampling_size: 1000
+  max_age:
+    hours: 72
+
+###
+# snapshot
+###
+
+- platform: template
+  sensors:
+    motion_end_snapshot_frontwalk:
+      entity_id:
+        - sensor.motion_end_counter_frontwalk
+      value_template: >-
+        {% set bu = states('sensor.motion_base_url') %}
+        {% if bu != 'unknown' %}
+          {{ bu + '/local/images/motion_end-frontwalk.jpg' }}
+        {% else %}{{ states('sensor.motion_testsignal_picture') }}{% endif %}
+
+- platform: template
+  sensors:
+    motion_annotated_snapshot_frontwalk:
+      entity_id:
+        - sensor.motion_annotated_counter_frontwalk
+      value_template: >-
+        {% set bu = states('sensor.motion_base_url') %}
+        {% if bu != 'unknown' %}
+          {{ bu + '/local/images/motion_annotated-frontwalk.jpg' }}
+        {% else %}{{ states('sensor.motion_testsignal_picture') }}{% endif %}
+
+- platform: template
+  sensors:
+    motion_detected_snapshot_frontwalk:
+      entity_id:
+        - sensor.motion_detected_counter_frontwalk
+      value_template: >-
+        {% set bu = states('sensor.motion_base_url') %}
+        {% if bu != 'unknown' %}
+          {{ bu + '/local/images/motion_detected-frontwalk.jpg' }}
+        {% else %}{{ states('sensor.motion_testsignal_picture') }}{% endif %}
+
+- platform: template
+  sensors:
+    motion_detected_entity_snapshot_frontwalk:
+      entity_id:
+        - sensor.motion_detected_entity_counter_frontwalk
+      value_template: >-
+        {% set bu = states('sensor.motion_base_url') %}
+        {% if bu != 'unknown' %}
+          {{ bu + '/local/images/motion_detected_entity-frontwalk.jpg' }}
+        {% else %}{{ states('sensor.motion_testsignal_picture') }}{% endif %}
+
+###
+## picture
+###
+
+- platform: template
+  sensors:
+    motion_end_picture_frontwalk:
+      entity_id:
+        - sensor.motion_event_end_frontwalk
+        - camera.motion_event_end_frontwalk
+      value_template: >-
+        {% set bu = states('sensor.motion_base_url') %}
+        {% set ep = state_attr('camera.motion_event_end_frontwalk','entity_picture') %}
+        {% if ep is not none and ep != 'unknown' and ep != 'null' and bu != 'unknown' %}
+          {% set p = bu + ep %}
+        {% else %}
+          {% set p = states('sensor.motion_testsignal_picture') %}
+        {% endif %}
+        {% if p is defined and p is not none and p != 'unknown' and p != 'null' %}
+          {{ p }}
+        {% else %}
+           {{ states('sensor.motion_nosignal_picture') }}
+        {% endif %}
+
+- platform: template
+  sensors:
+    motion_annotated_picture_frontwalk:
+      entity_id:
+        - sensor.motion_event_annotated_frontwalk
+        - camera.motion_event_annotated_frontwalk
+      value_template: >-
+        {% set bu = states('sensor.motion_base_url') %}
+        {% set ep = state_attr('camera.motion_event_annotated_frontwalk','entity_picture') %}
+        {% if ep is not none and ep != 'unknown' and ep != 'null' and bu != 'unknown' %}
+          {% set p = bu + ep %}
+        {% else %}
+          {% set p = states('sensor.motion_testsignal_picture') %}
+        {% endif %}
+        {% if p is defined and p is not none and p != 'unknown' and p != 'null' %}
+          {{ p }}
+        {% else %}
+           {{ states('sensor.motion_nosignal_picture') }}
+        {% endif %}
+
+- platform: template
+  sensors:
+    motion_detected_picture_frontwalk:
+      friendly_name: frontwalk detected picture
+      entity_id:
+        - sensor.motion_annotated_picture_frontwalk
+        - sensor.motion_detected_counter_frontwalk
+      value_template: >-
+        {% set n = states('sensor.motion_annotated_count_frontwalk')|int %}
+        {% if n > 0 %}
+          {% set p = states('sensor.motion_annotated_picture_frontwalk') %}
+        {% else %}
+          {% set p = states('sensor.motion_detected_picture_frontwalk') %}
+        {% endif %}
+        {% if p is not none and p != 'unknown' and p != 'null' %}
+          {{ p }}
+        {% else %}
+          {{ states('sensor.motion_nosignal_picture') }}
+        {% endif %}
+
+- platform: template
+  sensors:
+    motion_detected_entity_picture_frontwalk:
+      friendly_name: frontwalk detected entity picture
+      entity_id:
+        - sensor.motion_detected_picture_frontwalk
+        - sensor.motion_detected_entity_counter_frontwalk
+      value_template: >-
+        {% set n = states('sensor.motion_annotated_entity_count_frontwalk')|int %}
+        {% if n > 0 %}
+          {% set p = states('sensor.motion_annotated_picture_frontwalk') %}
+        {% else %}
+          {% set p = states('sensor.motion_detected_entity_picture_frontwalk') %}
+        {% endif %}
+        {% if p is not none and p != 'unknown' and p != 'null' %}
+          {{ p }}
+        {% else %}
+           {{ states('sensor.motion_nosignal_picture') }}
+        {% endif %}
+
+###
+# complete
+###
+
+- platform: template
+  sensors:
+    motion_complete_frontwalk:
+      unit_of_measurement: seconds
+      friendly_name: frontwalk complete
+      entity_id:
+        - camera.motion_event_annotated_frontwalk
+        - sensor.motion_event_annotated_frontwalk
+      value_template: >
+        {% set c = as_timestamp(states.camera.motion_event_annotated_frontwalk.last_updated) %}
+        {% set s = as_timestamp(states.sensor.motion_event_annotated_frontwalk.last_updated) %}
+        {{  c|float - s|float }}
+
+# complete statistics
+- platform: template
+  sensors:
+    motion_detected_entity_complete_frontwalk_mean:
+      friendly_name: frontwalk complete avg
+      entity_id:
+        - sensor.motion_detected_entity_complete_frontwalk_statistics
+      unit_of_measurement: '%'
+      value_template: >-
+        {% if states('sensor.motion_detected_entity_complete_frontwalk_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_entity_complete_frontwalk_statistics.state|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_complete_frontwalk_min_value:
+      friendly_name: frontwalk complete min
+      entity_id:
+        - sensor.motion_detected_entity_complete_frontwalk_statistics
+      unit_of_measurement: '%'
+      value_template: >-
+        {% if states('sensor.motion_detected_entity_complete_frontwalk_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_entity_complete_frontwalk_statistics.attributes.min_value|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_complete_frontwalk_max_value:
+      friendly_name: frontwalk complete max
+      entity_id:
+        - sensor.motion_detected_entity_complete_frontwalk_statistics
+      unit_of_measurement: '%'
+      value_template: >-
+        {% if states('sensor.motion_detected_entity_complete_frontwalk_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_entity_complete_frontwalk_statistics.attributes.max_value|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_complete_frontwalk_stdev:
+      friendly_name: frontwalk complete stdev
+      entity_id:
+        - sensor.motion_detected_entity_complete_frontwalk_statistics
+      unit_of_measurement: '%'
+      value_template: >
+        {% if states('sensor.motion_detected_entity_complete_frontwalk_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_entity_complete_frontwalk_statistics.attributes.standard_deviation|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_complete_frontwalk_change:
+      friendly_name: frontwalk complete change
+      entity_id:
+        - sensor.motion_detected_entity_complete_frontwalk_statistics
+      unit_of_measurement: '%'
+      value_template: >
+        {% if states('sensor.motion_detected_entity_complete_frontwalk_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_entity_complete_frontwalk_statistics.attributes.change|float }}
+        {%- else -%}null{%- endif -%}
+
+# statistics
+- platform: statistics
+  name: motion_detected_entity_complete_frontwalk_statistics
+  entity_id: sensor.motion_detected_entity_complete_frontwalk
+  sampling_size: 1000
+  max_age:
+    hours: 72
+- platform: statistics
+  name: motion_detected_entity_complete_frontwalk_stdev_statistics
+  entity_id: sensor.motion_detected_entity_complete_frontwalk_stdev
+  sampling_size: 1000
+  max_age:
+    hours: 72
+
+###
+### variable detection; produce array of booleans
+###
+
+- platform: template
+  sensors:
+    motion_detected_person_frontwalk:
+      entity_id:
+        - binary_sensor.motion_detected_frontwalk
+        - sensor.motion_detected_ago_frontwalk
+      value_template: >-
+        {% if states.sensor.motion_event_annotated_frontwalk|lower != 'none'
+              and state_attr('sensor.motion_event_annotated_frontwalk','detected')|lower != 'none'
+              and states.sensor.motion_event_annotated_frontwalk.attributes.count|int > 0
+              and state_attr('input_select.motion_detect_person','options')|lower != 'none' %}
+          {% for detected in states.sensor.motion_event_annotated_frontwalk.attributes.detected %}
+            {%- if loop.first -%}[{%- else -%},{%- endif -%}
+            {% if detected.entity in state_attr('input_select.motion_detect_person','options') %}{{ detected.count }}{% else %}0{% endif %}
+            {%- if loop.last -%}]{%- endif -%}
+          {% endfor %}
+        {% else %}null{% endif %}
+
+- platform: template
+  sensors:
+    motion_detected_vehicle_frontwalk:
+      entity_id:
+        - binary_sensor.motion_detected_frontwalk
+        - sensor.motion_detected_ago_frontwalk
+      value_template: >-
+        {% if states.sensor.motion_event_annotated_frontwalk|lower != 'none'
+              and state_attr('sensor.motion_event_annotated_frontwalk','detected')|lower != 'none'
+              and states.sensor.motion_event_annotated_frontwalk.attributes.count|int > 0
+              and state_attr('input_select.motion_detect_vehicle','options')|lower != 'none' %}
+          {% for detected in states.sensor.motion_event_annotated_frontwalk.attributes.detected %}
+            {%- if loop.first -%}[{%- else -%},{%- endif -%}
+            {% if detected.entity in state_attr('input_select.motion_detect_vehicle','options') %}{{ detected.count }}{% else %}0{% endif %}
+            {%- if loop.last -%}]{%- endif -%}
+          {% endfor %}
+        {% else %}null{% endif %}
+
+- platform: template
+  sensors:
+    motion_detected_animal_frontwalk:
+      entity_id:
+        - binary_sensor.motion_detected_frontwalk
+        - sensor.motion_detected_ago_frontwalk
+      value_template: >-
+        {% if states.sensor.motion_event_annotated_frontwalk|lower != 'none'
+              and state_attr('sensor.motion_event_annotated_frontwalk','detected')|lower != 'none'
+              and states.sensor.motion_event_annotated_frontwalk.attributes.count|int > 0
+              and state_attr('input_select.motion_detect_animal','options')|lower != 'none' %}
+          {% for detected in states.sensor.motion_event_annotated_frontwalk.attributes.detected %}
+            {%- if loop.first -%}[{%- else -%},{%- endif -%}
+            {% if detected.entity in state_attr('input_select.motion_detect_animal','options') %}{{ detected.count }}{% else %}0{% endif %}
+            {%- if loop.last -%}]{%- endif -%}
+          {% endfor %}
+        {% else %}null{% endif %}

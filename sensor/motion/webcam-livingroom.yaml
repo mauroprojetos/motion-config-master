@@ -1,0 +1,1547 @@
+###
+### livingroom sensors
+###
+
+###
+# found
+###
+
+- platform: mqtt
+  name: motion_status_camera_found_livingroom
+  state_topic: 'motion/+/livingroom/status/found'
+  expire_after: 86400
+  force_update: true
+  json_attributes:
+    - device
+    - camera
+    - date
+    - status
+  value_template: >
+    {% if value_json is defined %}True{% else %}False{% endif %}
+
+## dates
+- platform: template
+  sensors:
+    motion_status_camera_found_date_livingroom:
+      entity_id:
+        - sensor.motion_status_camera_found_livingroom
+      unit_of_measurement: seconds
+      value_template: >-
+        {% if state_attr('sensor.motion_status_camera_found_livingroom','date')|lower != 'none'
+              and states.sensor.motion_status_camera_found_livingroom.attributes.date|int > 0 %}
+          {{ states.sensor.motion_status_camera_found_livingroom.attributes.date|int }}
+        {% else %}{{ now().timestamp()|int }}{% endif %}
+
+- platform: template
+  sensors:
+    motion_status_camera_found_when_livingroom:
+      friendly_name: livingroom found
+      entity_id:
+        - sensor.motion_status_camera_found_date_livingroom
+      value_template: >-
+        {% if states.sensor.motion_status_camera_found_date_livingroom|lower != 'none'
+              and states.sensor.motion_status_camera_found_date_livingroom.state|int > 0 %}
+          {{ states.sensor.motion_status_camera_found_date_livingroom.state|int|timestamp_custom("%a %b %d ~ %I:%M %p") }}
+        {% else %}null{% endif %} 
+
+###
+# lost
+###
+
+- platform: mqtt
+  name: motion_status_camera_lost_livingroom
+  state_topic: 'motion/+/livingroom/status/lost'
+  expire_after: 86400
+  force_update: true
+  json_attributes:
+    - device
+    - camera
+    - date
+    - status
+  value_template: >
+    {% if value_json is defined %}True{% else %}False{% endif %}
+
+## dates
+- platform: template
+  sensors:
+    motion_status_camera_lost_date_livingroom:
+      entity_id:
+        - sensor.motion_status_camera_lost_livingroom
+      unit_of_measurement: seconds
+      value_template: >-
+        {% if state_attr('sensor.motion_status_camera_lost_livingroom','date')|lower != 'none'
+              and states.sensor.motion_status_camera_lost_livingroom.attributes.date|int > 0 %}
+          {{ states.sensor.motion_status_camera_lost_livingroom.attributes.date|int }}
+        {% else %}{{ now().timestamp()|int }}{% endif %}
+
+- platform: template
+  sensors:
+    motion_status_camera_lost_when_livingroom:
+      friendly_name: livingroom lost
+      entity_id:
+        - sensor.motion_status_camera_lost_date_livingroom
+      value_template: >-
+        {% if states.sensor.motion_status_camera_lost_date_livingroom|lower != 'none'
+              and states.sensor.motion_status_camera_lost_date_livingroom.state|int > 0 %}
+          {{ states.sensor.motion_status_camera_lost_date_livingroom.state|int|timestamp_custom("%a %b %d ~ %I:%M %p") }}
+        {% else %}null{% endif %} 
+
+###
+# start event
+###
+
+- platform: mqtt
+  name: motion_event_start_livingroom
+  qos: 1
+  state_topic: 'motion/+/livingroom/event/start'
+  expire_after: 30
+  force_update: true
+  json_attributes:
+    - device
+    - camera
+    - event
+    - start
+  value_template: >
+    {% if value_json is defined %}True{% else %}False{% endif %}
+
+###
+# image event
+###
+
+- platform: mqtt
+  name: motion_event_image_livingroom
+  qos: 1
+  state_topic: 'motion/+/livingroom/event/image'
+  expire_after: 1
+  force_update: true
+  json_attributes:
+    - device
+    - camera
+    - type
+    - date
+    - seqno
+    - event
+    - id
+    - center
+    - width
+    - height
+    - size
+    - noise
+  value_template: >
+    {% if value_json is defined %}True{% else %}False{% endif %}
+
+###
+# end event
+###
+
+- platform: mqtt
+  name: motion_event_end_livingroom
+  qos: 2
+  state_topic: 'motion/+/livingroom/event/end'
+  expire_after: 60
+  force_update: True
+  json_attributes:
+    - device
+    - camera
+    - event
+    - start
+    - end
+    - elapsed
+    - date
+  value_template: >
+    {% if value_json is defined %}True{% else %}False{% endif %}
+
+## status
+- platform: template
+  sensors:
+    motion_end_status_livingroom:
+      friendly_name: livingroom motion
+      entity_id:
+        - sensor.motion_end_counter_livingroom
+        - sensor.motion_end_ago_livingroom
+      value_template: >-
+        {% set elapsed = states('sensor.motion_end_elapsed_livingroom')|int %}
+        {% set ago = states('sensor.motion_end_ago_livingroom')|int %}
+        {% if elapsed > 0 %} {{ elapsed }} {% else %} zero {% endif %} second(s);
+        {{ ago }} second(s) ago
+
+## counting
+- platform: template
+  sensors:
+    motion_end_counter_livingroom:
+      friendly_name: livingroom end counter
+      entity_id:
+        - counter.motion_end_counter_livingroom
+      unit_of_measurement: count
+      value_template: >-
+        {% if states.counter.motion_end_counter_livingroom|lower != 'none' %}
+          {{ states.counter.motion_end_counter_livingroom.state|int }}
+        {%- else -%}null{%- endif -%}
+
+## timing
+- platform: template
+  sensors:
+    motion_end_date_livingroom:
+      entity_id:
+        - sensor.motion_end_counter_livingroom
+      unit_of_measurement: seconds
+      value_template: >-
+        {% if states.sensor.motion_event_end_livingroom|lower != 'none' and state_attr('sensor.motion_event_end_livingroom','end')|lower != 'none' %}
+          {% set date = states.sensor.motion_event_end_livingroom.attributes.end|int %}
+          {% if date > 0 %}{{ date }}{% else %}null{% endif %}
+        {% else %}null{% endif %}
+
+- platform: template
+  sensors:
+    motion_end_when_livingroom:
+      friendly_name: livingroom end
+      entity_id:
+        - sensor.motion_end_date_livingroom
+      value_template: >-
+        {% set date = states('sensor.motion_end_date_livingroom')|int %}
+        {% if date > 0 %} {{ date|timestamp_custom("%a %b %d ~ %I:%M %p") }} {% else %}never{% endif %}
+
+- platform: template
+  sensors:
+    motion_end_ago_livingroom:
+      friendly_name: livingroom end ago
+      entity_id:
+        - sensor.motion_end_date_livingroom
+        - sensor.time
+      unit_of_measurement: seconds
+      value_template: >
+        {% set s = states('sensor.motion_end_date_livingroom')|int %}
+        {% if s >  0 %}
+          {% set s = now().timestamp()|int - s %}
+          {% if s <  86400 %}{{ s }}{%- else -%}null{%- endif -%}
+        {%- else -%}null{%- endif -%}
+
+## elapsed
+- platform: template
+  sensors:
+    motion_end_elapsed_livingroom:
+      entity_id:
+        - sensor.motion_end_counter_livingroom
+      value_template: >
+        {% if states.sensor.motion_event_end_livingroom|lower != 'none'
+              and state_attr('sensor.motion_event_end_livingroom','elapsed')|lower != 'none' %}
+          {{ states.sensor.motion_event_end_livingroom.attributes.elapsed }}
+        {% else %} null {% endif %}
+
+###
+## annotated
+###
+
+## event_annotated
+- platform: mqtt
+  name: motion_event_annotated_livingroom
+  state_topic: 'motion/+/livingroom/event/end/+'
+  expire_after: 60
+  force_update: true
+  json_attributes:
+    - timestamp
+    - date
+    - time
+    - count
+    - event
+    - info
+    - detected
+  value_template: >
+    {% if value_json is defined %}True{% else %}False{% endif %}
+
+## status
+- platform: template
+  sensors:
+    motion_annotated_status_livingroom:
+      friendly_name: livingroom annotated
+      entity_id:
+        - sensor.motion_annotated_counter_livingroom
+        - sensor.motion_annotated_ago_livingroom
+      value_template: >-
+        {% set count = states('sensor.motion_annotated_count_livingroom')|int %}
+        {% set saw = states('sensor.motion_annotated_list_livingroom') %}
+        {% set ago = states('sensor.motion_annotated_ago_livingroom')|int %}
+        {% set delay = states('sensor.motion_annotated_delay_livingroom')|int %}
+        {% set when = states('sensor.motion_annotated_when_livingroom') %}
+        {% if count > 0 %}{{ count }} entity(s): {{ saw -}};{% else %}nothing;{% endif %}
+        {{ when }}; delay: {{ delay }}; {{ ago }} second(s) ago
+
+## count
+- platform: template
+  sensors:
+    motion_annotated_count_livingroom:
+      friendly_name: livingroom annotated count
+      entity_id:
+        - counter.motion_annotated_counter_livingroom
+      unit_of_measurement: entities
+      value_template: >
+        {% if state_attr('sensor.motion_event_annotated_livingroom','count') is not none %}
+          {{ state_attr('sensor.motion_event_annotated_livingroom','count')|int }}
+        {% else %}null{% endif %}
+
+## entity_count_loop
+- platform: template
+  sensors:
+    motion_annotated_entity_count_loop_livingroom:
+      entity_id:
+        - sensor.motion_annotated_count_livingroom
+      unit_of_measurement: entities
+      value_template: >-
+        {% set camera = 'livingroom' %}
+        {% set count = states('sensor.motion_annotated_count_' + camera)|int %}
+        {% if count > 0 %}
+          {% set s = states('sensor.motion_detect_entity') %}
+          {% for detected in state_attr('sensor.motion_event_annotated_' + camera,'detected') %}
+            {% if detected.entity == s or s == 'all' %}
+              {{ detected.count|int }}
+            {% endif %}
+          {% endfor %}
+        {% else %}null{% endif %}
+
+## entity_count
+- platform: template
+  sensors:
+    motion_annotated_entity_count_livingroom:
+      friendly_name: livingroom annotated entity count
+      entity_id:
+        - sensor.motion_annotated_entity_count_loop_livingroom
+      unit_of_measurement: entities
+      value_template: >-
+        {{ states('sensor.motion_annotated_entity_count_loop_livingroom')|int }}
+
+## annotated_list
+- platform: template
+  sensors:
+    motion_annotated_list_livingroom:
+      friendly_name: livingroom annotated entity list
+      entity_id:
+        - counter.motion_annotated_counter_livingroom
+      value_template: >-
+        {% set camera = 'livingroom' %}
+        {% set count = state_attr('sensor.motion_event_annotated_' + camera,'count') %}
+        {% set array = state_attr('sensor.motion_event_annotated_' + camera,'detected') %}
+        {% if count > 0 and array is not none %}
+          {% for detected in array %}
+            {%- if loop.first -%}{%- else -%},{%- endif -%}
+            {{- detected.entity -}}
+          {% endfor %}
+        {% else %}null{% endif %}
+
+## counter
+- platform: template
+  sensors:
+    motion_annotated_counter_livingroom:
+      friendly_name: livingroom annotated counter
+      entity_id:
+        - sensor.motion_annotated_entity_count_livingroom
+      unit_of_measurement: count
+      value_template: >
+        {% if states('counter.motion_annotated_counter_livingroom') != 'unknown' %}
+          {{ states('counter.motion_annotated_counter_livingroom')|int }}
+        {%- else -%}null{%- endif -%}
+
+## date
+- platform: template
+  sensors:
+    # date
+    motion_annotated_date_livingroom:
+      entity_id:
+        - sensor.motion_annotated_count_livingroom
+      unit_of_measurement: seconds
+      value_template: >-
+        {% if  state_attr('sensor.motion_event_annotated_livingroom','event') is not none %}
+          {% set date = states.sensor.motion_event_annotated_livingroom.attributes.event.end|int %}
+          {% if date > 0 %}{{ date }}{% else %}null{% endif %}
+        {% else %}null{% endif %}
+
+## when
+- platform: template
+  sensors:
+    motion_annotated_when_livingroom:
+      friendly_name: livingroom annotated
+      entity_id:
+        - sensor.motion_annotated_date_livingroom
+      value_template: >-
+        {% set date = states('sensor.motion_annotated_date_livingroom')|int %}
+        {% if date > 0 %} {{ date|timestamp_custom("%a %b %d ~ %I:%M %p") }} {% else %}never{% endif %}
+
+## ago
+- platform: template
+  sensors:
+    motion_annotated_ago_livingroom:
+      friendly_name: livingroom annotated ago
+      entity_id:
+        - sensor.motion_annotated_date_livingroom
+        - sensor.time
+      unit_of_measurement: seconds
+      value_template: >
+        {% set s = states('sensor.motion_annotated_date_livingroom')|int %}
+        {% if s >  0 %}
+          {% set s = now().timestamp()|int - s %}
+          {% if s <  86400 %}{{ s }}{%- else -%}null{%- endif -%}
+        {%- else -%}null{%- endif -%}
+
+## percent
+- platform: template
+  sensors:
+    motion_annotated_percent_livingroom:
+      friendly_name: livingroom annotated percent
+      entity_id:
+        - sensor.motion_end_counter_livingroom
+        - sensor.motion_annotated_counter_livingroom
+      unit_of_measurement: '%'
+      value_template: >-
+        {% if states('sensor.motion_annotated_counter_livingroom')|int > 0 and states('sensor.motion_end_counter_livingroom')|int > 0 %}
+          {{  ( states.sensor.motion_annotated_counter_livingroom.state|int / states.sensor.motion_end_counter_livingroom.state|int ) * 100.0 }}
+        {%- else -%}null{%- endif -%}
+
+## delay 
+- platform: template
+  sensors:
+    motion_annotated_delay_livingroom:
+      friendly_name: livingroom delay 
+      entity_id:
+        - sensor.motion_annotated_date_livingroom
+      unit_of_measurement: seconds
+      value_template: >
+        {{ now().timestamp()|int - states('sensor.motion_annotated_date_livingroom')|int }}
+
+###
+# statistics
+###
+
+## ago
+- platform: template
+  sensors:
+    motion_annotated_ago_livingroom_mean:
+      friendly_name: livingroom annotated ago avg
+      entity_id:
+        - sensor.motion_annotated_ago_livingroom_statistics
+      unit_of_measurement: seconds
+      value_template: >-
+        {% if states.sensor.motion_annotated_ago_livingroom_statistics|lower != 'none' %}
+          {{ states.sensor.motion_annotated_ago_livingroom_statistics.state|float }}
+        {%- else -%}null{%- endif -%}
+    motion_annotated_ago_livingroom_min_value:
+      friendly_name: livingroom annotated min
+      entity_id:
+        - sensor.motion_annotated_ago_livingroom_statistics
+      unit_of_measurement: seconds
+      value_template: >-
+        {% if states.sensor.motion_annotated_ago_livingroom_statistics|lower != 'none' %}
+          {{ states.sensor.motion_annotated_ago_livingroom_statistics.attributes.min_value|int }}
+        {%- else -%}null{%- endif -%}
+    motion_annotated_ago_livingroom_max_value:
+      friendly_name: livingroom annotated max
+      entity_id:
+        - sensor.motion_annotated_ago_livingroom_statistics
+      unit_of_measurement: seconds
+      value_template: >-
+        {% if states.sensor.motion_annotated_ago_livingroom_statistics|lower != 'none' %}
+          {{ states.sensor.motion_annotated_ago_livingroom_statistics.attributes.max_value|int }}
+        {%- else -%}null{%- endif -%}
+    motion_annotated_ago_livingroom_stdev:
+      friendly_name: livingroom annotated stdev
+      entity_id:
+        - sensor.motion_annotated_ago_livingroom_statistics
+      unit_of_measurement: seconds
+      value_template: >
+        {% if states.sensor.motion_annotated_ago_livingroom_statistics|lower != 'none' %}
+          {{ states.sensor.motion_annotated_ago_livingroom_statistics.attributes.standard_deviation|float }}
+        {%- else -%}null{%- endif -%}
+    motion_annotated_ago_livingroom_change:
+      friendly_name: livingroom annotated change
+      entity_id:
+        - sensor.motion_annotated_ago_livingroom_statistics
+      unit_of_measurement: seconds
+      value_template: >
+        {% if states.sensor.motion_annotated_ago_livingroom_statistics|lower != 'none' %}
+          {{ states.sensor.motion_annotated_ago_livingroom_statistics.attributes.change|float }}
+        {%- else -%}null{%- endif -%}
+
+## percent
+- platform: template
+  sensors:
+    motion_annotated_percent_livingroom_mean:
+      friendly_name: livingroom annotated percent avg
+      entity_id:
+        - sensor.motion_annotated_percent_livingroom_statistics
+      unit_of_measurement: '%'
+      value_template: >-
+        {% if states('sensor.motion_annotated_percent_livingroom_statistics') != 'unknown' %}
+          {{ states.sensor.motion_annotated_percent_livingroom_statistics.state|float }}
+        {%- else -%}null{%- endif -%}
+    motion_annotated_percent_livingroom_min_value:
+      friendly_name: livingroom annotated percent min
+      entity_id:
+        - sensor.motion_annotated_percent_livingroom_statistics
+      unit_of_measurement: '%'
+      value_template: >-
+        {% if states('sensor.motion_annotated_percent_livingroom_statistics') != 'unknown' %}
+          {{ states.sensor.motion_annotated_percent_livingroom_statistics.attributes.min_value|float }}
+        {%- else -%}null{%- endif -%}
+    motion_annotated_percent_livingroom_max_value:
+      friendly_name: livingroom annotated percent max
+      entity_id:
+        - sensor.motion_annotated_percent_livingroom_statistics
+      unit_of_measurement: '%'
+      value_template: >-
+        {% if states('sensor.motion_annotated_percent_livingroom_statistics') != 'unknown' %}
+          {{ states.sensor.motion_annotated_percent_livingroom_statistics.attributes.max_value|float }}
+        {%- else -%}null{%- endif -%}
+    motion_annotated_percent_livingroom_stdev:
+      friendly_name: livingroom annotated percent stdev
+      entity_id:
+        - sensor.motion_annotated_percent_livingroom_statistics
+      unit_of_measurement: '%'
+      value_template: >
+        {% if states('sensor.motion_annotated_percent_livingroom_statistics') != 'unknown' %}
+          {{ states.sensor.motion_annotated_percent_livingroom_statistics.attributes.standard_deviation|float }}
+        {%- else -%}null{%- endif -%}
+    motion_annotated_percent_livingroom_change:
+      friendly_name: livingroom annotated percent change
+      entity_id:
+        - sensor.motion_annotated_percent_livingroom_statistics
+      unit_of_measurement: '%'
+      value_template: >
+        {% if states('sensor.motion_annotated_percent_livingroom_statistics') != 'unknown' %}
+          {{ states.sensor.motion_annotated_percent_livingroom_statistics.attributes.change|float }}
+        {%- else -%}null{%- endif -%}
+
+## delay 
+- platform: template
+  sensors:
+    motion_annotated_delay_livingroom_mean:
+      friendly_name: livingroom delay avg
+      entity_id:
+        - sensor.motion_annotated_delay_livingroom_statistics
+      unit_of_measurement: seconds
+      value_template: >-
+        {% if states('sensor.motion_annotated_delay_livingroom_statistics') != 'unknown' %}
+          {{ states.sensor.motion_annotated_delay_livingroom_statistics.state|float }}
+        {%- else -%}null{%- endif -%}
+    motion_annotated_delay_livingroom_min_value:
+      friendly_name: livingroom delay min
+      entity_id:
+        - sensor.motion_annotated_delay_livingroom_statistics
+      unit_of_measurement: seconds
+      value_template: >-
+        {% if states('sensor.motion_annotated_delay_livingroom_statistics') != 'unknown' %}
+          {{ states.sensor.motion_annotated_delay_livingroom_statistics.attributes.min_value|int }}
+        {%- else -%}null{%- endif -%}
+    motion_annotated_delay_livingroom_max_value:
+      friendly_name: livingroom delay max
+      entity_id:
+        - sensor.motion_annotated_delay_livingroom_statistics
+      unit_of_measurement: seconds
+      value_template: >-
+        {% if states('sensor.motion_annotated_delay_livingroom_statistics') != 'unknown' %}
+          {{ states.sensor.motion_annotated_delay_livingroom_statistics.attributes.max_value|int }}
+        {%- else -%}null{%- endif -%}
+    motion_annotated_delay_livingroom_stdev:
+      friendly_name: livingroom delay stdev
+      entity_id:
+        - sensor.motion_annotated_delay_livingroom_statistics
+      unit_of_measurement: seconds
+      value_template: >
+        {% if states('sensor.motion_annotated_delay_livingroom_statistics') != 'unknown' %}
+          {{ states.sensor.motion_annotated_delay_livingroom_statistics.attributes.standard_deviation|float }}
+        {%- else -%}null{%- endif -%}
+    motion_annotated_delay_livingroom_change:
+      friendly_name: livingroom delay change
+      entity_id:
+        - sensor.motion_annotated_delay_livingroom_statistics
+      unit_of_measurement: seconds
+      value_template: >
+        {% if states('sensor.motion_annotated_delay_livingroom_statistics') != 'unknown' %}
+          {{ states.sensor.motion_annotated_delay_livingroom_statistics.attributes.change|float }}
+        {%- else -%}null{%- endif -%}
+
+## statistics
+
+# ago
+- platform: statistics
+  name: motion_annotated_ago_livingroom_statistics
+  entity_id: sensor.motion_annotated_ago_livingroom
+  sampling_size: 1000
+  max_age:
+    hours: 72
+- platform: statistics
+  name: motion_annotated_ago_livingroom_stdev_statistics
+  entity_id: sensor.motion_annotated_ago_livingroom_stdev
+  sampling_size: 1000
+  max_age:
+    hours: 72
+
+# percent
+- platform: statistics
+  name: motion_annotated_percent_livingroom_statistics
+  entity_id: sensor.motion_annotated_percent_livingroom
+  sampling_size: 1000
+  max_age:
+    hours: 72
+- platform: statistics
+  name: motion_annotated_percent_livingroom_stdev_statistics
+  entity_id: sensor.motion_annotated_percent_livingroom_stdev
+  sampling_size: 1000
+  max_age:
+    hours: 72
+
+# delay
+- platform: statistics
+  name: motion_annotated_delay_livingroom_statistics
+  entity_id: sensor.motion_annotated_delay_livingroom
+  sampling_size: 1000
+  max_age:
+    hours: 72
+- platform: statistics
+  name: motion_annotated_delay_livingroom_stdev_statistics
+  entity_id: sensor.motion_annotated_delay_livingroom_stdev
+  sampling_size: 1000
+  max_age:
+    hours: 72
+
+###
+## detected
+###
+
+## status
+- platform: template
+  sensors:
+    motion_detected_status_livingroom:
+      friendly_name: livingroom Seen
+      entity_id:
+        - sensor.motion_detected_when_livingroom
+      value_template: >-
+        {% set when = states('sensor.motion_detected_when_livingroom') %}
+        {% set count = states('sensor.motion_detected_count_livingroom')|int %}
+        {% set what = states('sensor.motion_detected_list_livingroom') %}
+        {{ count }} entities: {{ what -}}; {{ when }}
+
+## count
+- platform: template
+  sensors:
+    # count
+    motion_detected_count_livingroom:
+      friendly_name: livingroom detected count
+      entity_id:
+        - binary_sensor.motion_detected_livingroom
+      unit_of_measurement: entities
+      value_template: >-
+        {{ states('sensor.motion_annotated_count_livingroom')|int }}
+
+## counter
+- platform: template
+  sensors:
+    motion_detected_counter_livingroom:
+      friendly_name: livingroom detected counter
+      entity_id:
+        - sensor.motion_detected_count_livingroom
+      unit_of_measurement: count
+      value_template: >
+        {% if states('counter.motion_detected_counter_livingroom') != 'unknown' %}
+          {{ states('counter.motion_detected_counter_livingroom')|int }}
+        {%- else -%}null{%- endif -%}
+
+## date
+- platform: template
+  sensors:
+    motion_detected_date_livingroom:
+      friendly_name: livingroom detected date
+      entity_id:
+        - sensor.motion_detected_counter_livingroom
+      unit_of_measurement: seconds
+      value_template: >-
+        {% set date = states('sensor.motion_annotated_date_livingroom')|int %}
+        {% if date > 0 %}{{ date }}{% else %}null{% endif %}
+
+## when
+- platform: template
+  sensors:
+    motion_detected_when_livingroom:
+      friendly_name: livingroom detected at
+      entity_id:
+        - sensor.motion_detected_date_livingroom
+      value_template: >-
+        {% set date = states('sensor.motion_detected_date_livingroom')|int %}
+        {% if date > 0 %} {{ date|timestamp_custom("%a %b %d ~ %I:%M %p") }} {% else %}never{% endif %}
+
+## ago
+- platform: template
+  sensors:
+    motion_detected_ago_livingroom:
+      friendly_name: livingroom seen ago
+      entity_id:
+        - sensor.motion_detected_date_livingroom
+        - sensor.time
+      unit_of_measurement: seconds
+      value_template: >
+        {% set s = states('sensor.motion_detected_date_livingroom')|int %}
+        {% if s >  0 %}
+          {% set s = now().timestamp()|int - s %}
+          {% if s <  86400 %}{{ s }}{%- else -%}null{%- endif -%}
+        {%- else -%}null{%- endif -%}
+
+## list
+- platform: template
+  sensors:
+    motion_detected_list_livingroom:
+      friendly_name: livingroom entity list
+      entity_id:
+        - sensor.motion_detected_count_livingroom
+      value_template: >-
+        {{ states('sensor.motion_annotated_list_livingroom') }}
+
+## percent
+- platform: template
+  sensors:
+    motion_detected_percent_livingroom:
+      friendly_name: livingroom seen
+      entity_id:
+        - sensor.motion_annotated_counter_livingroom
+        - sensor.motion_detected_counter_livingroom
+      unit_of_measurement: '%'
+      value_template: >-
+        {% if states('sensor.motion_detected_counter_livingroom')|int > 0 and states('sensor.motion_annotated_counter_livingroom')|int > 0 %}
+          {{  ( states.sensor.motion_detected_counter_livingroom.state|int / states.sensor.motion_annotated_counter_livingroom.state|int ) * 100.0 }}
+        {%- else -%}null{%- endif -%}
+
+###
+## statistics
+###
+
+## ago
+- platform: template
+  sensors:
+    motion_detected_ago_livingroom_mean:
+      friendly_name: livingroom seen ago avg
+      entity_id:
+        - sensor.motion_detected_ago_livingroom_statistics
+      unit_of_measurement: seconds
+      value_template: >-
+        {% if states.sensor.motion_detected_ago_livingroom_statistics|lower != 'none' %}
+          {% if states.sensor.motion_detected_ago_livingroom_statistics.state|int is number %}
+            {{ states.sensor.motion_detected_ago_livingroom_statistics.state|float }}
+          {%- else -%}null{%- endif -%}
+        {%- else -%}null{%- endif -%}
+    motion_detected_ago_livingroom_min_value:
+      friendly_name: livingroom seen ago min
+      entity_id:
+        - sensor.motion_detected_ago_livingroom_statistics
+      unit_of_measurement: seconds
+      value_template: >-
+        {% if states.sensor.motion_detected_ago_livingroom_statistics|lower != 'none' %}
+          {{ states.sensor.motion_detected_ago_livingroom_statistics.attributes.min_value|int }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_ago_livingroom_max_value:
+      friendly_name: livingroom seen ago max
+      entity_id:
+        - sensor.motion_detected_ago_livingroom_statistics
+      unit_of_measurement: seconds
+      value_template: >-
+        {% if states.sensor.motion_detected_ago_livingroom_statistics|lower != 'none' %}
+          {{ states.sensor.motion_detected_ago_livingroom_statistics.attributes.max_value|int }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_ago_livingroom_stdev:
+      friendly_name: livingroom seen ago stdev
+      entity_id:
+        - sensor.motion_detected_ago_livingroom_statistics
+      unit_of_measurement: seconds
+      value_template: >
+        {% if states.sensor.motion_detected_ago_livingroom_statistics|lower != 'none' %}
+          {{ states.sensor.motion_detected_ago_livingroom_statistics.attributes.standard_deviation|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_ago_livingroom_change:
+      friendly_name: livingroom ago change
+      entity_id:
+        - sensor.motion_detected_ago_livingroom_statistics
+      unit_of_measurement: seconds
+      value_template: >
+        {% if states.sensor.motion_detected_ago_livingroom_statistics|lower != 'none' %}
+          {{ states.sensor.motion_detected_ago_livingroom_statistics.attributes.change|float }}
+        {%- else -%}null{%- endif -%}
+
+## count
+- platform: template
+  sensors:
+    motion_detected_count_mean_livingroom:
+      friendly_name: livingroom seen avg
+      entity_id:
+        - sensor.motion_detected_count_livingroom_statistics
+      unit_of_measurement: entities
+      value_template: >-
+        {% if states('sensor.motion_detected_count_livingroom_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_count_livingroom_statistics.state|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_count_livingroom_min_value:
+      friendly_name: livingroom seen min
+      entity_id:
+        - sensor.motion_detected_count_livingroom_statistics
+      unit_of_measurement: entities
+      value_template: >-
+        {% if states('sensor.motion_detected_count_livingroom_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_count_livingroom_statistics.attributes.min_value|int }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_count_livingroom_max_value:
+      friendly_name: livingroom seen max
+      entity_id:
+        - sensor.motion_detected_count_livingroom_statistics
+      unit_of_measurement: entities
+      value_template: >-
+        {% if states('sensor.motion_detected_count_livingroom_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_count_livingroom_statistics.attributes.max_value|int }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_count_livingroom_stdev:
+      friendly_name: livingroom seen stdev
+      entity_id:
+        - sensor.motion_detected_count_livingroom_statistics
+      unit_of_measurement: entities
+      value_template: >
+        {% if states('sensor.motion_detected_count_livingroom_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_count_livingroom_statistics.attributes.standard_deviation|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_count_livingroom_change:
+      friendly_name: livingroom seen change
+      entity_id:
+        - sensor.motion_detected_count_livingroom_statistics
+      unit_of_measurement: entities
+      value_template: >
+        {% if states('sensor.motion_detected_count_livingroom_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_count_livingroom_statistics.attributes.change|float }}
+        {%- else -%}null{%- endif -%}
+
+## percent
+- platform: template
+  sensors:
+    motion_detected_percent_livingroom_mean:
+      friendly_name: livingroom seen avg
+      entity_id:
+        - sensor.motion_detected_percent_livingroom_statistics
+      unit_of_measurement: '%'
+      value_template: >-
+        {% if states('sensor.motion_detected_percent_livingroom_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_percent_livingroom_statistics.state|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_percent_livingroom_min_value:
+      friendly_name: livingroom seen min
+      entity_id:
+        - sensor.motion_detected_percent_livingroom_statistics
+      unit_of_measurement: '%'
+      value_template: >-
+        {% if states('sensor.motion_detected_percent_livingroom_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_percent_livingroom_statistics.attributes.min_value|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_percent_livingroom_max_value:
+      friendly_name: livingroom seen max
+      entity_id:
+        - sensor.motion_detected_percent_livingroom_statistics
+      unit_of_measurement: '%'
+      value_template: >-
+        {% if states('sensor.motion_detected_percent_livingroom_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_percent_livingroom_statistics.attributes.max_value|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_percent_livingroom_stdev:
+      friendly_name: livingroom seen stdev
+      entity_id:
+        - sensor.motion_detected_percent_livingroom_statistics
+      unit_of_measurement: '%'
+      value_template: >
+        {% if states('sensor.motion_detected_percent_livingroom_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_percent_livingroom_statistics.attributes.standard_deviation|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_percent_livingroom_change:
+      friendly_name: livingroom seen change
+      entity_id:
+        - sensor.motion_detected_percent_livingroom_statistics
+      unit_of_measurement: '%'
+      value_template: >
+        {% if states('sensor.motion_detected_percent_livingroom_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_percent_livingroom_statistics.attributes.change|float }}
+        {%- else -%}null{%- endif -%}
+
+## statistics
+
+# ago
+- platform: statistics
+  name: motion_detected_ago_livingroom_statistics
+  entity_id: sensor.motion_detected_ago_livingroom
+  sampling_size: 1000
+  max_age:
+    hours: 72
+- platform: statistics
+  name: motion_detected_ago_livingroom_stdev_statistics
+  entity_id: sensor.motion_detected_ago_livingroom_stdev
+  sampling_size: 1000
+  max_age:
+    hours: 72
+
+# count
+- platform: statistics
+  name: motion_detected_count_livingroom_statistics
+  entity_id: sensor.motion_detected_count_livingroom
+  sampling_size: 1000
+  max_age:
+    hours: 72
+- platform: statistics
+  name: motion_detected_count_livingroom_stdev_statistics
+  entity_id: sensor.motion_detected_count_livingroom_stdev
+  sampling_size: 1000
+  max_age:
+    hours: 72
+
+# percent
+- platform: statistics
+  name: motion_detected_percent_livingroom_statistics
+  entity_id: sensor.motion_detected_percent_livingroom
+  sampling_size: 1000
+  max_age:
+    hours: 72
+- platform: statistics
+  name: motion_detected_percent_livingroom_stdev_statistics
+  entity_id: sensor.motion_detected_percent_livingroom_stdev
+  sampling_size: 1000
+  max_age:
+    hours: 72
+
+###
+## detected_entity
+###
+
+## status
+- platform: template
+  sensors:
+    motion_detected_entity_status_livingroom:
+      friendly_name: livingroom found
+      entity_id:
+        - sensor.motion_detected_entity_when_livingroom
+      value_template: >-
+        {% set count = states('sensor.motion_detected_entity_count_livingroom')|int %}
+        {% set what = states('sensor.motion_detect_entity') %}
+        {% set when = states('sensor.motion_detected_entity_when_livingroom') %}
+        {{ count }} {{ what -}}(s); {{ when }}
+
+## count
+- platform: template
+  sensors:
+    motion_detected_entity_count_livingroom:
+      friendly_name: livingroom found
+      unit_of_measurement: entities
+      entity_id:
+        - binary_sensor.motion_detected_entity_livingroom
+      value_template: >-
+        {{ states('sensor.motion_annotated_entity_count_livingroom')|int }}
+
+## counter
+- platform: template
+  sensors:
+    motion_detected_entity_counter_livingroom:
+      friendly_name: livingroom found counter
+      entity_id:
+        - sensor.motion_detected_entity_when_livingroom
+      unit_of_measurement: count
+      value_template: >
+        {% if states('counter.motion_detected_entity_counter_livingroom') != 'unknown' %}
+          {{ states('counter.motion_detected_entity_counter_livingroom')|int }}
+        {%- else -%}null{%- endif -%}
+
+## date
+- platform: template
+  sensors:
+    motion_detected_entity_date_livingroom:
+      entity_id:
+        - sensor.motion_detected_entity_count_livingroom
+      unit_of_measurement: seconds
+      value_template: >-
+        {% set date = states('sensor.motion_annotated_date_livingroom')|int %}
+        {% if date > 0 %}{{ date }}{% else %}null{% endif %}
+
+## when - human readable
+- platform: template
+  sensors:
+    motion_detected_entity_when_livingroom:
+      friendly_name: livingroom identified at
+      entity_id:
+        - sensor.motion_detected_entity_date_livingroom
+      value_template: >-
+        {% set date = states('sensor.motion_detected_entity_date_livingroom')|int %}
+        {% if date > 0 %}{{ date|timestamp_custom("%a %b %d ~ %I:%M %p") }}{% else %}never{% endif %}
+
+## ago
+- platform: template
+  sensors:
+    motion_detected_entity_ago_livingroom:
+      friendly_name: livingroom found ago
+      entity_id:
+        - sensor.motion_detected_entity_date_livingroom
+        - sensor.time
+      unit_of_measurement: seconds
+      value_template: >
+        {% set s = states('sensor.motion_detected_entity_date_livingroom')|int %}
+        {% if s >  0 %}
+          {% set s = now().timestamp()|int - s %}
+          {% if s <  86400 %}{{ s }}{% else %}null{% endif %}
+        {%- else -%}null{%- endif -%}
+
+## percent
+- platform: template
+  sensors:
+    motion_detected_entity_percent_livingroom:
+      friendly_name: livingroom found
+      entity_id:
+        - sensor.motion_annotated_counter_livingroom
+        - sensor.motion_detected_entity_counter_livingroom
+      unit_of_measurement: '%'
+      value_template: >-
+        {% if states('sensor.motion_detected_entity_counter_livingroom')|int > 0 and states('sensor.motion_annotated_counter_livingroom')|int > 0 %}
+          {{ states('sensor.motion_detected_entity_counter_livingroom')|int / states('sensor.motion_annotated_counter_livingroom')|int * 100.0 }}
+        {%- else -%}null{%- endif -%}
+
+###
+# statistics
+###
+
+## count
+- platform: template
+  sensors:
+    motion_detected_entity_count_mean_livingroom:
+      friendly_name: livingroom found avg
+      entity_id:
+        - sensor.motion_detected_entity_count_livingroom_statistics
+      unit_of_measurement: entities
+      value_template: >-
+        {% if states('sensor.motion_detected_entity_count_livingroom_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_entity_count_livingroom_statistics.state|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_count_livingroom_min_value:
+      friendly_name: livingroom found min
+      entity_id:
+        - sensor.motion_detected_entity_count_livingroom_statistics
+      unit_of_measurement: entities
+      value_template: >-
+        {% if states('sensor.motion_detected_entity_count_livingroom_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_entity_count_livingroom_statistics.attributes.min_value|int }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_count_livingroom_max_value:
+      friendly_name: livingroom found max
+      entity_id:
+        - sensor.motion_detected_entity_count_livingroom_statistics
+      unit_of_measurement: entities
+      value_template: >-
+        {% if states('sensor.motion_detected_entity_count_livingroom_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_entity_count_livingroom_statistics.attributes.max_value|int }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_count_livingroom_stdev:
+      friendly_name: livingroom found stdev
+      entity_id:
+        - sensor.motion_detected_entity_count_livingroom_statistics
+      unit_of_measurement: entities
+      value_template: >
+        {% if states('sensor.motion_detected_entity_count_livingroom_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_entity_count_livingroom_statistics.attributes.standard_deviation|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_count_livingroom_change:
+      friendly_name: livingroom found change
+      entity_id:
+        - sensor.motion_detected_entity_count_livingroom_statistics
+      unit_of_measurement: entities
+      value_template: >
+        {% if states('sensor.motion_detected_entity_count_livingroom_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_entity_count_livingroom_statistics.attributes.change|float }}
+        {%- else -%}null{%- endif -%}
+
+## counter
+- platform: template
+  sensors:
+    motion_detected_entity_counter_livingroom_mean:
+      friendly_name: livingroom found avg
+      entity_id:
+        - sensor.motion_detected_entity_counter_livingroom_statistics
+      unit_of_measurement: count
+      value_template: >-
+        {% if states.sensor.motion_detected_entity_counter_livingroom_statistics|lower != 'none' %}
+          {% if states.sensor.motion_detected_entity_counter_livingroom_statistics.state|int is number %}
+            {{ states.sensor.motion_detected_entity_counter_livingroom_statistics.state|float }}
+          {%- else -%}null{%- endif -%}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_counter_livingroom_min_value:
+      friendly_name: livingroom found min
+      entity_id:
+        - sensor.motion_detected_entity_counter_livingroom_statistics
+      unit_of_measurement: count
+      value_template: >-
+        {% if states.sensor.motion_detected_entity_counter_livingroom_statistics|lower != 'none' %}
+          {{ states.sensor.motion_detected_entity_counter_livingroom_statistics.attributes.min_value|int }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_counter_livingroom_max_value:
+      friendly_name: livingroom found max
+      entity_id:
+        - sensor.motion_detected_entity_counter_livingroom_statistics
+      unit_of_measurement: count
+      value_template: >-
+        {% if states.sensor.motion_detected_entity_counter_livingroom_statistics|lower != 'none' %}
+          {{ states.sensor.motion_detected_entity_counter_livingroom_statistics.attributes.max_value|int }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_counter_livingroom_stdev:
+      friendly_name: livingroom found stdev
+      entity_id:
+        - sensor.motion_detected_entity_counter_livingroom_statistics
+      unit_of_measurement: count
+      value_template: >
+        {% if states.sensor.motion_detected_entity_counter_livingroom_statistics|lower != 'none' %}
+          {{ states.sensor.motion_detected_entity_counter_livingroom_statistics.attributes.standard_deviation|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_counter_livingroom_change:
+      friendly_name: livingroom found change
+      entity_id:
+        - sensor.motion_detected_entity_counter_livingroom_statistics
+      unit_of_measurement: count
+      value_template: >
+        {% if states.sensor.motion_detected_entity_counter_livingroom_statistics|lower != 'none' %}
+          {{ states.sensor.motion_detected_entity_counter_livingroom_statistics.attributes.change|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_counter_livingroom_stdev_change:
+      friendly_name: livingroom found stdev change
+      entity_id:
+        - sensor.motion_detected_entity_counter_livingroom_stdev_statistics
+      unit_of_measurement: count
+      value_template: >
+        {% if states.sensor.motion_detected_entity_counter_livingroom_stdev_statistics|lower != 'none' %}
+          {{ states.sensor.motion_detected_entity_counter_livingroom_stdev_statistics.attributes.change|float }}
+        {%- else -%}null{%- endif -%}
+
+## ago
+- platform: template
+  sensors:
+    motion_detected_entity_ago_livingroom_mean:
+      friendly_name: livingroom found ago avg
+      entity_id:
+        - sensor.motion_detected_entity_ago_livingroom_statistics
+      unit_of_measurement: seconds
+      value_template: >-
+        {% if states.sensor.motion_detected_entity_ago_livingroom_statistics|lower != 'none' %}
+          {% if states.sensor.motion_detected_entity_ago_livingroom_statistics.state|int is number %}
+            {{ states.sensor.motion_detected_entity_ago_livingroom_statistics.state|float }}
+          {%- else -%}null{%- endif -%}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_ago_livingroom_min_value:
+      friendly_name: livingroom found ago min
+      entity_id:
+        - sensor.motion_detected_entity_ago_livingroom_statistics
+      unit_of_measurement: seconds
+      value_template: >-
+        {% if states.sensor.motion_detected_entity_ago_livingroom_statistics|lower != 'none' %}
+          {{ states.sensor.motion_detected_entity_ago_livingroom_statistics.attributes.min_value|int }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_ago_livingroom_max_value:
+      friendly_name: livingroom found ago max
+      entity_id:
+        - sensor.motion_detected_entity_ago_livingroom_statistics
+      unit_of_measurement: seconds
+      value_template: >-
+        {% if states.sensor.motion_detected_entity_ago_livingroom_statistics|lower != 'none' %}
+          {{ states.sensor.motion_detected_entity_ago_livingroom_statistics.attributes.max_value|int }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_ago_livingroom_stdev:
+      friendly_name: livingroom found ago stdev
+      entity_id:
+        - sensor.motion_detected_entity_ago_livingroom_statistics
+      unit_of_measurement: seconds
+      value_template: >
+        {% if states.sensor.motion_detected_entity_ago_livingroom_statistics|lower != 'none' %}
+          {{ states.sensor.motion_detected_entity_ago_livingroom_statistics.attributes.standard_deviation|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_ago_livingroom_change:
+      friendly_name: livingroom found ago change
+      entity_id:
+        - sensor.motion_detected_entity_ago_livingroom_statistics
+      unit_of_measurement: seconds
+      value_template: >
+        {% if states.sensor.motion_detected_entity_ago_livingroom_statistics|lower != 'none' %}
+          {{ states.sensor.motion_detected_entity_ago_livingroom_statistics.attributes.change|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_ago_livingroom_stdev_change:
+      friendly_name: livingroom found ago stdev change
+      entity_id:
+        - sensor.motion_detected_entity_ago_livingroom_stdev_statistics
+      unit_of_measurement: seconds
+      value_template: >
+        {% if states.sensor.motion_detected_entity_ago_livingroom_stdev_statistics|lower != 'none' %}
+          {{ states.sensor.motion_detected_entity_ago_livingroom_stdev_statistics.attributes.change|float }}
+        {%- else -%}null{%- endif -%}
+
+## percent
+- platform: template
+  sensors:
+    motion_detected_entity_percent_livingroom_mean:
+      friendly_name: livingroom found avg
+      entity_id:
+        - sensor.motion_detected_entity_percent_livingroom_statistics
+      unit_of_measurement: '%'
+      value_template: >-
+        {% if states('sensor.motion_detected_entity_percent_livingroom_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_entity_percent_livingroom_statistics.state|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_percent_livingroom_min_value:
+      friendly_name: livingroom found min
+      entity_id:
+        - sensor.motion_detected_entity_percent_livingroom_statistics
+      unit_of_measurement: '%'
+      value_template: >-
+        {% if states('sensor.motion_detected_entity_percent_livingroom_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_entity_percent_livingroom_statistics.attributes.min_value|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_percent_livingroom_max_value:
+      friendly_name: livingroom found max
+      entity_id:
+        - sensor.motion_detected_entity_percent_livingroom_statistics
+      unit_of_measurement: '%'
+      value_template: >-
+        {% if states('sensor.motion_detected_entity_percent_livingroom_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_entity_percent_livingroom_statistics.attributes.max_value|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_percent_livingroom_stdev:
+      friendly_name: livingroom found stdev
+      entity_id:
+        - sensor.motion_detected_entity_percent_livingroom_statistics
+      unit_of_measurement: '%'
+      value_template: >
+        {% if states('sensor.motion_detected_entity_percent_livingroom_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_entity_percent_livingroom_statistics.attributes.standard_deviation|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_percent_livingroom_change:
+      friendly_name: livingroom found change
+      entity_id:
+        - sensor.motion_detected_entity_percent_livingroom_statistics
+      unit_of_measurement: '%'
+      value_template: >
+        {% if states('sensor.motion_detected_entity_percent_livingroom_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_entity_percent_livingroom_statistics.attributes.change|float }}
+        {%- else -%}null{%- endif -%}
+
+## statistics
+
+# count
+- platform: statistics
+  name: motion_detected_entity_count_livingroom_statistics
+  entity_id: sensor.motion_detected_entity_count_livingroom
+  sampling_size: 1000
+  max_age:
+    hours: 72
+- platform: statistics
+  name: motion_detected_entity_count_livingroom_stdev_statistics
+  entity_id: sensor.motion_detected_entity_count_livingroom_stdev
+  sampling_size: 1000
+  max_age:
+    hours: 72
+
+# counter
+- platform: statistics
+  name: motion_detected_entity_counter_livingroom_statistics
+  entity_id: sensor.motion_detected_entity_counter_livingroom
+  sampling_size: 1000
+  max_age:
+    hours: 72
+- platform: statistics
+  name: motion_detected_entity_counter_livingroom_stdev_statistics
+  entity_id: sensor.motion_detected_entity_counter_livingroom_stdev
+  sampling_size: 1000
+  max_age:
+    hours: 72
+
+# ago
+- platform: statistics
+  name: motion_detected_entity_ago_livingroom_statistics
+  entity_id: sensor.motion_detected_entity_ago_livingroom
+  sampling_size: 1000
+  max_age:
+    hours: 72
+- platform: statistics
+  name: motion_detected_entity_ago_livingroom_stdev_statistics
+  entity_id: sensor.motion_detected_entity_ago_livingroom_stdev
+  sampling_size: 1000
+  max_age:
+    hours: 72
+
+# percent
+- platform: statistics
+  name: motion_detected_entity_percent_livingroom_statistics
+  entity_id: sensor.motion_detected_entity_percent_livingroom
+  sampling_size: 1000
+  max_age:
+    hours: 72
+- platform: statistics
+  name: motion_detected_entity_percent_livingroom_stdev_statistics
+  entity_id: sensor.motion_detected_entity_percent_livingroom_stdev
+  sampling_size: 1000
+  max_age:
+    hours: 72
+
+###
+# snapshot
+###
+
+- platform: template
+  sensors:
+    motion_end_snapshot_livingroom:
+      entity_id:
+        - sensor.motion_end_counter_livingroom
+      value_template: >-
+        {% set bu = states('sensor.motion_base_url') %}
+        {% if bu != 'unknown' %}
+          {{ bu + '/local/images/motion_end-livingroom.jpg' }}
+        {% else %}{{ states('sensor.motion_testsignal_picture') }}{% endif %}
+
+- platform: template
+  sensors:
+    motion_annotated_snapshot_livingroom:
+      entity_id:
+        - sensor.motion_annotated_counter_livingroom
+      value_template: >-
+        {% set bu = states('sensor.motion_base_url') %}
+        {% if bu != 'unknown' %}
+          {{ bu + '/local/images/motion_annotated-livingroom.jpg' }}
+        {% else %}{{ states('sensor.motion_testsignal_picture') }}{% endif %}
+
+- platform: template
+  sensors:
+    motion_detected_snapshot_livingroom:
+      entity_id:
+        - sensor.motion_detected_counter_livingroom
+      value_template: >-
+        {% set bu = states('sensor.motion_base_url') %}
+        {% if bu != 'unknown' %}
+          {{ bu + '/local/images/motion_detected-livingroom.jpg' }}
+        {% else %}{{ states('sensor.motion_testsignal_picture') }}{% endif %}
+
+- platform: template
+  sensors:
+    motion_detected_entity_snapshot_livingroom:
+      entity_id:
+        - sensor.motion_detected_entity_counter_livingroom
+      value_template: >-
+        {% set bu = states('sensor.motion_base_url') %}
+        {% if bu != 'unknown' %}
+          {{ bu + '/local/images/motion_detected_entity-livingroom.jpg' }}
+        {% else %}{{ states('sensor.motion_testsignal_picture') }}{% endif %}
+
+###
+## picture
+###
+
+- platform: template
+  sensors:
+    motion_end_picture_livingroom:
+      entity_id:
+        - sensor.motion_event_end_livingroom
+        - camera.motion_event_end_livingroom
+      value_template: >-
+        {% set bu = states('sensor.motion_base_url') %}
+        {% set ep = state_attr('camera.motion_event_end_livingroom','entity_picture') %}
+        {% if ep is not none and ep != 'unknown' and ep != 'null' and bu != 'unknown' %}
+          {% set p = bu + ep %}
+        {% else %}
+          {% set p = states('sensor.motion_testsignal_picture') %}
+        {% endif %}
+        {% if p is defined and p is not none and p != 'unknown' and p != 'null' %}
+          {{ p }}
+        {% else %}
+           {{ states('sensor.motion_nosignal_picture') }}
+        {% endif %}
+
+- platform: template
+  sensors:
+    motion_annotated_picture_livingroom:
+      entity_id:
+        - sensor.motion_event_annotated_livingroom
+        - camera.motion_event_annotated_livingroom
+      value_template: >-
+        {% set bu = states('sensor.motion_base_url') %}
+        {% set ep = state_attr('camera.motion_event_annotated_livingroom','entity_picture') %}
+        {% if ep is not none and ep != 'unknown' and ep != 'null' and bu != 'unknown' %}
+          {% set p = bu + ep %}
+        {% else %}
+          {% set p = states('sensor.motion_testsignal_picture') %}
+        {% endif %}
+        {% if p is defined and p is not none and p != 'unknown' and p != 'null' %}
+          {{ p }}
+        {% else %}
+           {{ states('sensor.motion_nosignal_picture') }}
+        {% endif %}
+
+- platform: template
+  sensors:
+    motion_detected_picture_livingroom:
+      friendly_name: livingroom detected picture
+      entity_id:
+        - sensor.motion_annotated_picture_livingroom
+        - sensor.motion_detected_counter_livingroom
+      value_template: >-
+        {% set n = states('sensor.motion_annotated_count_livingroom')|int %}
+        {% if n > 0 %}
+          {% set p = states('sensor.motion_annotated_picture_livingroom') %}
+        {% else %}
+          {% set p = states('sensor.motion_detected_picture_livingroom') %}
+        {% endif %}
+        {% if p is not none and p != 'unknown' and p != 'null' %}
+          {{ p }}
+        {% else %}
+          {{ states('sensor.motion_nosignal_picture') }}
+        {% endif %}
+
+- platform: template
+  sensors:
+    motion_detected_entity_picture_livingroom:
+      friendly_name: livingroom detected entity picture
+      entity_id:
+        - sensor.motion_detected_picture_livingroom
+        - sensor.motion_detected_entity_counter_livingroom
+      value_template: >-
+        {% set n = states('sensor.motion_annotated_entity_count_livingroom')|int %}
+        {% if n > 0 %}
+          {% set p = states('sensor.motion_annotated_picture_livingroom') %}
+        {% else %}
+          {% set p = states('sensor.motion_detected_entity_picture_livingroom') %}
+        {% endif %}
+        {% if p is not none and p != 'unknown' and p != 'null' %}
+          {{ p }}
+        {% else %}
+           {{ states('sensor.motion_nosignal_picture') }}
+        {% endif %}
+
+###
+# complete
+###
+
+- platform: template
+  sensors:
+    motion_complete_livingroom:
+      unit_of_measurement: seconds
+      friendly_name: livingroom complete
+      entity_id:
+        - camera.motion_event_annotated_livingroom
+        - sensor.motion_event_annotated_livingroom
+      value_template: >
+        {% set c = as_timestamp(states.camera.motion_event_annotated_livingroom.last_updated) %}
+        {% set s = as_timestamp(states.sensor.motion_event_annotated_livingroom.last_updated) %}
+        {{  c|float - s|float }}
+
+# complete statistics
+- platform: template
+  sensors:
+    motion_detected_entity_complete_livingroom_mean:
+      friendly_name: livingroom complete avg
+      entity_id:
+        - sensor.motion_detected_entity_complete_livingroom_statistics
+      unit_of_measurement: '%'
+      value_template: >-
+        {% if states('sensor.motion_detected_entity_complete_livingroom_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_entity_complete_livingroom_statistics.state|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_complete_livingroom_min_value:
+      friendly_name: livingroom complete min
+      entity_id:
+        - sensor.motion_detected_entity_complete_livingroom_statistics
+      unit_of_measurement: '%'
+      value_template: >-
+        {% if states('sensor.motion_detected_entity_complete_livingroom_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_entity_complete_livingroom_statistics.attributes.min_value|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_complete_livingroom_max_value:
+      friendly_name: livingroom complete max
+      entity_id:
+        - sensor.motion_detected_entity_complete_livingroom_statistics
+      unit_of_measurement: '%'
+      value_template: >-
+        {% if states('sensor.motion_detected_entity_complete_livingroom_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_entity_complete_livingroom_statistics.attributes.max_value|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_complete_livingroom_stdev:
+      friendly_name: livingroom complete stdev
+      entity_id:
+        - sensor.motion_detected_entity_complete_livingroom_statistics
+      unit_of_measurement: '%'
+      value_template: >
+        {% if states('sensor.motion_detected_entity_complete_livingroom_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_entity_complete_livingroom_statistics.attributes.standard_deviation|float }}
+        {%- else -%}null{%- endif -%}
+    motion_detected_entity_complete_livingroom_change:
+      friendly_name: livingroom complete change
+      entity_id:
+        - sensor.motion_detected_entity_complete_livingroom_statistics
+      unit_of_measurement: '%'
+      value_template: >
+        {% if states('sensor.motion_detected_entity_complete_livingroom_statistics') != 'unknown' %}
+          {{ states.sensor.motion_detected_entity_complete_livingroom_statistics.attributes.change|float }}
+        {%- else -%}null{%- endif -%}
+
+# statistics
+- platform: statistics
+  name: motion_detected_entity_complete_livingroom_statistics
+  entity_id: sensor.motion_detected_entity_complete_livingroom
+  sampling_size: 1000
+  max_age:
+    hours: 72
+- platform: statistics
+  name: motion_detected_entity_complete_livingroom_stdev_statistics
+  entity_id: sensor.motion_detected_entity_complete_livingroom_stdev
+  sampling_size: 1000
+  max_age:
+    hours: 72
+
+###
+### variable detection; produce array of booleans
+###
+
+- platform: template
+  sensors:
+    motion_detected_person_livingroom:
+      entity_id:
+        - binary_sensor.motion_detected_livingroom
+        - sensor.motion_detected_ago_livingroom
+      value_template: >-
+        {% if states.sensor.motion_event_annotated_livingroom|lower != 'none'
+              and state_attr('sensor.motion_event_annotated_livingroom','detected')|lower != 'none'
+              and states.sensor.motion_event_annotated_livingroom.attributes.count|int > 0
+              and state_attr('input_select.motion_detect_person','options')|lower != 'none' %}
+          {% for detected in states.sensor.motion_event_annotated_livingroom.attributes.detected %}
+            {%- if loop.first -%}[{%- else -%},{%- endif -%}
+            {% if detected.entity in state_attr('input_select.motion_detect_person','options') %}{{ detected.count }}{% else %}0{% endif %}
+            {%- if loop.last -%}]{%- endif -%}
+          {% endfor %}
+        {% else %}null{% endif %}
+
+- platform: template
+  sensors:
+    motion_detected_vehicle_livingroom:
+      entity_id:
+        - binary_sensor.motion_detected_livingroom
+        - sensor.motion_detected_ago_livingroom
+      value_template: >-
+        {% if states.sensor.motion_event_annotated_livingroom|lower != 'none'
+              and state_attr('sensor.motion_event_annotated_livingroom','detected')|lower != 'none'
+              and states.sensor.motion_event_annotated_livingroom.attributes.count|int > 0
+              and state_attr('input_select.motion_detect_vehicle','options')|lower != 'none' %}
+          {% for detected in states.sensor.motion_event_annotated_livingroom.attributes.detected %}
+            {%- if loop.first -%}[{%- else -%},{%- endif -%}
+            {% if detected.entity in state_attr('input_select.motion_detect_vehicle','options') %}{{ detected.count }}{% else %}0{% endif %}
+            {%- if loop.last -%}]{%- endif -%}
+          {% endfor %}
+        {% else %}null{% endif %}
+
+- platform: template
+  sensors:
+    motion_detected_animal_livingroom:
+      entity_id:
+        - binary_sensor.motion_detected_livingroom
+        - sensor.motion_detected_ago_livingroom
+      value_template: >-
+        {% if states.sensor.motion_event_annotated_livingroom|lower != 'none'
+              and state_attr('sensor.motion_event_annotated_livingroom','detected')|lower != 'none'
+              and states.sensor.motion_event_annotated_livingroom.attributes.count|int > 0
+              and state_attr('input_select.motion_detect_animal','options')|lower != 'none' %}
+          {% for detected in states.sensor.motion_event_annotated_livingroom.attributes.detected %}
+            {%- if loop.first -%}[{%- else -%},{%- endif -%}
+            {% if detected.entity in state_attr('input_select.motion_detect_animal','options') %}{{ detected.count }}{% else %}0{% endif %}
+            {%- if loop.last -%}]{%- endif -%}
+          {% endfor %}
+        {% else %}null{% endif %}

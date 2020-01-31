@@ -1,0 +1,33 @@
+###
+### detected_entity_livingroom COUNTER
+###
+
+motion_end_counter_livingroom:
+  name: motion_end_counter_livingroom
+  initial: 0
+  step: 1
+  icon: mdi:counter
+
+motion_annotated_counter_livingroom:
+  name: motion_annotated_counter_livingroom
+  initial: 0
+  step: 1
+  icon: mdi:counter
+
+motion_detected_counter_livingroom:
+  name: motion_detected_counter_livingroom
+  initial: 0
+  step: 1
+  icon: mdi:counter
+
+motion_detected_entity_counter_livingroom:
+  name: motion_detected_entity_counter_livingroom
+  initial: 0
+  step: 1
+  icon: mdi:counter
+
+motion_complete_counter_livingroom:
+  name: motion_complete_counter_livingroom
+  initial: 0
+  step: 1
+  icon: mdi:counter

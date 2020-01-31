@@ -1,0 +1,1124 @@
+###
+## history_grsph/webcams.yaml
+###
+
+#
+motion_detected_entity_ago_webcams:
+  name: motion_detected_entity_ago_webcams
+  hours_to_show: 24
+  refresh: 30
+  entities:
+    - sensor.motion_detected_entity_ago_woodshed
+    - sensor.motion_detected_entity_ago_livingroom
+    - sensor.motion_detected_entity_ago_equipmentroom
+    - sensor.motion_detected_entity_ago_fireplace
+    - sensor.motion_detected_entity_ago_dogyard
+    - sensor.motion_detected_entity_ago_dogshedmiddle
+    - sensor.motion_detected_entity_ago_sideyard
+    - sensor.motion_detected_entity_ago_dogshedfront
+    - sensor.motion_detected_entity_ago_dogshed
+    - sensor.motion_detected_entity_ago_laundry
+    - sensor.motion_detected_entity_ago_foyer
+    - sensor.motion_detected_entity_ago_frontwalk
+    - sensor.motion_detected_entity_ago_diningroom
+    - sensor.motion_detected_entity_ago_backyard
+    - sensor.motion_detected_entity_ago_poolcam
+    - sensor.motion_detected_entity_ago_interiorgate
+    - sensor.motion_detected_entity_ago_road
+    - sensor.motion_detected_entity_ago_window
+    - sensor.motion_detected_entity_ago_shed
+    - sensor.motion_detected_entity_ago_dogpond
+    - sensor.motion_detected_entity_ago_pondview
+
+#
+motion_detected_entity_ago_mean_webcams:
+  name: motion_detected_entity_ago_mean_webcams
+  hours_to_show: 24
+  refresh: 30
+  entities:
+    - sensor.motion_detected_entity_ago_woodshed_mean
+    - sensor.motion_detected_entity_ago_livingroom_mean
+    - sensor.motion_detected_entity_ago_equipmentroom_mean
+    - sensor.motion_detected_entity_ago_fireplace_mean
+    - sensor.motion_detected_entity_ago_dogyard_mean
+    - sensor.motion_detected_entity_ago_dogshedmiddle_mean
+    - sensor.motion_detected_entity_ago_sideyard_mean
+    - sensor.motion_detected_entity_ago_dogshedfront_mean
+    - sensor.motion_detected_entity_ago_dogshed_mean
+    - sensor.motion_detected_entity_ago_laundry_mean
+    - sensor.motion_detected_entity_ago_foyer_mean
+    - sensor.motion_detected_entity_ago_frontwalk_mean
+    - sensor.motion_detected_entity_ago_diningroom_mean
+    - sensor.motion_detected_entity_ago_backyard_mean
+    - sensor.motion_detected_entity_ago_poolcam_mean
+    - sensor.motion_detected_entity_ago_interiorgate_mean
+    - sensor.motion_detected_entity_ago_road_mean
+    - sensor.motion_detected_entity_ago_window_mean
+    - sensor.motion_detected_entity_ago_shed_mean
+    - sensor.motion_detected_entity_ago_dogpond_mean
+    - sensor.motion_detected_entity_ago_pondview_mean
+
+#
+motion_detected_entity_ago_stdev_webcams:
+  name: motion_detected_entity_ago_stdev_webcams
+  hours_to_show: 24
+  refresh: 30
+  entities:
+    - sensor.motion_detected_entity_ago_woodshed_stdev
+    - sensor.motion_detected_entity_ago_livingroom_stdev
+    - sensor.motion_detected_entity_ago_equipmentroom_stdev
+    - sensor.motion_detected_entity_ago_fireplace_stdev
+    - sensor.motion_detected_entity_ago_dogyard_stdev
+    - sensor.motion_detected_entity_ago_dogshedmiddle_stdev
+    - sensor.motion_detected_entity_ago_sideyard_stdev
+    - sensor.motion_detected_entity_ago_dogshedfront_stdev
+    - sensor.motion_detected_entity_ago_dogshed_stdev
+    - sensor.motion_detected_entity_ago_laundry_stdev
+    - sensor.motion_detected_entity_ago_foyer_stdev
+    - sensor.motion_detected_entity_ago_frontwalk_stdev
+    - sensor.motion_detected_entity_ago_diningroom_stdev
+    - sensor.motion_detected_entity_ago_backyard_stdev
+    - sensor.motion_detected_entity_ago_poolcam_stdev
+    - sensor.motion_detected_entity_ago_interiorgate_stdev
+    - sensor.motion_detected_entity_ago_road_stdev
+    - sensor.motion_detected_entity_ago_window_stdev
+    - sensor.motion_detected_entity_ago_shed_stdev
+    - sensor.motion_detected_entity_ago_dogpond_stdev
+    - sensor.motion_detected_entity_ago_pondview_stdev
+
+#
+motion_detected_entity_ago_change_webcams:
+  name: motion_detected_entity_ago_change_webcams
+  hours_to_show: 24
+  refresh: 30
+  entities:
+    - sensor.motion_detected_entity_ago_woodshed_change
+    - sensor.motion_detected_entity_ago_livingroom_change
+    - sensor.motion_detected_entity_ago_equipmentroom_change
+    - sensor.motion_detected_entity_ago_fireplace_change
+    - sensor.motion_detected_entity_ago_dogyard_change
+    - sensor.motion_detected_entity_ago_dogshedmiddle_change
+    - sensor.motion_detected_entity_ago_sideyard_change
+    - sensor.motion_detected_entity_ago_dogshedfront_change
+    - sensor.motion_detected_entity_ago_dogshed_change
+    - sensor.motion_detected_entity_ago_laundry_change
+    - sensor.motion_detected_entity_ago_foyer_change
+    - sensor.motion_detected_entity_ago_frontwalk_change
+    - sensor.motion_detected_entity_ago_diningroom_change
+    - sensor.motion_detected_entity_ago_backyard_change
+    - sensor.motion_detected_entity_ago_poolcam_change
+    - sensor.motion_detected_entity_ago_interiorgate_change
+    - sensor.motion_detected_entity_ago_road_change
+    - sensor.motion_detected_entity_ago_window_change
+    - sensor.motion_detected_entity_ago_shed_change
+    - sensor.motion_detected_entity_ago_dogpond_change
+    - sensor.motion_detected_entity_ago_pondview_change
+
+#
+motion_detected_entity_counter_webcams:
+  name: motion_detected_entity_counter_webcams
+  hours_to_show: 24
+  refresh: 30
+  entities:
+    - sensor.motion_detected_entity_counter_woodshed
+    - sensor.motion_detected_entity_counter_livingroom
+    - sensor.motion_detected_entity_counter_equipmentroom
+    - sensor.motion_detected_entity_counter_fireplace
+    - sensor.motion_detected_entity_counter_dogyard
+    - sensor.motion_detected_entity_counter_dogshedmiddle
+    - sensor.motion_detected_entity_counter_sideyard
+    - sensor.motion_detected_entity_counter_dogshedfront
+    - sensor.motion_detected_entity_counter_dogshed
+    - sensor.motion_detected_entity_counter_laundry
+    - sensor.motion_detected_entity_counter_foyer
+    - sensor.motion_detected_entity_counter_frontwalk
+    - sensor.motion_detected_entity_counter_diningroom
+    - sensor.motion_detected_entity_counter_backyard
+    - sensor.motion_detected_entity_counter_poolcam
+    - sensor.motion_detected_entity_counter_interiorgate
+    - sensor.motion_detected_entity_counter_road
+    - sensor.motion_detected_entity_counter_window
+    - sensor.motion_detected_entity_counter_shed
+    - sensor.motion_detected_entity_counter_dogpond
+    - sensor.motion_detected_entity_counter_pondview
+
+#
+motion_detected_entity_counter_mean_webcams:
+  name: motion_detected_entity_counter_mean_webcams
+  hours_to_show: 24
+  refresh: 30
+  entities:
+    - sensor.motion_detected_entity_counter_woodshed_mean
+    - sensor.motion_detected_entity_counter_livingroom_mean
+    - sensor.motion_detected_entity_counter_equipmentroom_mean
+    - sensor.motion_detected_entity_counter_fireplace_mean
+    - sensor.motion_detected_entity_counter_dogyard_mean
+    - sensor.motion_detected_entity_counter_dogshedmiddle_mean
+    - sensor.motion_detected_entity_counter_sideyard_mean
+    - sensor.motion_detected_entity_counter_dogshedfront_mean
+    - sensor.motion_detected_entity_counter_dogshed_mean
+    - sensor.motion_detected_entity_counter_laundry_mean
+    - sensor.motion_detected_entity_counter_foyer_mean
+    - sensor.motion_detected_entity_counter_frontwalk_mean
+    - sensor.motion_detected_entity_counter_diningroom_mean
+    - sensor.motion_detected_entity_counter_backyard_mean
+    - sensor.motion_detected_entity_counter_poolcam_mean
+    - sensor.motion_detected_entity_counter_interiorgate_mean
+    - sensor.motion_detected_entity_counter_road_mean
+    - sensor.motion_detected_entity_counter_window_mean
+    - sensor.motion_detected_entity_counter_shed_mean
+    - sensor.motion_detected_entity_counter_dogpond_mean
+    - sensor.motion_detected_entity_counter_pondview_mean
+
+#
+motion_detected_entity_counter_stdev_webcams:
+  name: motion_detected_entity_counter_stdev_webcams
+  hours_to_show: 24
+  refresh: 30
+  entities:
+    - sensor.motion_detected_entity_counter_woodshed_stdev
+    - sensor.motion_detected_entity_counter_livingroom_stdev
+    - sensor.motion_detected_entity_counter_equipmentroom_stdev
+    - sensor.motion_detected_entity_counter_fireplace_stdev
+    - sensor.motion_detected_entity_counter_dogyard_stdev
+    - sensor.motion_detected_entity_counter_dogshedmiddle_stdev
+    - sensor.motion_detected_entity_counter_sideyard_stdev
+    - sensor.motion_detected_entity_counter_dogshedfront_stdev
+    - sensor.motion_detected_entity_counter_dogshed_stdev
+    - sensor.motion_detected_entity_counter_laundry_stdev
+    - sensor.motion_detected_entity_counter_foyer_stdev
+    - sensor.motion_detected_entity_counter_frontwalk_stdev
+    - sensor.motion_detected_entity_counter_diningroom_stdev
+    - sensor.motion_detected_entity_counter_backyard_stdev
+    - sensor.motion_detected_entity_counter_poolcam_stdev
+    - sensor.motion_detected_entity_counter_interiorgate_stdev
+    - sensor.motion_detected_entity_counter_road_stdev
+    - sensor.motion_detected_entity_counter_window_stdev
+    - sensor.motion_detected_entity_counter_shed_stdev
+    - sensor.motion_detected_entity_counter_dogpond_stdev
+    - sensor.motion_detected_entity_counter_pondview_stdev
+
+#
+motion_detected_entity_counter_change_webcams:
+  name: motion_detected_entity_counter_change_webcams
+  hours_to_show: 24
+  refresh: 30
+  entities:
+    - sensor.motion_detected_entity_counter_woodshed_change
+    - sensor.motion_detected_entity_counter_livingroom_change
+    - sensor.motion_detected_entity_counter_equipmentroom_change
+    - sensor.motion_detected_entity_counter_fireplace_change
+    - sensor.motion_detected_entity_counter_dogyard_change
+    - sensor.motion_detected_entity_counter_dogshedmiddle_change
+    - sensor.motion_detected_entity_counter_sideyard_change
+    - sensor.motion_detected_entity_counter_dogshedfront_change
+    - sensor.motion_detected_entity_counter_dogshed_change
+    - sensor.motion_detected_entity_counter_laundry_change
+    - sensor.motion_detected_entity_counter_foyer_change
+    - sensor.motion_detected_entity_counter_frontwalk_change
+    - sensor.motion_detected_entity_counter_diningroom_change
+    - sensor.motion_detected_entity_counter_backyard_change
+    - sensor.motion_detected_entity_counter_poolcam_change
+    - sensor.motion_detected_entity_counter_interiorgate_change
+    - sensor.motion_detected_entity_counter_road_change
+    - sensor.motion_detected_entity_counter_window_change
+    - sensor.motion_detected_entity_counter_shed_change
+    - sensor.motion_detected_entity_counter_dogpond_change
+    - sensor.motion_detected_entity_counter_pondview_change
+
+#
+motion_detected_entity_percent_webcams:
+  name: motion_detected_entity_percent_webcams
+  hours_to_show: 24
+  refresh: 30
+  entities:
+    - sensor.motion_detected_entity_percent_woodshed
+    - sensor.motion_detected_entity_percent_livingroom
+    - sensor.motion_detected_entity_percent_equipmentroom
+    - sensor.motion_detected_entity_percent_fireplace
+    - sensor.motion_detected_entity_percent_dogyard
+    - sensor.motion_detected_entity_percent_dogshedmiddle
+    - sensor.motion_detected_entity_percent_sideyard
+    - sensor.motion_detected_entity_percent_dogshedfront
+    - sensor.motion_detected_entity_percent_dogshed
+    - sensor.motion_detected_entity_percent_laundry
+    - sensor.motion_detected_entity_percent_foyer
+    - sensor.motion_detected_entity_percent_frontwalk
+    - sensor.motion_detected_entity_percent_diningroom
+    - sensor.motion_detected_entity_percent_backyard
+    - sensor.motion_detected_entity_percent_poolcam
+    - sensor.motion_detected_entity_percent_interiorgate
+    - sensor.motion_detected_entity_percent_road
+    - sensor.motion_detected_entity_percent_window
+    - sensor.motion_detected_entity_percent_shed
+    - sensor.motion_detected_entity_percent_dogpond
+    - sensor.motion_detected_entity_percent_pondview
+
+#
+motion_detected_entity_percent_mean_webcams:
+  name: motion_detected_entity_percent_mean_webcams
+  hours_to_show: 24
+  refresh: 30
+  entities:
+    - sensor.motion_detected_entity_percent_woodshed_mean
+    - sensor.motion_detected_entity_percent_livingroom_mean
+    - sensor.motion_detected_entity_percent_equipmentroom_mean
+    - sensor.motion_detected_entity_percent_fireplace_mean
+    - sensor.motion_detected_entity_percent_dogyard_mean
+    - sensor.motion_detected_entity_percent_dogshedmiddle_mean
+    - sensor.motion_detected_entity_percent_sideyard_mean
+    - sensor.motion_detected_entity_percent_dogshedfront_mean
+    - sensor.motion_detected_entity_percent_dogshed_mean
+    - sensor.motion_detected_entity_percent_laundry_mean
+    - sensor.motion_detected_entity_percent_foyer_mean
+    - sensor.motion_detected_entity_percent_frontwalk_mean
+    - sensor.motion_detected_entity_percent_diningroom_mean
+    - sensor.motion_detected_entity_percent_backyard_mean
+    - sensor.motion_detected_entity_percent_poolcam_mean
+    - sensor.motion_detected_entity_percent_interiorgate_mean
+    - sensor.motion_detected_entity_percent_road_mean
+    - sensor.motion_detected_entity_percent_window_mean
+    - sensor.motion_detected_entity_percent_shed_mean
+    - sensor.motion_detected_entity_percent_dogpond_mean
+    - sensor.motion_detected_entity_percent_pondview_mean
+
+#
+motion_detected_entity_percent_stdev_webcams:
+  name: motion_detected_entity_percent_stdev_webcams
+  hours_to_show: 24
+  refresh: 30
+  entities:
+    - sensor.motion_detected_entity_percent_woodshed_stdev
+    - sensor.motion_detected_entity_percent_livingroom_stdev
+    - sensor.motion_detected_entity_percent_equipmentroom_stdev
+    - sensor.motion_detected_entity_percent_fireplace_stdev
+    - sensor.motion_detected_entity_percent_dogyard_stdev
+    - sensor.motion_detected_entity_percent_dogshedmiddle_stdev
+    - sensor.motion_detected_entity_percent_sideyard_stdev
+    - sensor.motion_detected_entity_percent_dogshedfront_stdev
+    - sensor.motion_detected_entity_percent_dogshed_stdev
+    - sensor.motion_detected_entity_percent_laundry_stdev
+    - sensor.motion_detected_entity_percent_foyer_stdev
+    - sensor.motion_detected_entity_percent_frontwalk_stdev
+    - sensor.motion_detected_entity_percent_diningroom_stdev
+    - sensor.motion_detected_entity_percent_backyard_stdev
+    - sensor.motion_detected_entity_percent_poolcam_stdev
+    - sensor.motion_detected_entity_percent_interiorgate_stdev
+    - sensor.motion_detected_entity_percent_road_stdev
+    - sensor.motion_detected_entity_percent_window_stdev
+    - sensor.motion_detected_entity_percent_shed_stdev
+    - sensor.motion_detected_entity_percent_dogpond_stdev
+    - sensor.motion_detected_entity_percent_pondview_stdev
+
+#
+motion_detected_entity_percent_change_webcams:
+  name: motion_detected_entity_percent_change_webcams
+  hours_to_show: 24
+  refresh: 30
+  entities:
+    - sensor.motion_detected_entity_percent_woodshed_change
+    - sensor.motion_detected_entity_percent_livingroom_change
+    - sensor.motion_detected_entity_percent_equipmentroom_change
+    - sensor.motion_detected_entity_percent_fireplace_change
+    - sensor.motion_detected_entity_percent_dogyard_change
+    - sensor.motion_detected_entity_percent_dogshedmiddle_change
+    - sensor.motion_detected_entity_percent_sideyard_change
+    - sensor.motion_detected_entity_percent_dogshedfront_change
+    - sensor.motion_detected_entity_percent_dogshed_change
+    - sensor.motion_detected_entity_percent_laundry_change
+    - sensor.motion_detected_entity_percent_foyer_change
+    - sensor.motion_detected_entity_percent_frontwalk_change
+    - sensor.motion_detected_entity_percent_diningroom_change
+    - sensor.motion_detected_entity_percent_backyard_change
+    - sensor.motion_detected_entity_percent_poolcam_change
+    - sensor.motion_detected_entity_percent_interiorgate_change
+    - sensor.motion_detected_entity_percent_road_change
+    - sensor.motion_detected_entity_percent_window_change
+    - sensor.motion_detected_entity_percent_shed_change
+    - sensor.motion_detected_entity_percent_dogpond_change
+    - sensor.motion_detected_entity_percent_pondview_change
+
+#
+motion_detected_entity_delay_webcams:
+  name: motion_detected_entity_delay_webcams
+  hours_to_show: 24
+  refresh: 30
+  entities:
+    - sensor.motion_detected_entity_delay_woodshed
+    - sensor.motion_detected_entity_delay_livingroom
+    - sensor.motion_detected_entity_delay_equipmentroom
+    - sensor.motion_detected_entity_delay_fireplace
+    - sensor.motion_detected_entity_delay_dogyard
+    - sensor.motion_detected_entity_delay_dogshedmiddle
+    - sensor.motion_detected_entity_delay_sideyard
+    - sensor.motion_detected_entity_delay_dogshedfront
+    - sensor.motion_detected_entity_delay_dogshed
+    - sensor.motion_detected_entity_delay_laundry
+    - sensor.motion_detected_entity_delay_foyer
+    - sensor.motion_detected_entity_delay_frontwalk
+    - sensor.motion_detected_entity_delay_diningroom
+    - sensor.motion_detected_entity_delay_backyard
+    - sensor.motion_detected_entity_delay_poolcam
+    - sensor.motion_detected_entity_delay_interiorgate
+    - sensor.motion_detected_entity_delay_road
+    - sensor.motion_detected_entity_delay_window
+    - sensor.motion_detected_entity_delay_shed
+    - sensor.motion_detected_entity_delay_dogpond
+    - sensor.motion_detected_entity_delay_pondview
+
+#
+motion_detected_entity_delay_mean_webcams:
+  name: motion_detected_entity_delay_mean_webcams
+  hours_to_show: 24
+  refresh: 30
+  entities:
+    - sensor.motion_detected_entity_delay_woodshed_mean
+    - sensor.motion_detected_entity_delay_livingroom_mean
+    - sensor.motion_detected_entity_delay_equipmentroom_mean
+    - sensor.motion_detected_entity_delay_fireplace_mean
+    - sensor.motion_detected_entity_delay_dogyard_mean
+    - sensor.motion_detected_entity_delay_dogshedmiddle_mean
+    - sensor.motion_detected_entity_delay_sideyard_mean
+    - sensor.motion_detected_entity_delay_dogshedfront_mean
+    - sensor.motion_detected_entity_delay_dogshed_mean
+    - sensor.motion_detected_entity_delay_laundry_mean
+    - sensor.motion_detected_entity_delay_foyer_mean
+    - sensor.motion_detected_entity_delay_frontwalk_mean
+    - sensor.motion_detected_entity_delay_diningroom_mean
+    - sensor.motion_detected_entity_delay_backyard_mean
+    - sensor.motion_detected_entity_delay_poolcam_mean
+    - sensor.motion_detected_entity_delay_interiorgate_mean
+    - sensor.motion_detected_entity_delay_road_mean
+    - sensor.motion_detected_entity_delay_window_mean
+    - sensor.motion_detected_entity_delay_shed_mean
+    - sensor.motion_detected_entity_delay_dogpond_mean
+    - sensor.motion_detected_entity_delay_pondview_mean
+
+#
+motion_detected_entity_delay_stdev_webcams:
+  name: motion_detected_entity_delay_stdev_webcams
+  hours_to_show: 24
+  refresh: 30
+  entities:
+    - sensor.motion_detected_entity_delay_woodshed_stdev
+    - sensor.motion_detected_entity_delay_livingroom_stdev
+    - sensor.motion_detected_entity_delay_equipmentroom_stdev
+    - sensor.motion_detected_entity_delay_fireplace_stdev
+    - sensor.motion_detected_entity_delay_dogyard_stdev
+    - sensor.motion_detected_entity_delay_dogshedmiddle_stdev
+    - sensor.motion_detected_entity_delay_sideyard_stdev
+    - sensor.motion_detected_entity_delay_dogshedfront_stdev
+    - sensor.motion_detected_entity_delay_dogshed_stdev
+    - sensor.motion_detected_entity_delay_laundry_stdev
+    - sensor.motion_detected_entity_delay_foyer_stdev
+    - sensor.motion_detected_entity_delay_frontwalk_stdev
+    - sensor.motion_detected_entity_delay_diningroom_stdev
+    - sensor.motion_detected_entity_delay_backyard_stdev
+    - sensor.motion_detected_entity_delay_poolcam_stdev
+    - sensor.motion_detected_entity_delay_interiorgate_stdev
+    - sensor.motion_detected_entity_delay_road_stdev
+    - sensor.motion_detected_entity_delay_window_stdev
+    - sensor.motion_detected_entity_delay_shed_stdev
+    - sensor.motion_detected_entity_delay_dogpond_stdev
+    - sensor.motion_detected_entity_delay_pondview_stdev
+
+#
+motion_detected_entity_delay_change_webcams:
+  name: motion_detected_entity_delay_change_webcams
+  hours_to_show: 24
+  refresh: 30
+  entities:
+    - sensor.motion_detected_entity_delay_woodshed_change
+    - sensor.motion_detected_entity_delay_livingroom_change
+    - sensor.motion_detected_entity_delay_equipmentroom_change
+    - sensor.motion_detected_entity_delay_fireplace_change
+    - sensor.motion_detected_entity_delay_dogyard_change
+    - sensor.motion_detected_entity_delay_dogshedmiddle_change
+    - sensor.motion_detected_entity_delay_sideyard_change
+    - sensor.motion_detected_entity_delay_dogshedfront_change
+    - sensor.motion_detected_entity_delay_dogshed_change
+    - sensor.motion_detected_entity_delay_laundry_change
+    - sensor.motion_detected_entity_delay_foyer_change
+    - sensor.motion_detected_entity_delay_frontwalk_change
+    - sensor.motion_detected_entity_delay_diningroom_change
+    - sensor.motion_detected_entity_delay_backyard_change
+    - sensor.motion_detected_entity_delay_poolcam_change
+    - sensor.motion_detected_entity_delay_interiorgate_change
+    - sensor.motion_detected_entity_delay_road_change
+    - sensor.motion_detected_entity_delay_window_change
+    - sensor.motion_detected_entity_delay_shed_change
+    - sensor.motion_detected_entity_delay_dogpond_change
+    - sensor.motion_detected_entity_delay_pondview_change
+
+#
+motion_detected_entity_complete_webcams:
+  name: motion_detected_entity_complete_webcams
+  hours_to_show: 24
+  refresh: 30
+  entities:
+    - sensor.motion_detected_entity_complete_woodshed
+    - sensor.motion_detected_entity_complete_livingroom
+    - sensor.motion_detected_entity_complete_equipmentroom
+    - sensor.motion_detected_entity_complete_fireplace
+    - sensor.motion_detected_entity_complete_dogyard
+    - sensor.motion_detected_entity_complete_dogshedmiddle
+    - sensor.motion_detected_entity_complete_sideyard
+    - sensor.motion_detected_entity_complete_dogshedfront
+    - sensor.motion_detected_entity_complete_dogshed
+    - sensor.motion_detected_entity_complete_laundry
+    - sensor.motion_detected_entity_complete_foyer
+    - sensor.motion_detected_entity_complete_frontwalk
+    - sensor.motion_detected_entity_complete_diningroom
+    - sensor.motion_detected_entity_complete_backyard
+    - sensor.motion_detected_entity_complete_poolcam
+    - sensor.motion_detected_entity_complete_interiorgate
+    - sensor.motion_detected_entity_complete_road
+    - sensor.motion_detected_entity_complete_window
+    - sensor.motion_detected_entity_complete_shed
+    - sensor.motion_detected_entity_complete_dogpond
+    - sensor.motion_detected_entity_complete_pondview
+
+#
+motion_detected_entity_complete_mean_webcams:
+  name: motion_detected_entity_complete_mean_webcams
+  hours_to_show: 24
+  refresh: 30
+  entities:
+    - sensor.motion_detected_entity_complete_woodshed_mean
+    - sensor.motion_detected_entity_complete_livingroom_mean
+    - sensor.motion_detected_entity_complete_equipmentroom_mean
+    - sensor.motion_detected_entity_complete_fireplace_mean
+    - sensor.motion_detected_entity_complete_dogyard_mean
+    - sensor.motion_detected_entity_complete_dogshedmiddle_mean
+    - sensor.motion_detected_entity_complete_sideyard_mean
+    - sensor.motion_detected_entity_complete_dogshedfront_mean
+    - sensor.motion_detected_entity_complete_dogshed_mean
+    - sensor.motion_detected_entity_complete_laundry_mean
+    - sensor.motion_detected_entity_complete_foyer_mean
+    - sensor.motion_detected_entity_complete_frontwalk_mean
+    - sensor.motion_detected_entity_complete_diningroom_mean
+    - sensor.motion_detected_entity_complete_backyard_mean
+    - sensor.motion_detected_entity_complete_poolcam_mean
+    - sensor.motion_detected_entity_complete_interiorgate_mean
+    - sensor.motion_detected_entity_complete_road_mean
+    - sensor.motion_detected_entity_complete_window_mean
+    - sensor.motion_detected_entity_complete_shed_mean
+    - sensor.motion_detected_entity_complete_dogpond_mean
+    - sensor.motion_detected_entity_complete_pondview_mean
+
+#
+motion_detected_entity_complete_stdev_webcams:
+  name: motion_detected_entity_complete_stdev_webcams
+  hours_to_show: 24
+  refresh: 30
+  entities:
+    - sensor.motion_detected_entity_complete_woodshed_stdev
+    - sensor.motion_detected_entity_complete_livingroom_stdev
+    - sensor.motion_detected_entity_complete_equipmentroom_stdev
+    - sensor.motion_detected_entity_complete_fireplace_stdev
+    - sensor.motion_detected_entity_complete_dogyard_stdev
+    - sensor.motion_detected_entity_complete_dogshedmiddle_stdev
+    - sensor.motion_detected_entity_complete_sideyard_stdev
+    - sensor.motion_detected_entity_complete_dogshedfront_stdev
+    - sensor.motion_detected_entity_complete_dogshed_stdev
+    - sensor.motion_detected_entity_complete_laundry_stdev
+    - sensor.motion_detected_entity_complete_foyer_stdev
+    - sensor.motion_detected_entity_complete_frontwalk_stdev
+    - sensor.motion_detected_entity_complete_diningroom_stdev
+    - sensor.motion_detected_entity_complete_backyard_stdev
+    - sensor.motion_detected_entity_complete_poolcam_stdev
+    - sensor.motion_detected_entity_complete_interiorgate_stdev
+    - sensor.motion_detected_entity_complete_road_stdev
+    - sensor.motion_detected_entity_complete_window_stdev
+    - sensor.motion_detected_entity_complete_shed_stdev
+    - sensor.motion_detected_entity_complete_dogpond_stdev
+    - sensor.motion_detected_entity_complete_pondview_stdev
+
+#
+motion_detected_entity_complete_change_webcams:
+  name: motion_detected_entity_complete_change_webcams
+  hours_to_show: 24
+  refresh: 30
+  entities:
+    - sensor.motion_detected_entity_complete_woodshed_change
+    - sensor.motion_detected_entity_complete_livingroom_change
+    - sensor.motion_detected_entity_complete_equipmentroom_change
+    - sensor.motion_detected_entity_complete_fireplace_change
+    - sensor.motion_detected_entity_complete_dogyard_change
+    - sensor.motion_detected_entity_complete_dogshedmiddle_change
+    - sensor.motion_detected_entity_complete_sideyard_change
+    - sensor.motion_detected_entity_complete_dogshedfront_change
+    - sensor.motion_detected_entity_complete_dogshed_change
+    - sensor.motion_detected_entity_complete_laundry_change
+    - sensor.motion_detected_entity_complete_foyer_change
+    - sensor.motion_detected_entity_complete_frontwalk_change
+    - sensor.motion_detected_entity_complete_diningroom_change
+    - sensor.motion_detected_entity_complete_backyard_change
+    - sensor.motion_detected_entity_complete_poolcam_change
+    - sensor.motion_detected_entity_complete_interiorgate_change
+    - sensor.motion_detected_entity_complete_road_change
+    - sensor.motion_detected_entity_complete_window_change
+    - sensor.motion_detected_entity_complete_shed_change
+    - sensor.motion_detected_entity_complete_dogpond_change
+    - sensor.motion_detected_entity_complete_pondview_change
+
+#
+motion_annotated_ago_webcams:
+  name: motion_annotated_ago_webcams
+  hours_to_show: 24
+  refresh: 30
+  entities:
+    - sensor.motion_annotated_ago_woodshed
+    - sensor.motion_annotated_ago_livingroom
+    - sensor.motion_annotated_ago_equipmentroom
+    - sensor.motion_annotated_ago_fireplace
+    - sensor.motion_annotated_ago_dogyard
+    - sensor.motion_annotated_ago_dogshedmiddle
+    - sensor.motion_annotated_ago_sideyard
+    - sensor.motion_annotated_ago_dogshedfront
+    - sensor.motion_annotated_ago_dogshed
+    - sensor.motion_annotated_ago_laundry
+    - sensor.motion_annotated_ago_foyer
+    - sensor.motion_annotated_ago_frontwalk
+    - sensor.motion_annotated_ago_diningroom
+    - sensor.motion_annotated_ago_backyard
+    - sensor.motion_annotated_ago_poolcam
+    - sensor.motion_annotated_ago_interiorgate
+    - sensor.motion_annotated_ago_road
+    - sensor.motion_annotated_ago_window
+    - sensor.motion_annotated_ago_shed
+    - sensor.motion_annotated_ago_dogpond
+    - sensor.motion_annotated_ago_pondview
+
+#
+motion_annotated_ago_mean_webcams:
+  name: motion_annotated_ago_mean_webcams
+  hours_to_show: 24
+  refresh: 30
+  entities:
+    - sensor.motion_annotated_ago_woodshed_mean
+    - sensor.motion_annotated_ago_livingroom_mean
+    - sensor.motion_annotated_ago_equipmentroom_mean
+    - sensor.motion_annotated_ago_fireplace_mean
+    - sensor.motion_annotated_ago_dogyard_mean
+    - sensor.motion_annotated_ago_dogshedmiddle_mean
+    - sensor.motion_annotated_ago_sideyard_mean
+    - sensor.motion_annotated_ago_dogshedfront_mean
+    - sensor.motion_annotated_ago_dogshed_mean
+    - sensor.motion_annotated_ago_laundry_mean
+    - sensor.motion_annotated_ago_foyer_mean
+    - sensor.motion_annotated_ago_frontwalk_mean
+    - sensor.motion_annotated_ago_diningroom_mean
+    - sensor.motion_annotated_ago_backyard_mean
+    - sensor.motion_annotated_ago_poolcam_mean
+    - sensor.motion_annotated_ago_interiorgate_mean
+    - sensor.motion_annotated_ago_road_mean
+    - sensor.motion_annotated_ago_window_mean
+    - sensor.motion_annotated_ago_shed_mean
+    - sensor.motion_annotated_ago_dogpond_mean
+    - sensor.motion_annotated_ago_pondview_mean
+
+#
+motion_annotated_ago_stdev_webcams:
+  name: motion_annotated_ago_stdev_webcams
+  hours_to_show: 24
+  refresh: 30
+  entities:
+    - sensor.motion_annotated_ago_woodshed_stdev
+    - sensor.motion_annotated_ago_livingroom_stdev
+    - sensor.motion_annotated_ago_equipmentroom_stdev
+    - sensor.motion_annotated_ago_fireplace_stdev
+    - sensor.motion_annotated_ago_dogyard_stdev
+    - sensor.motion_annotated_ago_dogshedmiddle_stdev
+    - sensor.motion_annotated_ago_sideyard_stdev
+    - sensor.motion_annotated_ago_dogshedfront_stdev
+    - sensor.motion_annotated_ago_dogshed_stdev
+    - sensor.motion_annotated_ago_laundry_stdev
+    - sensor.motion_annotated_ago_foyer_stdev
+    - sensor.motion_annotated_ago_frontwalk_stdev
+    - sensor.motion_annotated_ago_diningroom_stdev
+    - sensor.motion_annotated_ago_backyard_stdev
+    - sensor.motion_annotated_ago_poolcam_stdev
+    - sensor.motion_annotated_ago_interiorgate_stdev
+    - sensor.motion_annotated_ago_road_stdev
+    - sensor.motion_annotated_ago_window_stdev
+    - sensor.motion_annotated_ago_shed_stdev
+    - sensor.motion_annotated_ago_dogpond_stdev
+    - sensor.motion_annotated_ago_pondview_stdev
+
+#
+motion_annotated_ago_change_webcams:
+  name: motion_annotated_ago_change_webcams
+  hours_to_show: 24
+  refresh: 30
+  entities:
+    - sensor.motion_annotated_ago_woodshed_change
+    - sensor.motion_annotated_ago_livingroom_change
+    - sensor.motion_annotated_ago_equipmentroom_change
+    - sensor.motion_annotated_ago_fireplace_change
+    - sensor.motion_annotated_ago_dogyard_change
+    - sensor.motion_annotated_ago_dogshedmiddle_change
+    - sensor.motion_annotated_ago_sideyard_change
+    - sensor.motion_annotated_ago_dogshedfront_change
+    - sensor.motion_annotated_ago_dogshed_change
+    - sensor.motion_annotated_ago_laundry_change
+    - sensor.motion_annotated_ago_foyer_change
+    - sensor.motion_annotated_ago_frontwalk_change
+    - sensor.motion_annotated_ago_diningroom_change
+    - sensor.motion_annotated_ago_backyard_change
+    - sensor.motion_annotated_ago_poolcam_change
+    - sensor.motion_annotated_ago_interiorgate_change
+    - sensor.motion_annotated_ago_road_change
+    - sensor.motion_annotated_ago_window_change
+    - sensor.motion_annotated_ago_shed_change
+    - sensor.motion_annotated_ago_dogpond_change
+    - sensor.motion_annotated_ago_pondview_change
+
+#
+motion_annotated_counter_webcams:
+  name: motion_annotated_counter_webcams
+  hours_to_show: 24
+  refresh: 30
+  entities:
+    - sensor.motion_annotated_counter_woodshed
+    - sensor.motion_annotated_counter_livingroom
+    - sensor.motion_annotated_counter_equipmentroom
+    - sensor.motion_annotated_counter_fireplace
+    - sensor.motion_annotated_counter_dogyard
+    - sensor.motion_annotated_counter_dogshedmiddle
+    - sensor.motion_annotated_counter_sideyard
+    - sensor.motion_annotated_counter_dogshedfront
+    - sensor.motion_annotated_counter_dogshed
+    - sensor.motion_annotated_counter_laundry
+    - sensor.motion_annotated_counter_foyer
+    - sensor.motion_annotated_counter_frontwalk
+    - sensor.motion_annotated_counter_diningroom
+    - sensor.motion_annotated_counter_backyard
+    - sensor.motion_annotated_counter_poolcam
+    - sensor.motion_annotated_counter_interiorgate
+    - sensor.motion_annotated_counter_road
+    - sensor.motion_annotated_counter_window
+    - sensor.motion_annotated_counter_shed
+    - sensor.motion_annotated_counter_dogpond
+    - sensor.motion_annotated_counter_pondview
+
+#
+motion_annotated_counter_mean_webcams:
+  name: motion_annotated_counter_mean_webcams
+  hours_to_show: 24
+  refresh: 30
+  entities:
+    - sensor.motion_annotated_counter_woodshed_mean
+    - sensor.motion_annotated_counter_livingroom_mean
+    - sensor.motion_annotated_counter_equipmentroom_mean
+    - sensor.motion_annotated_counter_fireplace_mean
+    - sensor.motion_annotated_counter_dogyard_mean
+    - sensor.motion_annotated_counter_dogshedmiddle_mean
+    - sensor.motion_annotated_counter_sideyard_mean
+    - sensor.motion_annotated_counter_dogshedfront_mean
+    - sensor.motion_annotated_counter_dogshed_mean
+    - sensor.motion_annotated_counter_laundry_mean
+    - sensor.motion_annotated_counter_foyer_mean
+    - sensor.motion_annotated_counter_frontwalk_mean
+    - sensor.motion_annotated_counter_diningroom_mean
+    - sensor.motion_annotated_counter_backyard_mean
+    - sensor.motion_annotated_counter_poolcam_mean
+    - sensor.motion_annotated_counter_interiorgate_mean
+    - sensor.motion_annotated_counter_road_mean
+    - sensor.motion_annotated_counter_window_mean
+    - sensor.motion_annotated_counter_shed_mean
+    - sensor.motion_annotated_counter_dogpond_mean
+    - sensor.motion_annotated_counter_pondview_mean
+
+#
+motion_annotated_counter_stdev_webcams:
+  name: motion_annotated_counter_stdev_webcams
+  hours_to_show: 24
+  refresh: 30
+  entities:
+    - sensor.motion_annotated_counter_woodshed_stdev
+    - sensor.motion_annotated_counter_livingroom_stdev
+    - sensor.motion_annotated_counter_equipmentroom_stdev
+    - sensor.motion_annotated_counter_fireplace_stdev
+    - sensor.motion_annotated_counter_dogyard_stdev
+    - sensor.motion_annotated_counter_dogshedmiddle_stdev
+    - sensor.motion_annotated_counter_sideyard_stdev
+    - sensor.motion_annotated_counter_dogshedfront_stdev
+    - sensor.motion_annotated_counter_dogshed_stdev
+    - sensor.motion_annotated_counter_laundry_stdev
+    - sensor.motion_annotated_counter_foyer_stdev
+    - sensor.motion_annotated_counter_frontwalk_stdev
+    - sensor.motion_annotated_counter_diningroom_stdev
+    - sensor.motion_annotated_counter_backyard_stdev
+    - sensor.motion_annotated_counter_poolcam_stdev
+    - sensor.motion_annotated_counter_interiorgate_stdev
+    - sensor.motion_annotated_counter_road_stdev
+    - sensor.motion_annotated_counter_window_stdev
+    - sensor.motion_annotated_counter_shed_stdev
+    - sensor.motion_annotated_counter_dogpond_stdev
+    - sensor.motion_annotated_counter_pondview_stdev
+
+#
+motion_annotated_counter_change_webcams:
+  name: motion_annotated_counter_change_webcams
+  hours_to_show: 24
+  refresh: 30
+  entities:
+    - sensor.motion_annotated_counter_woodshed_change
+    - sensor.motion_annotated_counter_livingroom_change
+    - sensor.motion_annotated_counter_equipmentroom_change
+    - sensor.motion_annotated_counter_fireplace_change
+    - sensor.motion_annotated_counter_dogyard_change
+    - sensor.motion_annotated_counter_dogshedmiddle_change
+    - sensor.motion_annotated_counter_sideyard_change
+    - sensor.motion_annotated_counter_dogshedfront_change
+    - sensor.motion_annotated_counter_dogshed_change
+    - sensor.motion_annotated_counter_laundry_change
+    - sensor.motion_annotated_counter_foyer_change
+    - sensor.motion_annotated_counter_frontwalk_change
+    - sensor.motion_annotated_counter_diningroom_change
+    - sensor.motion_annotated_counter_backyard_change
+    - sensor.motion_annotated_counter_poolcam_change
+    - sensor.motion_annotated_counter_interiorgate_change
+    - sensor.motion_annotated_counter_road_change
+    - sensor.motion_annotated_counter_window_change
+    - sensor.motion_annotated_counter_shed_change
+    - sensor.motion_annotated_counter_dogpond_change
+    - sensor.motion_annotated_counter_pondview_change
+
+#
+motion_annotated_percent_webcams:
+  name: motion_annotated_percent_webcams
+  hours_to_show: 24
+  refresh: 30
+  entities:
+    - sensor.motion_annotated_percent_woodshed
+    - sensor.motion_annotated_percent_livingroom
+    - sensor.motion_annotated_percent_equipmentroom
+    - sensor.motion_annotated_percent_fireplace
+    - sensor.motion_annotated_percent_dogyard
+    - sensor.motion_annotated_percent_dogshedmiddle
+    - sensor.motion_annotated_percent_sideyard
+    - sensor.motion_annotated_percent_dogshedfront
+    - sensor.motion_annotated_percent_dogshed
+    - sensor.motion_annotated_percent_laundry
+    - sensor.motion_annotated_percent_foyer
+    - sensor.motion_annotated_percent_frontwalk
+    - sensor.motion_annotated_percent_diningroom
+    - sensor.motion_annotated_percent_backyard
+    - sensor.motion_annotated_percent_poolcam
+    - sensor.motion_annotated_percent_interiorgate
+    - sensor.motion_annotated_percent_road
+    - sensor.motion_annotated_percent_window
+    - sensor.motion_annotated_percent_shed
+    - sensor.motion_annotated_percent_dogpond
+    - sensor.motion_annotated_percent_pondview
+
+#
+motion_annotated_percent_mean_webcams:
+  name: motion_annotated_percent_mean_webcams
+  hours_to_show: 24
+  refresh: 30
+  entities:
+    - sensor.motion_annotated_percent_woodshed_mean
+    - sensor.motion_annotated_percent_livingroom_mean
+    - sensor.motion_annotated_percent_equipmentroom_mean
+    - sensor.motion_annotated_percent_fireplace_mean
+    - sensor.motion_annotated_percent_dogyard_mean
+    - sensor.motion_annotated_percent_dogshedmiddle_mean
+    - sensor.motion_annotated_percent_sideyard_mean
+    - sensor.motion_annotated_percent_dogshedfront_mean
+    - sensor.motion_annotated_percent_dogshed_mean
+    - sensor.motion_annotated_percent_laundry_mean
+    - sensor.motion_annotated_percent_foyer_mean
+    - sensor.motion_annotated_percent_frontwalk_mean
+    - sensor.motion_annotated_percent_diningroom_mean
+    - sensor.motion_annotated_percent_backyard_mean
+    - sensor.motion_annotated_percent_poolcam_mean
+    - sensor.motion_annotated_percent_interiorgate_mean
+    - sensor.motion_annotated_percent_road_mean
+    - sensor.motion_annotated_percent_window_mean
+    - sensor.motion_annotated_percent_shed_mean
+    - sensor.motion_annotated_percent_dogpond_mean
+    - sensor.motion_annotated_percent_pondview_mean
+
+#
+motion_annotated_percent_stdev_webcams:
+  name: motion_annotated_percent_stdev_webcams
+  hours_to_show: 24
+  refresh: 30
+  entities:
+    - sensor.motion_annotated_percent_woodshed_stdev
+    - sensor.motion_annotated_percent_livingroom_stdev
+    - sensor.motion_annotated_percent_equipmentroom_stdev
+    - sensor.motion_annotated_percent_fireplace_stdev
+    - sensor.motion_annotated_percent_dogyard_stdev
+    - sensor.motion_annotated_percent_dogshedmiddle_stdev
+    - sensor.motion_annotated_percent_sideyard_stdev
+    - sensor.motion_annotated_percent_dogshedfront_stdev
+    - sensor.motion_annotated_percent_dogshed_stdev
+    - sensor.motion_annotated_percent_laundry_stdev
+    - sensor.motion_annotated_percent_foyer_stdev
+    - sensor.motion_annotated_percent_frontwalk_stdev
+    - sensor.motion_annotated_percent_diningroom_stdev
+    - sensor.motion_annotated_percent_backyard_stdev
+    - sensor.motion_annotated_percent_poolcam_stdev
+    - sensor.motion_annotated_percent_interiorgate_stdev
+    - sensor.motion_annotated_percent_road_stdev
+    - sensor.motion_annotated_percent_window_stdev
+    - sensor.motion_annotated_percent_shed_stdev
+    - sensor.motion_annotated_percent_dogpond_stdev
+    - sensor.motion_annotated_percent_pondview_stdev
+
+#
+motion_annotated_percent_change_webcams:
+  name: motion_annotated_percent_change_webcams
+  hours_to_show: 24
+  refresh: 30
+  entities:
+    - sensor.motion_annotated_percent_woodshed_change
+    - sensor.motion_annotated_percent_livingroom_change
+    - sensor.motion_annotated_percent_equipmentroom_change
+    - sensor.motion_annotated_percent_fireplace_change
+    - sensor.motion_annotated_percent_dogyard_change
+    - sensor.motion_annotated_percent_dogshedmiddle_change
+    - sensor.motion_annotated_percent_sideyard_change
+    - sensor.motion_annotated_percent_dogshedfront_change
+    - sensor.motion_annotated_percent_dogshed_change
+    - sensor.motion_annotated_percent_laundry_change
+    - sensor.motion_annotated_percent_foyer_change
+    - sensor.motion_annotated_percent_frontwalk_change
+    - sensor.motion_annotated_percent_diningroom_change
+    - sensor.motion_annotated_percent_backyard_change
+    - sensor.motion_annotated_percent_poolcam_change
+    - sensor.motion_annotated_percent_interiorgate_change
+    - sensor.motion_annotated_percent_road_change
+    - sensor.motion_annotated_percent_window_change
+    - sensor.motion_annotated_percent_shed_change
+    - sensor.motion_annotated_percent_dogpond_change
+    - sensor.motion_annotated_percent_pondview_change
+
+#
+motion_annotated_delay_webcams:
+  name: motion_annotated_delay_webcams
+  hours_to_show: 24
+  refresh: 30
+  entities:
+    - sensor.motion_annotated_delay_woodshed
+    - sensor.motion_annotated_delay_livingroom
+    - sensor.motion_annotated_delay_equipmentroom
+    - sensor.motion_annotated_delay_fireplace
+    - sensor.motion_annotated_delay_dogyard
+    - sensor.motion_annotated_delay_dogshedmiddle
+    - sensor.motion_annotated_delay_sideyard
+    - sensor.motion_annotated_delay_dogshedfront
+    - sensor.motion_annotated_delay_dogshed
+    - sensor.motion_annotated_delay_laundry
+    - sensor.motion_annotated_delay_foyer
+    - sensor.motion_annotated_delay_frontwalk
+    - sensor.motion_annotated_delay_diningroom
+    - sensor.motion_annotated_delay_backyard
+    - sensor.motion_annotated_delay_poolcam
+    - sensor.motion_annotated_delay_interiorgate
+    - sensor.motion_annotated_delay_road
+    - sensor.motion_annotated_delay_window
+    - sensor.motion_annotated_delay_shed
+    - sensor.motion_annotated_delay_dogpond
+    - sensor.motion_annotated_delay_pondview
+
+#
+motion_annotated_delay_mean_webcams:
+  name: motion_annotated_delay_mean_webcams
+  hours_to_show: 24
+  refresh: 30
+  entities:
+    - sensor.motion_annotated_delay_woodshed_mean
+    - sensor.motion_annotated_delay_livingroom_mean
+    - sensor.motion_annotated_delay_equipmentroom_mean
+    - sensor.motion_annotated_delay_fireplace_mean
+    - sensor.motion_annotated_delay_dogyard_mean
+    - sensor.motion_annotated_delay_dogshedmiddle_mean
+    - sensor.motion_annotated_delay_sideyard_mean
+    - sensor.motion_annotated_delay_dogshedfront_mean
+    - sensor.motion_annotated_delay_dogshed_mean
+    - sensor.motion_annotated_delay_laundry_mean
+    - sensor.motion_annotated_delay_foyer_mean
+    - sensor.motion_annotated_delay_frontwalk_mean
+    - sensor.motion_annotated_delay_diningroom_mean
+    - sensor.motion_annotated_delay_backyard_mean
+    - sensor.motion_annotated_delay_poolcam_mean
+    - sensor.motion_annotated_delay_interiorgate_mean
+    - sensor.motion_annotated_delay_road_mean
+    - sensor.motion_annotated_delay_window_mean
+    - sensor.motion_annotated_delay_shed_mean
+    - sensor.motion_annotated_delay_dogpond_mean
+    - sensor.motion_annotated_delay_pondview_mean
+
+#
+motion_annotated_delay_stdev_webcams:
+  name: motion_annotated_delay_stdev_webcams
+  hours_to_show: 24
+  refresh: 30
+  entities:
+    - sensor.motion_annotated_delay_woodshed_stdev
+    - sensor.motion_annotated_delay_livingroom_stdev
+    - sensor.motion_annotated_delay_equipmentroom_stdev
+    - sensor.motion_annotated_delay_fireplace_stdev
+    - sensor.motion_annotated_delay_dogyard_stdev
+    - sensor.motion_annotated_delay_dogshedmiddle_stdev
+    - sensor.motion_annotated_delay_sideyard_stdev
+    - sensor.motion_annotated_delay_dogshedfront_stdev
+    - sensor.motion_annotated_delay_dogshed_stdev
+    - sensor.motion_annotated_delay_laundry_stdev
+    - sensor.motion_annotated_delay_foyer_stdev
+    - sensor.motion_annotated_delay_frontwalk_stdev
+    - sensor.motion_annotated_delay_diningroom_stdev
+    - sensor.motion_annotated_delay_backyard_stdev
+    - sensor.motion_annotated_delay_poolcam_stdev
+    - sensor.motion_annotated_delay_interiorgate_stdev
+    - sensor.motion_annotated_delay_road_stdev
+    - sensor.motion_annotated_delay_window_stdev
+    - sensor.motion_annotated_delay_shed_stdev
+    - sensor.motion_annotated_delay_dogpond_stdev
+    - sensor.motion_annotated_delay_pondview_stdev
+
+#
+motion_annotated_delay_change_webcams:
+  name: motion_annotated_delay_change_webcams
+  hours_to_show: 24
+  refresh: 30
+  entities:
+    - sensor.motion_annotated_delay_woodshed_change
+    - sensor.motion_annotated_delay_livingroom_change
+    - sensor.motion_annotated_delay_equipmentroom_change
+    - sensor.motion_annotated_delay_fireplace_change
+    - sensor.motion_annotated_delay_dogyard_change
+    - sensor.motion_annotated_delay_dogshedmiddle_change
+    - sensor.motion_annotated_delay_sideyard_change
+    - sensor.motion_annotated_delay_dogshedfront_change
+    - sensor.motion_annotated_delay_dogshed_change
+    - sensor.motion_annotated_delay_laundry_change
+    - sensor.motion_annotated_delay_foyer_change
+    - sensor.motion_annotated_delay_frontwalk_change
+    - sensor.motion_annotated_delay_diningroom_change
+    - sensor.motion_annotated_delay_backyard_change
+    - sensor.motion_annotated_delay_poolcam_change
+    - sensor.motion_annotated_delay_interiorgate_change
+    - sensor.motion_annotated_delay_road_change
+    - sensor.motion_annotated_delay_window_change
+    - sensor.motion_annotated_delay_shed_change
+    - sensor.motion_annotated_delay_dogpond_change
+    - sensor.motion_annotated_delay_pondview_change
+
+#
+motion_annotated_complete_webcams:
+  name: motion_annotated_complete_webcams
+  hours_to_show: 24
+  refresh: 30
+  entities:
+    - sensor.motion_annotated_complete_woodshed
+    - sensor.motion_annotated_complete_livingroom
+    - sensor.motion_annotated_complete_equipmentroom
+    - sensor.motion_annotated_complete_fireplace
+    - sensor.motion_annotated_complete_dogyard
+    - sensor.motion_annotated_complete_dogshedmiddle
+    - sensor.motion_annotated_complete_sideyard
+    - sensor.motion_annotated_complete_dogshedfront
+    - sensor.motion_annotated_complete_dogshed
+    - sensor.motion_annotated_complete_laundry
+    - sensor.motion_annotated_complete_foyer
+    - sensor.motion_annotated_complete_frontwalk
+    - sensor.motion_annotated_complete_diningroom
+    - sensor.motion_annotated_complete_backyard
+    - sensor.motion_annotated_complete_poolcam
+    - sensor.motion_annotated_complete_interiorgate
+    - sensor.motion_annotated_complete_road
+    - sensor.motion_annotated_complete_window
+    - sensor.motion_annotated_complete_shed
+    - sensor.motion_annotated_complete_dogpond
+    - sensor.motion_annotated_complete_pondview
+
+#
+motion_annotated_complete_mean_webcams:
+  name: motion_annotated_complete_mean_webcams
+  hours_to_show: 24
+  refresh: 30
+  entities:
+    - sensor.motion_annotated_complete_woodshed_mean
+    - sensor.motion_annotated_complete_livingroom_mean
+    - sensor.motion_annotated_complete_equipmentroom_mean
+    - sensor.motion_annotated_complete_fireplace_mean
+    - sensor.motion_annotated_complete_dogyard_mean
+    - sensor.motion_annotated_complete_dogshedmiddle_mean
+    - sensor.motion_annotated_complete_sideyard_mean
+    - sensor.motion_annotated_complete_dogshedfront_mean
+    - sensor.motion_annotated_complete_dogshed_mean
+    - sensor.motion_annotated_complete_laundry_mean
+    - sensor.motion_annotated_complete_foyer_mean
+    - sensor.motion_annotated_complete_frontwalk_mean
+    - sensor.motion_annotated_complete_diningroom_mean
+    - sensor.motion_annotated_complete_backyard_mean
+    - sensor.motion_annotated_complete_poolcam_mean
+    - sensor.motion_annotated_complete_interiorgate_mean
+    - sensor.motion_annotated_complete_road_mean
+    - sensor.motion_annotated_complete_window_mean
+    - sensor.motion_annotated_complete_shed_mean
+    - sensor.motion_annotated_complete_dogpond_mean
+    - sensor.motion_annotated_complete_pondview_mean
+
+#
+motion_annotated_complete_stdev_webcams:
+  name: motion_annotated_complete_stdev_webcams
+  hours_to_show: 24
+  refresh: 30
+  entities:
+    - sensor.motion_annotated_complete_woodshed_stdev
+    - sensor.motion_annotated_complete_livingroom_stdev
+    - sensor.motion_annotated_complete_equipmentroom_stdev
+    - sensor.motion_annotated_complete_fireplace_stdev
+    - sensor.motion_annotated_complete_dogyard_stdev
+    - sensor.motion_annotated_complete_dogshedmiddle_stdev
+    - sensor.motion_annotated_complete_sideyard_stdev
+    - sensor.motion_annotated_complete_dogshedfront_stdev
+    - sensor.motion_annotated_complete_dogshed_stdev
+    - sensor.motion_annotated_complete_laundry_stdev
+    - sensor.motion_annotated_complete_foyer_stdev
+    - sensor.motion_annotated_complete_frontwalk_stdev
+    - sensor.motion_annotated_complete_diningroom_stdev
+    - sensor.motion_annotated_complete_backyard_stdev
+    - sensor.motion_annotated_complete_poolcam_stdev
+    - sensor.motion_annotated_complete_interiorgate_stdev
+    - sensor.motion_annotated_complete_road_stdev
+    - sensor.motion_annotated_complete_window_stdev
+    - sensor.motion_annotated_complete_shed_stdev
+    - sensor.motion_annotated_complete_dogpond_stdev
+    - sensor.motion_annotated_complete_pondview_stdev
+
+#
+motion_annotated_complete_change_webcams:
+  name: motion_annotated_complete_change_webcams
+  hours_to_show: 24
+  refresh: 30
+  entities:
+    - sensor.motion_annotated_complete_woodshed_change
+    - sensor.motion_annotated_complete_livingroom_change
+    - sensor.motion_annotated_complete_equipmentroom_change
+    - sensor.motion_annotated_complete_fireplace_change
+    - sensor.motion_annotated_complete_dogyard_change
+    - sensor.motion_annotated_complete_dogshedmiddle_change
+    - sensor.motion_annotated_complete_sideyard_change
+    - sensor.motion_annotated_complete_dogshedfront_change
+    - sensor.motion_annotated_complete_dogshed_change
+    - sensor.motion_annotated_complete_laundry_change
+    - sensor.motion_annotated_complete_foyer_change
+    - sensor.motion_annotated_complete_frontwalk_change
+    - sensor.motion_annotated_complete_diningroom_change
+    - sensor.motion_annotated_complete_backyard_change
+    - sensor.motion_annotated_complete_poolcam_change
+    - sensor.motion_annotated_complete_interiorgate_change
+    - sensor.motion_annotated_complete_road_change
+    - sensor.motion_annotated_complete_window_change
+    - sensor.motion_annotated_complete_shed_change
+    - sensor.motion_annotated_complete_dogpond_change
+    - sensor.motion_annotated_complete_pondview_change
+

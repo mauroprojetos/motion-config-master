@@ -1,0 +1,25 @@
+purge_interval: 1
+purge_keep_days: 7
+exclude:
+  entities:
+    - sensor.hznsetup_event
+    - sensor.internet_test
+    - sensor.sdr2msghub_event
+    - sensor.startup_event
+    - sensor.yolo2msghub_event
+  domains:
+    - automation
+    - binary_sensor
+    - camera
+    - counter
+    - device_tracker
+    - group
+    - history_graph
+    - input_boolean
+    - input_number
+    - media_player
+    - persistent_notification
+    - sun
+    - updater
+    - weather
+    - weblink

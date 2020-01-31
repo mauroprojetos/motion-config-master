@@ -1,0 +1,98 @@
+###
+### motion_foyer BINARY_SENSOR
+###
+
+- platform: template
+  sensors:
+    motion_end_foyer:
+      friendly_name: foyer end
+      entity_id:
+        - sensor.motion_event_end_foyer
+      value_template: >
+        {{ states('sensor.motion_event_end_foyer')|lower == 'true' }}
+
+- platform: template
+  sensors:
+    motion_annotated_foyer:
+      friendly_name: foyer annotated
+      entity_id:
+        - sensor.motion_event_annotated_foyer
+      value_template: >
+        {{ states('sensor.motion_event_annotated_foyer')|lower == 'true' }}
+
+- platform: template
+  sensors:
+    motion_detected_foyer:
+      friendly_name: foyer detected
+      entity_id:
+        - sensor.motion_annotated_count_foyer
+      value_template: >
+        {{ states('sensor.motion_annotated_count_foyer')|int > 0 }}
+
+- platform: template
+  sensors:
+    motion_detected_entity_foyer:
+      friendly_name: foyer detected entity
+      entity_id:
+        - sensor.motion_annotated_entity_count_foyer
+      value_template: >-
+        {{ states('sensor.motion_annotated_entity_count_foyer')|int > 0 }}
+
+##
+
+- platform: template
+  sensors:
+    motion_complete_foyer:
+      friendly_name: foyer complete
+      entity_id:
+        - sensor.motion_complete_foyer
+      value_template: >
+        {% set d = states('sensor.motion_complete_foyer')|int %}
+        {{ d > 0 and d < states('input_number.motion_complete')|int }}
+
+##
+
+- platform: template
+  sensors:
+    motion_detected_person_foyer:
+      entity_id:
+        - binary_sensor.motion_detected_foyer
+        - sensor.motion_detected_ago_foyer
+      value_template: >-
+        {% if states.sensor.motion_event_annotated_foyer|lower != 'none'
+              and states.sensor.motion_detected_person_foyer.state|lower != 'unknown'
+              and states.sensor.motion_detected_person_foyer.state|lower != 'none'
+              and states.sensor.motion_detected_person_foyer.state|from_json != 'null'
+              and states.sensor.motion_detected_person_foyer.state|from_json is iterable %}
+          {{ states.sensor.motion_detected_person_foyer.state|from_json|sum|int > 0 }}
+        {% else %}null{% endif %}
+
+- platform: template
+  sensors:
+    motion_detected_vehicle_foyer:
+      entity_id:
+        - binary_sensor.motion_detected_foyer
+        - sensor.motion_detected_ago_foyer
+      value_template: >-
+        {% if states.sensor.motion_event_annotated_foyer|lower != 'none'
+              and states.sensor.motion_detected_vehicle_foyer.state|lower != 'none'
+              and states.sensor.motion_detected_vehicle_foyer.state|lower != 'unknown'
+              and states.sensor.motion_detected_vehicle_foyer.state|from_json != 'null'
+              and states.sensor.motion_detected_vehicle_foyer.state|from_json is iterable %}
+          {{ states.sensor.motion_detected_vehicle_foyer.state|from_json|sum|int > 0 }}
+        {% else %}null{% endif %}
+
+- platform: template
+  sensors:
+    motion_detected_animal_foyer:
+      entity_id:
+        - binary_sensor.motion_detected_foyer
+        - sensor.motion_detected_ago_foyer
+      value_template: >-
+        {% if states.sensor.motion_event_annotated_foyer|lower != 'none'
+              and states.sensor.motion_detected_animal_foyer.state|lower != 'none'
+              and states.sensor.motion_detected_animal_foyer.state|lower != 'unknown'
+              and states.sensor.motion_detected_animal_foyer.state|from_json != 'null'
+              and states.sensor.motion_detected_animal_foyer.state|from_json is iterable %}
+          {{ states.sensor.motion_detected_animal_foyer.state|from_json|sum|int > 0 }}
+        {% else %}null{% endif %}

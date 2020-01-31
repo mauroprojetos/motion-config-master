@@ -1,0 +1,14 @@
+motion_camera_pondview:
+  name: motion_camera_pondview
+  hours_to_show: 72
+  refresh: 30
+  entities:
+    - sensor.motion_annotated_ago_pondview
+    - sensor.motion_annotated_ago_pondview_mean
+    - sensor.motion_annotated_ago_pondview_stdev
+    - sensor.motion_detected_ago_pondview
+    - sensor.motion_detected_ago_pondview_mean
+    - sensor.motion_detected_ago_pondview_stdev
+    - sensor.motion_detected_entity_ago_pondview
+    - sensor.motion_detected_entity_ago_pondview_mean
+    - sensor.motion_detected_entity_ago_pondview_stdev

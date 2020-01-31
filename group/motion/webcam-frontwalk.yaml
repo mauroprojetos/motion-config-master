@@ -1,0 +1,62 @@
+###
+# group/webcam-frontwalk.yaml
+###
+
+motion_frontwalk:
+  name: Status frontwalk
+  view: true
+  icon: mdi:storefront
+  control: hidden
+  entities:
+    - camera.motion_live_frontwalk
+    - camera.motion_event_annotated_frontwalk
+    - camera.motion_event_end_frontwalk
+    - camera.motion_event_animated_frontwalk
+    - camera.motion_event_animated_mask_frontwalk
+    - camera.motion_event_composite_frontwalk
+    - group.motion_frontwalk_brief
+    - group.motion_frontwalk_summary
+
+
+motion_frontwalk_brief:
+  name: motion_frontwalk_brief
+  control: hidden
+  entities:
+    - camera.motion_detected_entity_picture_frontwalk
+    - camera.motion_detected_picture_frontwalk
+    - camera.motion_annotated_picture_frontwalk
+    - camera.motion_end_picture_frontwalk
+    - sensor.motion_detected_entity_status_frontwalk
+    - sensor.motion_detected_status_frontwalk
+    - sensor.motion_annotated_status_frontwalk
+    - sensor.motion_end_status_frontwalk
+    - sensor.motion_annotated_delay_frontwalk_mean
+    - sensor.motion_status_camera_found_when_frontwalk
+    - sensor.motion_status_camera_lost_when_frontwalk
+
+motion_frontwalk_summary:
+  name: motion_frontwalk_summary
+  control: hidden
+  entities:
+    - binary_sensor.motion_detected_entity_frontwalk
+    - sensor.motion_detected_entity_count_frontwalk
+    - sensor.motion_detected_entity_counter_frontwalk
+    - binary_sensor.motion_detected_frontwalk
+    - sensor.motion_detected_count_frontwalk
+    - sensor.motion_detected_counter_frontwalk
+    - binary_sensor.motion_annotated_frontwalk
+    - sensor.motion_annotated_count_frontwalk
+    - sensor.motion_annotated_entity_count_frontwalk
+    - sensor.motion_annotated_counter_frontwalk
+    - binary_sensor.motion_end_frontwalk
+    - sensor.motion_end_counter_frontwalk
+    - sensor.motion_annotated_delay_frontwalk
+    - sensor.motion_annotated_ago_frontwalk
+    - sensor.motion_end_ago_frontwalk
+    - sensor.motion_annotated_percent_frontwalk
+    - sensor.motion_annotated_count_frontwalk
+    - sensor.motion_annotated_entity_count_frontwalk
+    - sensor.motion_annotated_list_frontwalk
+    - counter.motion_complete_counter_frontwalk
+    - sensor.motion_complete_frontwalk
+    - binary_sensor.motion_complete_frontwalk

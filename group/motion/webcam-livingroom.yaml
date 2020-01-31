@@ -1,0 +1,62 @@
+###
+# group/webcam-livingroom.yaml
+###
+
+motion_livingroom:
+  name: Status livingroom
+  view: true
+  icon: mdi:google-classroom
+  control: hidden
+  entities:
+    - camera.motion_live_livingroom
+    - camera.motion_event_annotated_livingroom
+    - camera.motion_event_end_livingroom
+    - camera.motion_event_animated_livingroom
+    - camera.motion_event_animated_mask_livingroom
+    - camera.motion_event_composite_livingroom
+    - group.motion_livingroom_brief
+    - group.motion_livingroom_summary
+
+
+motion_livingroom_brief:
+  name: motion_livingroom_brief
+  control: hidden
+  entities:
+    - camera.motion_detected_entity_picture_livingroom
+    - camera.motion_detected_picture_livingroom
+    - camera.motion_annotated_picture_livingroom
+    - camera.motion_end_picture_livingroom
+    - sensor.motion_detected_entity_status_livingroom
+    - sensor.motion_detected_status_livingroom
+    - sensor.motion_annotated_status_livingroom
+    - sensor.motion_end_status_livingroom
+    - sensor.motion_annotated_delay_livingroom_mean
+    - sensor.motion_status_camera_found_when_livingroom
+    - sensor.motion_status_camera_lost_when_livingroom
+
+motion_livingroom_summary:
+  name: motion_livingroom_summary
+  control: hidden
+  entities:
+    - binary_sensor.motion_detected_entity_livingroom
+    - sensor.motion_detected_entity_count_livingroom
+    - sensor.motion_detected_entity_counter_livingroom
+    - binary_sensor.motion_detected_livingroom
+    - sensor.motion_detected_count_livingroom
+    - sensor.motion_detected_counter_livingroom
+    - binary_sensor.motion_annotated_livingroom
+    - sensor.motion_annotated_count_livingroom
+    - sensor.motion_annotated_entity_count_livingroom
+    - sensor.motion_annotated_counter_livingroom
+    - binary_sensor.motion_end_livingroom
+    - sensor.motion_end_counter_livingroom
+    - sensor.motion_annotated_delay_livingroom
+    - sensor.motion_annotated_ago_livingroom
+    - sensor.motion_end_ago_livingroom
+    - sensor.motion_annotated_percent_livingroom
+    - sensor.motion_annotated_count_livingroom
+    - sensor.motion_annotated_entity_count_livingroom
+    - sensor.motion_annotated_list_livingroom
+    - counter.motion_complete_counter_livingroom
+    - sensor.motion_complete_livingroom
+    - binary_sensor.motion_complete_livingroom
